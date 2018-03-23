@@ -2,23 +2,30 @@ package com.tickets.Tickets.entity;
 
 import java.io.Serializable;
 
+/**
+ * @author tqy
+ * @date 2018年3月23日
+ * 
+ */
 public class User implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int userid;
+	private Integer userid;
 	private String email;
 	private String password;
 	private String nickename;
-	private int level;
-	private int exp;
-	private int points;
+	private String interest;
+	private String face;
+	private Integer level;
+	private Integer exp;
+	private Integer points;
 	private double money;
-	public int getUserid() {
+	public Integer getUserid() {
 		return userid;
 	}
-	public void setUserid(int userid) {
+	public void setUserid(Integer userid) {
 		this.userid = userid;
 	}
 	public String getEmail() {
@@ -39,22 +46,34 @@ public class User implements Serializable {
 	public void setNickename(String nickename) {
 		this.nickename = nickename;
 	}
-	public int getLevel() {
+	public String getInterest() {
+		return interest;
+	}
+	public void setInterest(String interest) {
+		this.interest = interest;
+	}
+	public String getFace() {
+		return face;
+	}
+	public void setFace(String face) {
+		this.face = face;
+	}
+	public Integer getLevel() {
 		return level;
 	}
-	public void setLevel(int level) {
+	public void setLevel(Integer level) {
 		this.level = level;
 	}
-	public int getExp() {
+	public Integer getExp() {
 		return exp;
 	}
-	public void setExp(int exp) {
+	public void setExp(Integer exp) {
 		this.exp = exp;
 	}
-	public int getPoints() {
+	public Integer getPoints() {
 		return points;
 	}
-	public void setPoints(int points) {
+	public void setPoints(Integer points) {
 		this.points = points;
 	}
 	public double getMoney() {

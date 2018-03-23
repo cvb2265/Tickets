@@ -12,9 +12,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
-//@SpringBootApplication
-//@SpringBootApplication(exclude={DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class})
-
 @EnableAutoConfiguration
 @SpringBootApplication
 @ComponentScan

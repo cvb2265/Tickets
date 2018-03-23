@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import com.tickets.Tickets.entity.User;
 
+/**
+ * @author tqy
+ * @date 2018年3月23日
+ * 
+ */
 @Mapper
 @Repository
 public interface UserMapper {

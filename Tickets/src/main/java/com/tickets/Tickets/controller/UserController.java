@@ -13,6 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tickets.Tickets.entity.User;
 import com.tickets.Tickets.service.UserService;
 
+/**
+ * @author tqy
+ * @date 2018年3月23日
+ * 
+ */
 @Controller
 public class UserController {
 	public UserController() {
