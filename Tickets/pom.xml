@@ -63,9 +63,9 @@
 		
 		<!-- 发邮件所需jar包 -->
 		<dependency>
-		    <groupId>javax.mail</groupId>
-		    <artifactId>javax.mail-api</artifactId>
-		    <version>1.5.1</version>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
 		</dependency>
 	</dependencies>
 

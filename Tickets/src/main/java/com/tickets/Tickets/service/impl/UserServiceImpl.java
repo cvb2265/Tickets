@@ -4,6 +4,13 @@ import com.tickets.Tickets.entity.User;
 import com.tickets.Tickets.mapper.UserMapper;
 import com.tickets.Tickets.service.UserService;
 
+import java.util.Date;
+
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +52,34 @@ public class UserServiceImpl implements UserService {
 		return userMapper.find(email, password);
 	}
 	
+	/**
+	 * 创建邮件
+	 * @param session
+	 * @param sendMail
+	 * @param senderName
+	 * @param receiverName
+	 * @param subject
+	 * @param content
+	 * @param receiveMail
+	 * @return
+	 * @throws Exception
+	 */
+	private MimeMessage createMimeMessage(
+    		Session session,
+    		String sendMail,
+    		String senderName,
+    		String receiverName,
+    		String subject,
+    		String content,
+    		String receiveMail) throws Exception {
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(sendMail, senderName, "UTF-8"));
+        message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(receiveMail, receiverName, "UTF-8"));
+        message.setSubject(subject, "UTF-8");
+        message.setContent(content, "text/html;charset=UTF-8");
+        message.setSentDate(new Date());
+        message.saveChanges();
+        return message;
+    }
 
 }
