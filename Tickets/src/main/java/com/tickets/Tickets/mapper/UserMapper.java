@@ -18,4 +18,10 @@ public interface UserMapper {
 
 	@Select(value = "SELECT * FROM user WHERE email = #{email} AND password = #{password}")
 	public User find(@Param("email")String email, @Param("password")String password);
+
+	@Select(value = "SELECT * FROM user WHERE email = #{email}")
+	public User findByEmail(@Param("email")String email);
+	
+	@Select(value = "SELECT * FROM user WHERE userid = #{userid}")
+	public User findById(@Param("email")Integer userid);
 }
