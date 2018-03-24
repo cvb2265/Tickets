@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+body {
+	/*
+	background:url(../images/bg_1.jpg) center;
+	background:url(../images/bg_2.jpg) center;
+	background:url(../images/student_bg.jpg) repeat-y center;
+	background:pink;
+	background:#bea28d;
+	*/
+	
+	background:#dddddd;
+	background-attachment:fixed;/*固定背景图*/
+	
+	
+	padding:0;
+	margin:0;
+}

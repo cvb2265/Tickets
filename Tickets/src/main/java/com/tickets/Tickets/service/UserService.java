@@ -12,4 +12,7 @@ public interface UserService {
 	//登录
 	public User login(String email, String password);
 	
+	
+	public boolean checkEmail(String email);
+	
 }

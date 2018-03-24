@@ -24,4 +24,7 @@ public interface UserMapper {
 	
 	@Select(value = "SELECT * FROM user WHERE userid = #{userid}")
 	public User findById(@Param("email")Integer userid);
+	
+	@Select(value = "SELECT COUNT(userid) FROM user WHERE email = #{email}")
+	public boolean exist(@Param("email")String email);
 }

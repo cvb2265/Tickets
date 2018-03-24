@@ -82,4 +82,9 @@ public class UserServiceImpl implements UserService {
         return message;
     }
 
+	@Override
+	public boolean checkEmail(String email) {
+		return userMapper.exist(email);
+	}
+
 }
