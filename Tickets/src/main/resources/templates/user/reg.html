@@ -4,20 +4,18 @@
 <meta charset="UTF-8"/>
 <title>Tickets</title>
 <script th:src="@{/js/jquery.js}" type="text/javascript"></script>
-<script>
+<script th:inline="javascript">
 
 	$(function () {
 		$("#ret").click(function(){
-			window.location.href="tickets/user/indexV";
+			window.location.href= [[ @{/user/indexV} ]];		//thymeleaf写法
 		});
-		alert("ttyy");
-		
 		//失去焦点触发
 		$("#uemail").blur(function(){
 			
 			$.ajax({
 				type : "POST",
-				url : "/tickets/user/checkEmail",
+				url : [[ @{/user/checkEmail} ]],	//thymeleaf写法
 				data : {
 					email : $("#uemail").val()
 				},
@@ -52,9 +50,9 @@
 
 
 </script>
-<style type="text/css">
+<style type="text/css" th:inline="text">
 body {
-	background:url(/tickets/images/bg.jpg) center;
+	background:url(  [[@{/images/bg.jpg}]]  ) center;	/*thymeleaf写法*/
 	
 	padding:0;
 	margin:0;
@@ -117,7 +115,8 @@ p#title1 {
 }
 input[type="text"], input[type="password"] {
 
-	background:url(/tickets/images/input_bg.gif) repeat-x top left;
+	background:url(  [[@{/images/input_bg.gif}]]  ) repeat-x top left;	/*thymeleaf写法*/
+	
 	padding:5px 5px;
 	font-size:12px;
 	
@@ -139,9 +138,6 @@ form button:hover, input[type="button"]:hover {
     cursor:pointer;
 }
 
-</style>
-
-<style type="text/css">
 /* css 重置 */
 *{margin:0; padding:0; list-style:none; }
 
@@ -202,5 +198,6 @@ form button:hover, input[type="button"]:hover {
 			</ul>
 		</div>
 	</div>
+	<input type="hidden" name="pageSize" th:value="@{/}"/>
 </body>
 </html>
