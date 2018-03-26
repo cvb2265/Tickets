@@ -2,7 +2,7 @@ package com.tickets.Tickets.entity;
 
 import java.io.Serializable;
 
-public class userinfo implements Serializable {
+public class UserInfo implements Serializable {
     private static final long serialVersionUID = -2894758874014197704L;
     private int id	;
     private int user_id	;
@@ -15,7 +15,11 @@ public class userinfo implements Serializable {
     private String address;// 住址
     private int idnumber;// 身份证号
 
-    public userinfo(int id, int user_id, String truename, String sex, String birthdate, String marital_status, String education, String job, String address, int idnumber) {
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public UserInfo(int id, int user_id, String truename, String sex, String birthdate, String marital_status, String education, String job, String address, int idnumber) {
         this.id = id;
         this.user_id = user_id;
         this.truename = truename;
@@ -28,7 +32,7 @@ public class userinfo implements Serializable {
         this.idnumber = idnumber;
     }
 
-    public userinfo(int user_id, String truename, String sex, String birthdate, String marital_status, String education, String job, String address, int idnumber) {
+    public UserInfo(int user_id, String truename, String sex, String birthdate, String marital_status, String education, String job, String address, int idnumber) {
         this.user_id = user_id;
         this.truename = truename;
         this.sex = sex;

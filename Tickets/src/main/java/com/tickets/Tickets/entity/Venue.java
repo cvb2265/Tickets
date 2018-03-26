@@ -3,21 +3,25 @@ package com.tickets.Tickets.entity;
 import java.io.Serializable;
 
 //
-public class venue implements Serializable {
+public class Venue implements Serializable {
     private static final long serialVersionUID = -8344780188907829753L;
     private int id;
     private String city;
     private String address;
     private String name;
 
-    public venue(int id, String city, String address, String name) {
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Venue(int id, String city, String address, String name) {
         this.id = id;
         this.city = city;
         this.address = address;
         this.name = name;
     }
 
-    public venue(String city, String address, String name) {
+    public Venue(String city, String address, String name) {
         this.city = city;
         this.address = address;
         this.name = name;

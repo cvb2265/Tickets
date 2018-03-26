@@ -2,7 +2,7 @@ package com.tickets.Tickets.entity;
 
 import java.io.Serializable;
 
-public class promulgator implements Serializable {
+public class Promulgator implements Serializable {
     private static final long serialVersionUID = -2949672680438152783L;
     private  int id	;
     private String email;
@@ -12,7 +12,11 @@ public class promulgator implements Serializable {
     private int power; //是否有管理员权限
     private String head ;//头像
 
-    public promulgator(int id, String email, String password, String name, int balance, int power, String head) {
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Promulgator(int id, String email, String password, String name, int balance, int power, String head) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -22,7 +26,7 @@ public class promulgator implements Serializable {
         this.head = head;
     }
 
-    public promulgator(String email, String password, String name, int balance, int power, String head) {
+    public Promulgator(String email, String password, String name, int balance, int power, String head) {
         this.email = email;
         this.password = password;
         this.name = name;

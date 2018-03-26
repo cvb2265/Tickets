@@ -2,7 +2,7 @@ package com.tickets.Tickets.entity;
 
 import java.io.Serializable;
 
-public class comment implements Serializable{
+public class Comment implements Serializable{
     private static final long serialVersionUID = -7398187628098509372L;
     private int id;
     private int planid;// 所属演出id
@@ -14,7 +14,11 @@ public class comment implements Serializable{
     private int type;// 类型（预期为0，评论为1）
     private int deleteflag;// 删除标志（删除为1，未删除为0）
 
-    public comment(int id, int planid, int userid, int parentid, String comment_time, String content, int rate, int type, int deleteflag) {
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Comment(int id, int planid, int userid, int parentid, String comment_time, String content, int rate, int type, int deleteflag) {
         this.id = id;
         this.planid = planid;
         this.userid = userid;
@@ -26,7 +30,7 @@ public class comment implements Serializable{
         this.deleteflag = deleteflag;
     }
 
-    public comment(int planid, int userid, int parentid, String comment_time, String content, int rate, int type, int deleteflag) {
+    public Comment(int planid, int userid, int parentid, String comment_time, String content, int rate, int type, int deleteflag) {
         this.planid = planid;
         this.userid = userid;
         this.parentid = parentid;
