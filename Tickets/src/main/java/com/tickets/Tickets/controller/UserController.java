@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tickets.Tickets.entity.tqy.User;
-import com.tickets.Tickets.service.UserService;
+import com.tickets.Tickets.service.tqy.UserService;
 
 /**
  * @author tqy
@@ -28,6 +29,7 @@ public class UserController {
 	
 	
 	@Autowired
+	@Qualifier("userService_tqy")
 	private UserService userService;
 	
 	//打印日志

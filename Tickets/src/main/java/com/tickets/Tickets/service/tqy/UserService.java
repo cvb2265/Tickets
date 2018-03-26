@@ -1,4 +1,4 @@
-package com.tickets.Tickets.service;
+package com.tickets.Tickets.service.tqy;
 
 import com.tickets.Tickets.entity.tqy.User;
 
