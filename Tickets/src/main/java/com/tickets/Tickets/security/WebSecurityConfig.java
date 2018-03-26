@@ -1,4 +1,4 @@
-package com.tickets.Tickets.security.tqy;
+package com.tickets.Tickets.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +8,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
+/**
+ * @author tqy
+ * @date 2018年3月23日
+ * 
+ */
 //详细解释清参见https://blog.csdn.net/carrie__yang/article/details/77504778?locationNum=3&fps=1
 @Configuration
 @EnableWebSecurity

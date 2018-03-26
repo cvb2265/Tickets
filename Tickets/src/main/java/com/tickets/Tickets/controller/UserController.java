@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tickets.Tickets.entity.tqy.User;
-import com.tickets.Tickets.service.tqy.UserService;
+import com.tickets.Tickets.entity.User;
+import com.tickets.Tickets.service.UserService;
 
 /**
  * @author tqy
@@ -29,7 +29,7 @@ public class UserController {
 	
 	
 	@Autowired
-	@Qualifier("userService_tqy")
+	@Qualifier("userService")
 	private UserService userService;
 	
 	//打印日志

@@ -1,8 +1,8 @@
-package com.tickets.Tickets.service.tqy.impl;
+package com.tickets.Tickets.service.impl;
 
-import com.tickets.Tickets.entity.tqy.User;
-import com.tickets.Tickets.mapper.tqy.UserMapper;
-import com.tickets.Tickets.service.tqy.UserService;
+import com.tickets.Tickets.entity.User;
+import com.tickets.Tickets.mapper.UserMapper;
+import com.tickets.Tickets.service.UserService;
 
 import java.util.Date;
 
@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  */
 //加入事务管理
-@Service("userService_tqy")
+@Service("userService")
 @Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.DEFAULT)
 public class UserServiceImpl implements UserService {
 	@Value("${adminEmailAccount}")
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 	
 	
 	@Autowired
-	@Qualifier("userMapper_tqy")
+	@Qualifier("userMapper")
 	private UserMapper userMapper;
 
 	
