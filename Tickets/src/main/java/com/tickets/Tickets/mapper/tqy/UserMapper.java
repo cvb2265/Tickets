@@ -1,11 +1,11 @@
-package com.tickets.Tickets.mapper;
+package com.tickets.Tickets.mapper.tqy;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
-import com.tickets.Tickets.entity.User;
+import com.tickets.Tickets.entity.tqy.User;
 
 /**
  * @author tqy
@@ -13,7 +13,7 @@ import com.tickets.Tickets.entity.User;
  * 
  */
 @Mapper
-@Repository
+@Repository("userMapper_tqy")
 public interface UserMapper {
 
 	@Select(value = "SELECT * FROM user WHERE email = #{email} AND password = #{password}")

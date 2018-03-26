@@ -1,6 +1,6 @@
 package com.tickets.Tickets.service;
 
-import com.tickets.Tickets.entity.User;
+import com.tickets.Tickets.entity.tqy.User;
 
 /**
  * @author tqy

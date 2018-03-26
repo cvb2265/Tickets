@@ -1,4 +1,4 @@
-package com.tickets.Tickets.entity;
+package com.tickets.Tickets.entity.tqy;
 
 import java.io.Serializable;
 

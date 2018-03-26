@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tickets.Tickets.entity.User;
+import com.tickets.Tickets.entity.tqy.User;
 import com.tickets.Tickets.service.UserService;
 
 /**

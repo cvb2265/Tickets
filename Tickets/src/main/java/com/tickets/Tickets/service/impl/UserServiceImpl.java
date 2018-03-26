@@ -1,7 +1,7 @@
 package com.tickets.Tickets.service.impl;
 
-import com.tickets.Tickets.entity.User;
-import com.tickets.Tickets.mapper.UserMapper;
+import com.tickets.Tickets.entity.tqy.User;
+import com.tickets.Tickets.mapper.tqy.UserMapper;
 import com.tickets.Tickets.service.UserService;
 
 import java.util.Date;
@@ -14,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -38,6 +39,7 @@ public class UserServiceImpl implements UserService {
 	
 	
 	@Autowired
+	@Qualifier("userMapper_tqy")
 	private UserMapper userMapper;
 
 	
