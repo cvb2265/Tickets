@@ -3,5 +3,20 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tickets.Tickets.mapper.LevelMapper">
+    <select id="getLevelDetails" parameterType="int" resultType="Level">
+        SELECT	id,	level_num ,	maxxp, 	discount
+        from  level
+        WHERE id =#{id}
+    </select>
+
+    <insert id="addLevel" parameterType="Level">
+        insert into LEVEL
+        (id,level_num ,	maxxp, discount)VALUES (	#{id},	#{level_num} ,#{maxxp}	, #{discount}	)
+    </insert>
+
+    <delete id="delLevel" parameterType="int">
+DELETE from level
+where id =#{id}
+    </delete>
 
 </mapper>

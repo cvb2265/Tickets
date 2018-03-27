@@ -5,23 +5,23 @@ import java.io.Serializable;
 public class Level implements Serializable {
     private static final long serialVersionUID = -1073531577986198577L;
     private int id;
-    private int level;// 当前等级
-    private int maxxp ;//当前等级升级所需经验
-    private double discount ;//当前等级享受的折扣
+    private int level_num;// 当前等级
+    private int maxxp;//当前等级升级所需经验
+    private double discount;//当前等级享受的折扣
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
 
-    public Level(int id, int level, int maxxp, double discount) {
+    public Level(int id, int level_num, int maxxp, double discount) {
         this.id = id;
-        this.level = level;
+        this.level_num = level_num;
         this.maxxp = maxxp;
         this.discount = discount;
     }
 
-    public Level(int level, int maxxp, double discount) {
-        this.level = level;
+    public Level(int level_num, int maxxp, double discount) {
+        this.level_num = level_num;
         this.maxxp = maxxp;
         this.discount = discount;
     }
@@ -34,12 +34,12 @@ public class Level implements Serializable {
         this.id = id;
     }
 
-    public int getLevel() {
-        return level;
+    public int getLevel_num() {
+        return level_num;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setLevel_num(int level_num) {
+        this.level_num = level_num;
     }
 
     public int getMaxxp() {

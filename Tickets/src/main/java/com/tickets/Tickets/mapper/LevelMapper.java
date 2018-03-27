@@ -8,5 +8,5 @@ public interface LevelMapper {
     Level getLevelDetails(int id);
     void addLevel(Level level);
     boolean delLevel(int id);
-    void update(Level level);
+   // void update(Level level);//不建议直接使用update，而是用add和delete代替
 }
