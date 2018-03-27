@@ -13,6 +13,27 @@
 		//失去焦点触发
 		$("#uemail").blur(function(){
 			
+			//清楚错误提示
+			$("#uemsg").html("");
+			$("#pass").hide();
+			$("#fail1").hide();
+			$("#fail2").hide();
+			$("#fail3").hide();
+			
+			
+			if($("#uemail").val()==""){
+				$("#fail1").show();
+				return;
+			}		
+			
+			//检测邮箱格式
+			var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+            isok= reg.test($("#uemail").val());
+            if (!isok) {
+				$("#fail3").show();
+				return;
+			}
+			
 			$.ajax({
 				type : "POST",
 				url : [[ @{/user/checkEmail} ]],	//thymeleaf写法
@@ -29,10 +50,10 @@
 
 	function func(data){
 		if(data == -1){
-			$("#uemsg").html("该邮箱已被注册！");
+			$("#fail2").show();
 			return;
 		}
-		$("#uemsg").html("");
+		$("#pass").show();
 	}
 	
 	
@@ -164,11 +185,6 @@ form button:hover, input[type="button"]:hover {
 </style>
 </head>
 <body>
-	<a class="li-a" th:href="@{/user/indexV}">index</a>
-	<a class="li-a" th:href="@{/user/loginV}">login</a>
-	<a class="li-a" th:href="@{/user/regV}">reg</a>
-	
-	
 	<p id="title1">Tickets welcome you.</p>
 	<div class="slideTxtBox">
 		<div class="hd">
@@ -191,7 +207,22 @@ form button:hover, input[type="button"]:hover {
 						<td><input type="button" id="ret" value="返回"/></td>
 					</tr>
 					<tr>
-						<td><font id="uemsg" color="red"></font></td>
+						<td><font id="uemsg" color="red"></font>
+						
+							<span id="pass" style="display: none;">
+							    <img th:src="@{/images/pass.png}" style="width: 16px;height: 16px;"/><font style="display:block;margin-bottom:20px;">此邮箱可用！</font>
+							</span>
+							<span id="fail1" style="display: none;">
+							    <img th:src="@{/images/fail.png}" style="width: 36px;height: 36px;"/><font style="vertical-align: middle;" color="red">未填写邮箱！</font>
+							</span>
+							<span id="fail2" style="display: none;">
+							    <img th:src="@{/images/fail.png}" style="width: 16px;height: 16px;"/><font color="red">此邮箱已被注册！</font>
+							</span>
+							<span id="fail3" style="display: none;display: none;">
+							    <img th:src="@{/images/fail.png}" style="width: 16px;height: 16px;"/><font color="red">邮箱格式不正确！</font>
+							</span>
+						
+						</td>
 					</tr>
 				</table>
 				</form>
