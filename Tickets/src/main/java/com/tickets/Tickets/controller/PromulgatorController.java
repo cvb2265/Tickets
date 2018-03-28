@@ -16,4 +16,13 @@ public class PromulgatorController {
         System.out.println(pm.pro(1));
         return "/promulgator/index";
     }
+
+    @RequestMapping("/pro/register")
+    public void porRegister(){
+
+    }
+    @RequestMapping("/pro/login")
+    public void proLogin(){
+
+    }
 }
