@@ -2,15 +2,18 @@ package com.tickets.Tickets.entity;
 
 import java.io.Serializable;
 
-public class Seat implements Serializable{
+public class Seat implements Serializable {
     private static final long serialVersionUID = -555631526669909845L;
     private int id;
-    private int venueid ;//所属场馆id
-    private int x ;//x坐标
-    private int y ;//y坐标
+    private int venueid;//所属场馆id
+    private int x;//x坐标
+    private int y;//y坐标
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public Seat() {
     }
 
     public Seat(int id, int venueid, int x, int y) {

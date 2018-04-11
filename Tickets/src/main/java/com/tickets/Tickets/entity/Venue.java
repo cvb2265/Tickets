@@ -14,6 +14,9 @@ public class Venue implements Serializable {
         return serialVersionUID;
     }
 
+    public Venue() {
+    }
+
     public Venue(int id, String city, String address, String name) {
         this.id = id;
         this.city = city;

@@ -2,20 +2,23 @@ package com.tickets.Tickets.entity;
 
 import java.io.Serializable;
 
-public class Comment implements Serializable{
+public class Comment implements Serializable {
     private static final long serialVersionUID = -7398187628098509372L;
     private int id;
     private int planid;// 所属演出id
     private int userid;// 评论者id
     private int parentid;// 母评论id（第一级评论默认设置为0）
     private String comment_time;// 评论时间,暂时用String表示事后需要改变
-    private String content ;//评论内容
+    private String content;//评论内容
     private int rate;// 星级
     private int type;// 类型（预期为0，评论为1）
     private int deleteflag;// 删除标志（删除为1，未删除为0）
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public Comment() {
     }
 
     public Comment(int id, int planid, int userid, int parentid, String comment_time, String content, int rate, int type, int deleteflag) {

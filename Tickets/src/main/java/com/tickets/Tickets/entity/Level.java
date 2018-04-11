@@ -13,6 +13,9 @@ public class Level implements Serializable {
         return serialVersionUID;
     }
 
+    public Level() {
+    }
+
     public Level(int id, int level_num, int maxxp, double discount) {
         this.id = id;
         this.level_num = level_num;

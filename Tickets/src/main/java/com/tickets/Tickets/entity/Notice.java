@@ -2,14 +2,17 @@ package com.tickets.Tickets.entity;
 
 import java.io.Serializable;
 
-public class Notice implements Serializable{
+public class Notice implements Serializable {
     private static final long serialVersionUID = 7910358669326408211L;
     private int id;
     private int targetid;// 接收消息的购票者id
-    private int  orderid ;//被取消的订单id
+    private int orderid;//被取消的订单id
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public Notice() {
     }
 
     public Notice(int id, int targetid, int orderid) {

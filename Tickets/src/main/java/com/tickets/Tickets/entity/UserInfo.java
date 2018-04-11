@@ -4,19 +4,22 @@ import java.io.Serializable;
 
 public class UserInfo implements Serializable {
     private static final long serialVersionUID = -2894758874014197704L;
-    private int id	;
-    private int user_id	;
+    private int id;
+    private int user_id;
     private String truename; //真实姓名
-    private String sex ;//性别
+    private String sex;//性别
     private String birthdate;// 生日___________________________________________________//暂时用String
     private String marital_status; //婚姻状况
     private String education; //教育情况
-    private String job ;//职业
+    private String job;//职业
     private String address;// 住址
     private int idnumber;// 身份证号
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public UserInfo() {
     }
 
     public UserInfo(int id, int user_id, String truename, String sex, String birthdate, String marital_status, String education, String job, String address, int idnumber) {
