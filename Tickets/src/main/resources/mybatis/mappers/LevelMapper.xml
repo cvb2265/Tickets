@@ -15,8 +15,13 @@
     </insert>
 
     <delete id="delLevel" parameterType="int">
-DELETE from level
-where id =#{id}
+    DELETE from level
+    where id =#{id}
     </delete>
 
+    <update id="updateLevel" parameterType="Level">
+        UPDATE LEVEL
+        set id =#{id},level_num =#{level_num},maxxp=#{maxxp},discount =#{discount}
+        where id =#{id}
+    </update>
 </mapper>

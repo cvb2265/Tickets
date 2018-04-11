@@ -4,16 +4,19 @@ import java.io.Serializable;
 
 public class Promulgator implements Serializable {
     private static final long serialVersionUID = -2949672680438152783L;
-    private  int id	;
+    private int id;
     private String email;
     private String password;
     private String name;
     private int balance;
     private int power; //是否有管理员权限
-    private String head ;//头像
+    private String head;//头像
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public Promulgator() {
     }
 
     public Promulgator(int id, String email, String password, String name, int balance, int power, String head) {

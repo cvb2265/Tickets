@@ -8,5 +8,5 @@ public interface LevelMapper {
     Level getLevelDetails(int id);
     void addLevel(Level level);
     boolean delLevel(int id);
-    void update(Level level);
+    void updateLevel(Level level);
 }
