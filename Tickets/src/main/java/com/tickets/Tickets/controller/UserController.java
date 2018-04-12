@@ -79,11 +79,10 @@ public class UserController {
 	public ModelAndView login(
 			 String email,String password,
 			 ModelAndView mv,
-			 HttpSession session){
+			 HttpSession session,
+			 HttpServletRequest request){
+		logger.info("regV控制器 被调用，请求者的地址是"+request.getRemoteAddr());
 		User user = userService.login(email, password);
-		logger.info(user);
-		logger.info(user);
-		logger.info(user);
 		mv.setViewName("user/indexV");
 		return mv;
 	}
