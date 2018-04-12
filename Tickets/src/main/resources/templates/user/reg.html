@@ -11,43 +11,48 @@
 			window.location.href= [[ @{/user/indexV} ]];		//thymeleaf写法
 		});
 		//失去焦点触发
-		$("#uemail").blur(function(){
-			
-			//清楚错误提示
-			$("#uemsg").html("");
-			$("#pass").hide();
-			$("#fail1").hide();
-			$("#fail2").hide();
-			$("#fail3").hide();
-			
-			
-			if($("#uemail").val()==""){
-				$("#fail1").show();
-				return;
-			}		
-			
-			//检测邮箱格式
-			var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
-            isok= reg.test($("#uemail").val());
-            if (!isok) {
-				$("#fail3").show();
-				return;
-			}
-			
-			$.ajax({
-				type : "POST",
-				url : [[ @{/user/checkEmail} ]],	//thymeleaf写法
-				data : {
-					email : $("#uemail").val()
-				},
-				dataType : "json",
-				success : func
-			});
-			
-		});
+		$("#uemail").blur(checkEmailFunc);
 		
 	});
 
+	function checkEmailFunc(){
+		
+		//清楚错误提示
+		$("#pass").hide();
+		$("#fail1").hide();
+		$("#fail2").hide();
+		$("#fail3").hide();
+		$("#fail4").hide();
+		$("#fail5").hide();
+		
+		
+		if($("#uemail").val()==""){
+			$("#fail1").show();
+			return -1;
+		}		
+		
+		//检测邮箱格式
+		var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+        isok= reg.test($("#uemail").val());
+        if (!isok) {
+			$("#fail3").show();
+			return -1;
+		}
+		
+		$.ajax({
+			type : "POST",
+			url : [[ @{/user/checkEmail} ]],	//thymeleaf写法
+			data : {
+				email : $("#uemail").val()
+			},
+			dataType : "json",
+			success : func
+		});
+		
+		return 0;
+	}
+	
+	
 	function func(data){
 		if(data == -1){
 			$("#fail2").show();
@@ -58,12 +63,18 @@
 	
 	
 	function validate1(f){
-        if($("#uemail").val()==""){
-        	$("#uemsg").html("请输入邮箱！");
+		var r = checkEmailFunc();
+		if(r==-1){
+			return false;
+		}
+		
+		//r==0时再检查密码
+        if($("#upassword").val()==""){
+    		$("#fail4").show();
         	return false;
         }
-        if($("#upassword").val()==""){
-        	$("#uemsg").html("请输入密码！");
+        if( !/^[0-9a-zA-Z]+$/.test($("#upassword").val()) ){
+    		$("#fail5").show();
         	return false;
         }
         return true;
@@ -207,19 +218,24 @@ form button:hover, input[type="button"]:hover {
 						<td><input type="button" id="ret" value="返回"/></td>
 					</tr>
 					<tr>
-						<td><font id="uemsg" color="red"></font>
-						
+						<td>
 							<span id="pass" style="display: none;">
-							    <img th:src="@{/images/pass.png}" style="width: 16px;height: 16px;"/><font style="display:block;margin-bottom:20px;">此邮箱可用！</font>
+							    <img th:src="@{/images/pass.png}" style="width: 16px;height: 16px;"/><font>此邮箱可用！</font>
 							</span>
 							<span id="fail1" style="display: none;">
-							    <img th:src="@{/images/fail.png}" style="width: 36px;height: 36px;"/><font style="vertical-align: middle;" color="red">未填写邮箱！</font>
+							    <img th:src="@{/images/fail.png}" style="width: 16px;height: 16px;"/><font color="red">未填写邮箱！</font>
 							</span>
 							<span id="fail2" style="display: none;">
 							    <img th:src="@{/images/fail.png}" style="width: 16px;height: 16px;"/><font color="red">此邮箱已被注册！</font>
 							</span>
 							<span id="fail3" style="display: none;display: none;">
 							    <img th:src="@{/images/fail.png}" style="width: 16px;height: 16px;"/><font color="red">邮箱格式不正确！</font>
+							</span>
+							<span id="fail4" style="display: none;display: none;">
+							    <img th:src="@{/images/fail.png}" style="width: 16px;height: 16px;"/><font color="red">未输入密码！</font>
+							</span>
+							<span id="fail5" style="display: none;display: none;">
+							    <img th:src="@{/images/fail.png}" style="width: 16px;height: 16px;"/><font color="red">密码只能由字母和数字组成！</font>
 							</span>
 						
 						</td>

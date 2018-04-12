@@ -101,4 +101,44 @@ public class UserController {
 		return 1;
 	}
 	
+	/**
+	 * 处理/user/reg请求，而且只接受post请求
+	 * */
+	@RequestMapping(value="/user/reg", method=RequestMethod.POST)
+	public ModelAndView reg(
+			 String email,String password,
+			 ModelAndView mv,
+			 HttpSession session,
+			 HttpServletRequest request,
+			 Model model){
+		logger.info("/user/reg接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		boolean b = userService.sendActivationEmail(email, password);
+		if(b) {
+			model.addAttribute("msg", "激活邮件已经发送到您的邮箱！请尽快激活！");
+			mv.setViewName("user/successpage");
+		}else {
+			model.addAttribute("emsg", "邮箱已经被使用！");
+			mv.setViewName("user/errorpage");
+		}
+		return mv;
+	}
+	
+	@RequestMapping(value="/user/activation")
+	public ModelAndView activation(
+			 Integer uid,
+			 ModelAndView mv,
+			 HttpServletRequest request,
+			 Model model) {
+		logger.info("/user/activation接口 被调用，请求者的地址是"+request.getRemoteAddr()+"，uid="+uid);
+		boolean b = userService.activationAccount(uid);
+		if(b){
+			model.addAttribute("msg", "激活成功！");
+			mv.setViewName("user/successpage");
+		}else{
+			model.addAttribute("emsg", "已经激活！");
+			mv.setViewName("user/errorpage");
+		}
+		return mv;
+	}
+	
 }

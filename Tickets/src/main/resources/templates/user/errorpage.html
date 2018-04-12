@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Tickets</title>
+<script th:src="@{/js/jquery.js}" type="text/javascript"></script>
+
+<script th:inline="javascript">
+	$(function () {
+		$("#ret").click(function(){
+			window.location.href= [[ @{/user/indexV} ]];		//thymeleaf写法
+		});
+	});
+
+</script>
+<style type="text/css" th:inline="text">
+body {
+	background:url(  [[@{/images/bg.jpg}]]  ) center;	/*thymeleaf写法*/
+	background-attachment:fixed;/*固定背景图*/
+	padding:0;
+	margin:0;
+}
+/*通用按钮*/
+button, input[type="button"]{
+	width: 70px;
+	height: 25px;
+	
+	background:#7dc3f3;/*背景色*/
+	border: none;/*去掉边界*/
+	border-radius:15px;/*圆角矩形样式*/
+	transition-duration: 0.4s;/*变化时间*/
+	color: white;/*字体颜色*/
+}
+button:hover, input[type="button"]:hover {
+	background-color: #99ff33;/*新背景色，Green*/
+    color: black;/*字体颜色*/
+    cursor:pointer;
+}
+
+.slideTxtBox {
+	
+	background:#ffffff;/*背景色*/
+	border-radius:15px;/*圆角矩形样式*/
+	
+	width:400px;
+	height:300px;
+	margin:0 auto;/*正是因为有这句才会让本div水平居中，auto不能省去，margin表外边距*/
+	margin-top:120px;/*外上边距*/
+	
+	padding:0px;/*内边距*/
+}
+
+*{margin:0; padding:0; list-style:none; }
+.slideTxtBox .hd{ height:30px; line-height:30px; background:#7dc3f3; padding:0 10px 0 20px;   border-bottom:1px solid #ddd;  position:relative; }
+.slideTxtBox .hd ul{
+
+	float:left;/*水平排列*/
+	position:absolute;
+	left:25px;
+	right:25px;
+	top:-1px;
+	height:32px;
+}
+
+/*选项卡li*/
+.slideTxtBox .hd ul li{ float:left; width:340px; text-align:center; }
+/*当前li*/
+.slideTxtBox .hd ul li.on{ height:30px;  background:#ffffff; border:1px solid #ddd; border-bottom:2px solid #fff; }
+
+
+#msg {
+
+	display:block; /*将tr设置为块体元素*/
+	
+	width:400px;
+	height:60px;
+	
+}
+#msg font{
+	display:block; /*将tr设置为块体元素*/
+	text-align:center;
+}
+#ret {
+	margin-left:165px;/*外边距*/
+}
+</style>
+</head>
+<body>
+	<div class="slideTxtBox">
+		<div class="hd">
+			<ul><li>提示</li></ul>
+		</div>
+		<div class="bd">
+			<ul>
+				<br/>
+				<br/>
+				<br/>
+				<div id="msg"><font color="red" th:text="${emsg}"></font></div>
+				<br/>
+				<input type="button" id="ret" value="首页"/>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>
