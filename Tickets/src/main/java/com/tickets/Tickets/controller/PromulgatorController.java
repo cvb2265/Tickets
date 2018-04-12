@@ -33,17 +33,33 @@ public class PromulgatorController {
 //
 //      //  Promulgator p = pm.pro();
 //    }
+
     @RequestMapping(value = "/pro/login", method = RequestMethod.POST)
-    public String proLogin(@ModelAttribute(value = "Promulgator") Promulgator promulgator) {
+    public String proLogin(@ModelAttribute(value = "Promulgator") Promulgator promulgator,HttpSession httpSession) {
         System.out.println(promulgator.getName());
         System.out.println(promulgator.getPassword());
         String truePassword =pm.proByName(promulgator.getName()).getPassword();
         if(truePassword.equals(promulgator.getPassword())){
             System.out.println("密码正确");
+            httpSession.setAttribute("proId",pm.proByName(promulgator.getName()).getId());
             return "/promulgator/success";
         }else{
             System.out.println("密码错误");
             return "/promulgator/false";
         }
     }
+
+
+//    @RequestMapping("/pro/login")
+//    public String pro(HttpSession httpSession){
+//       // System.out.println(httpSession.getAttributeNames());
+//        httpSession.setAttribute("promulgator","thisIsaPro");
+//        return "/promulgator/success";
+//    }
+//
+//    @RequestMapping("/pro/try")
+//    public String proTry(HttpSession httpSession){
+//        System.out.println(httpSession.getAttribute("promulgator"));
+//        return "/pro";
+//    }
 }
