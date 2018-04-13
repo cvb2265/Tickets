@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+登录成功
+<p th:text="'Hello！, ' + ${session.adminId} + '!'">这里的p的文本会被thtext内容替代</p>
+</body>
+</html>

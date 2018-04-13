@@ -8,4 +8,10 @@
         FROM administrator
         WHERE id =#{adminId}
     </select>
+
+    <select id="adminByName" parameterType="String" resultType="Administrator">
+        select id ,	name,	password,	head
+        FROM administrator
+        WHERE name =#{adminName}
+    </select>
 </mapper>

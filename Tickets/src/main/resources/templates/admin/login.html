@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>管理员登录界面</title>
+</head>
+<body>
+<form action="#" th:action="@{admin/login}" th:object="${administrator}"  method="post">
+    <p><input type="text" name="name" /></p>
+    <p><input type="text" name="password"/></p>
+    <p><input type ="submit"/></p>
+</form>
+</body>
+</html>

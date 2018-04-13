@@ -35,7 +35,7 @@ public class PromulgatorController {
 //    }
 
     @RequestMapping(value = "/pro/login", method = RequestMethod.POST)
-    public String proLogin(@ModelAttribute(value = "Promulgator") Promulgator promulgator,HttpSession httpSession) {
+    public String proLogin(@ModelAttribute(value = "promulgator") Promulgator promulgator,HttpSession httpSession) {
         System.out.println(promulgator.getName());
         System.out.println(promulgator.getPassword());
         String truePassword =pm.proByName(promulgator.getName()).getPassword();
