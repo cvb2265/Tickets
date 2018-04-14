@@ -161,7 +161,7 @@ form button:hover, input[type="button"]:hover {
 	<p id="title1">Tickets welcome you.</p>
 	<div class="slideTxtBox">
 		<div class="hd">
-			<ul><li>用户注册</li></ul>
+			<ul><li>登录</li></ul>
 		</div>
 		<div class="bd">
 			<ul>
@@ -196,7 +196,9 @@ form button:hover, input[type="button"]:hover {
 							<span id="fail5" style="display: none;display: none;">
 							    <img th:src="@{/images/fail.png}" style="width: 16px;height: 16px;"/><font color="red">密码错误！</font>
 							</span>
-						
+							
+							<font th:text="${msg}" color="red"></font>
+							
 						</td>
 					</tr>
 				</table>

@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
 		User user = new User();
 		user.setEmail(email);
 		user.setPassword(password);
-		user.setNickename("customer");
+		user.setNickname("customer");
 		user.setInterest("所有");
 		user.setFace("default.jpg");
 		user.setLevel(-1);//等级为-1代表未激活

@@ -122,7 +122,7 @@ CREATE TABLE `user` (
   `userid` int(11) NOT NULL,
   `email` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
-  `nickename` varchar(20) NOT NULL,
+  `nickname` varchar(20) NOT NULL,
   `interest` varchar(60) NOT NULL,
   `face` varchar(60) NOT NULL,
   `level` int(11) NOT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE `user` (
 -- 转存表中的数据 `user`
 --
 
-INSERT INTO `user` (`userid`, `email`, `password`, `nickename`, `interest`, `face`, `level`, `exp`, `points`, `money`) VALUES
+INSERT INTO `user` (`userid`, `email`, `password`, `nickname`, `interest`, `face`, `level`, `exp`, `points`, `money`) VALUES
 (1, '123@qq.com', '123', 'jack', '流行-古典', '123_qq.jpg', 1, 0, 0, 9999),
 (2, '124@qq.com', '124', 'bob', '流行-古典-摇滚', '124_qq.jpg', 2, 0, 0, 9999);
 

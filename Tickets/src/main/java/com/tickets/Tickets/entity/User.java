@@ -15,7 +15,7 @@ public class User implements Serializable {
 	private Integer userid;
 	private String email;
 	private String password;
-	private String nickename;
+	private String nickname;
 	private String interest;
 	private String face;
 	private Integer level;
@@ -40,11 +40,11 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getNickename() {
-		return nickename;
+	public String getNickname() {
+		return nickname;
 	}
-	public void setNickename(String nickename) {
-		this.nickename = nickename;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 	public String getInterest() {
 		return interest;

@@ -30,13 +30,13 @@ public interface UserMapper {
 	@Select(value = "SELECT COUNT(userid) FROM user WHERE email = #{email}")
 	public boolean exist(@Param("email")String email);
 	
-	@Insert(value = "INSERT INTO user(email, password, nickename, interest, face, level, exp, points, money)\n" + 
-			"VALUES (#{email}, #{password}, #{nickename}, #{interest}, #{face}, #{level}, #{exp}, #{points}, #{money})")
+	@Insert(value = "INSERT INTO user(email, password, nickname, interest, face, level, exp, points, money)\n" + 
+			"VALUES (#{email}, #{password}, #{nickname}, #{interest}, #{face}, #{level}, #{exp}, #{points}, #{money})")
 	public Integer save(User user);
 	
 	
 	@Update(value = "UPDATE user SET email=#{email}, password=#{password}, \n" + 
-			"nickename=#{nickename}, interest=#{interest}, face=#{face}, level=#{level},\n" + 
+			"nickname=#{nickname}, interest=#{interest}, face=#{face}, level=#{level},\n" + 
 			"exp=#{exp}, points=#{points}, money=#{money}\n" + 
 			"WHERE userid = #{userid}")
 	public Integer update(User user);

@@ -38,13 +38,12 @@ public class UserController {
 	
 
 	/**********************只负责将请求转发给页面的Controller*****************************/
-
 	//主页
 	@RequestMapping(value={"/user/", "/user/indexV"})
 	public ModelAndView indexV(
 			 ModelAndView mv,
 			 HttpServletRequest request){
-		logger.info("indexV控制器 被调用，请求者的地址是"+request.getRemoteAddr());
+		logger.info("/user/接口 被调用，请求者的地址是"+request.getRemoteAddr());
 		mv.setViewName("/user/index");
 		return mv;
 	}
@@ -52,7 +51,7 @@ public class UserController {
 	public ModelAndView loginV(
 			 ModelAndView mv,
 			 HttpServletRequest request){
-		logger.info("loginV控制器 被调用，请求者的地址是"+request.getRemoteAddr());
+		logger.info("/user/loginV接口 被调用，请求者的地址是"+request.getRemoteAddr());
 		mv.setViewName("/user/login");
 		return mv;
 	}
@@ -60,7 +59,7 @@ public class UserController {
 	public ModelAndView regV(
 			 ModelAndView mv,
 			 HttpServletRequest request){
-		logger.info("regV控制器 被调用，请求者的地址是"+request.getRemoteAddr());
+		logger.info("/user/regV接口 被调用，请求者的地址是"+request.getRemoteAddr());
 		mv.setViewName("/user/reg");
 		return mv;
 	}
@@ -80,10 +79,31 @@ public class UserController {
 			 String email,String password,
 			 ModelAndView mv,
 			 HttpSession session,
-			 HttpServletRequest request){
-		logger.info("regV控制器 被调用，请求者的地址是"+request.getRemoteAddr());
+			 HttpServletRequest request,
+			 Model model){
+		logger.info("/user/login接口 被调用，请求者的地址是"+request.getRemoteAddr());
 		User user = userService.login(email, password);
-		mv.setViewName("user/indexV");
+		if(user != null){
+			if(user.getLevel() == -1) {
+				model.addAttribute("msg", "账号未激活!");//等价于 mv.addObject("msg", "账号未激活!");
+				mv.setViewName("/user/login");
+				return mv;
+			}
+			session.setAttribute("user", user);
+			mv.setViewName("redirect:/user/indexV");//重定向必须重定向到 页面对应的控制器
+		}else{
+			model.addAttribute("msg", "登录名或密码错误，请重新输入!");//等价于 mv.addObject("msg", "登录名或密码错误，请重新输入!");
+			mv.setViewName("/user/login");
+		}
+		return mv;
+	}
+	
+	@RequestMapping(value="/user/logout")
+	public ModelAndView logout(
+			 ModelAndView mv,
+			 HttpSession session){
+		session.removeAttribute("user");
+		mv.setViewName("redirect:/user/indexV");
 		return mv;
 	}
 	
@@ -92,7 +112,7 @@ public class UserController {
 	@ResponseBody
 	public Object checkEmail(String email,
 			 HttpServletRequest request){
-		logger.info("checkEmail控制器 被调用，请求者的地址是"+request.getRemoteAddr());
+		logger.info("/user/checkEmail接口 被调用，请求者的地址是"+request.getRemoteAddr());
 		boolean b = userService.checkEmail(email);
 		if(b) {
 			return -1;
