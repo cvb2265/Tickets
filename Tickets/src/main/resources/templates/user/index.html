@@ -44,13 +44,34 @@ layui.use('element', function(){
 #kword {
 	width:400px;
 	height:30px;
-	margin-left:80px;
+	margin-left:120px;
 }
 
-
-
-.layui-carousel {
+#main {
+	overflow:hidden;
+	width:1000px;
+	height:440px;
 	margin:0 auto;/*在水平上居中*/
+}
+#leftdiv {
+	float:left;
+	width:200px;
+	height:440px;
+}
+#test10 {
+	float:right;
+	width:778px;
+	height:440px;
+}
+
+/*音乐会类型*/
+.ct {
+	border:#cccccc solid; 
+	border-width:1px;
+	
+	width:996px;
+	height:996px;
+	display:block;
 }
 
 </style>
@@ -107,11 +128,27 @@ layui.use('element', function(){
 <br/>
 <br/>
 
+<div id="main">
+<div id="leftdiv">
+<ul class="layui-nav layui-nav-tree layui-inline" lay-filter="demo" style="margin-right: 10px;">
+  <li class="layui-nav-item"><a href="">流行</a></li>
+  <li class="layui-nav-item"><a href="">古典</a></li>
+  <li class="layui-nav-item"><a href="">摇滚</a></li>
+  <li class="layui-nav-item"><a href="">名族</a></li>
+  <li class="layui-nav-item"><a href="">乡村</a></li>
+  <li class="layui-nav-item"><a href="">管弦乐</a></li>
+  <li class="layui-nav-item"><a href="">其它</a></li>
+</ul>
+</div>
+
+
+
 <div class="layui-carousel" id="test10">
   <div carousel-item="">
-    <div><img th:src="@{/cover/12.jpg}"/></div>
-    <div><img th:src="@{/cover/12.jpg}"/></div>
-    <div><img th:src="@{/cover/12.jpg}"/></div>
+    <div><img th:src="@{/cover/14.jpg}"/></div>
+    <div><img th:src="@{/cover/14.jpg}"/></div>
+    <div><img th:src="@{/cover/14.jpg}"/></div>
+    <div><img th:src="@{/cover/14.jpg}"/></div>
   </div>
 </div>
 <script>
@@ -129,9 +166,20 @@ layui.use(['carousel', 'form'], function(){
   
 });
 </script>
-
+</div>
 
 <br/>
+<br/>
+<h2 th:if="${session.user}">猜您喜欢</h2>
+<br/>
+
+
+<div class="ct">
+哈哈哈
+</div>
+
+
+
 <br/>
 <br/>
 <br/>
