@@ -299,12 +299,12 @@ CREATE TABLE IF NOT EXISTS `goods` (
 
 CREATE TABLE IF NOT EXISTS `plan` (
   `id` int(11) NOT NULL,
-  `name` varchar(20) NOT NULL,
+  `name` varchar(60) NOT NULL,
   `starttime` datetime NOT NULL,
   `endtime` datetime NOT NULL,
-  `introduction` varchar(80) NOT NULL,
+  `introduction` varchar(900) NOT NULL,
   `cover` varchar(20) NOT NULL,
-  `loction` varchar(20) NOT NULL,
+  `location` varchar(20) NOT NULL,
   `venueid` int(11) NOT NULL,
   `overdue` tinyint(1) NOT NULL DEFAULT '0',
   `isrecommend` tinyint(1) NOT NULL DEFAULT '0',
