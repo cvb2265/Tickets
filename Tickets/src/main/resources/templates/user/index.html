@@ -72,6 +72,28 @@ layui.use('element', function(){
 	width:996px;
 	height:996px;
 	display:block;
+    margin-top:20px;
+}
+.ctword {
+	margin-left:10px;
+	margin-top:10px;
+	font-size: 28px;
+}
+a.getall {
+	margin-left:800px;
+}
+a.getall, a.getall:link{/*超链接平常的状态*/
+	text-decoration:none;/*去掉下划线*/
+}
+a.getall:hover, a.getall:active{/*鼠标放到超链接上的时候；超链接被按下的时候 */
+	color:#f00a75;
+}
+
+
+div.citem {
+	width:200px;
+	height:200px;
+    margin:20px 0px 0px 40px;/*设置上、右、下、左外边距*/
 }
 
 </style>
@@ -168,30 +190,109 @@ layui.use(['carousel', 'form'], function(){
 </script>
 </div>
 
-<br/>
-<br/>
 <h2 th:if="${session.user}">猜您喜欢</h2>
-<br/>
-
 
 <div class="ct">
-哈哈哈
+<span class="ctword">流行</span><a class="getall" href="javascript:;">查看全部&gt;&gt;</a>
+<table>
+	<tr>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+	</tr>
+</table>
+</div>
+
+<div class="ct">
+<span class="ctword">古典</span><a class="getall" href="javascript:;">查看全部&gt;&gt;</a>
+<table>
+	<tr>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+		<td>
+			<div class="citem">
+				<img th:src="@{/faces/default.jpg}"/>
+			</div>
+		</td>
+	</tr>
+</table>
 </div>
 
 
-
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
 
 
 </div>

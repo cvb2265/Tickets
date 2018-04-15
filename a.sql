@@ -288,8 +288,8 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `goods` (
   `id` int(11) NOT NULL,
   `planid` int(11) NOT NULL,
-  `price` int(11) NOT NULL,
-  `orderid` int(11) NOT NULL,
+  `price` double NOT NULL,
+  `orderid` int(20),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -345,10 +345,9 @@ CREATE TABLE IF NOT EXISTS `seatprice` (
   `orderid` int(11) DEFAULT NULL,
   `seatid` int(11) NOT NULL,
   `venueid` int(11) NOT NULL,
-  `price` int(11) NOT NULL,
+  `price` double NOT NULL,
   `avail` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `seatid` (`seatid`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

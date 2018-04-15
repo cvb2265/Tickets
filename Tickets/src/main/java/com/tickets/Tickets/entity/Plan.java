@@ -21,9 +21,7 @@ public class Plan implements Serializable {
 	private int venueid;
 	private boolean overdue;
 	private boolean isrecommend;
-	private enum type{
-		
-	};//演唱会类型使用枚举
+	private String type;//演唱会类型
 	private String scheme;//上传的演唱会策划书路径名
 	
 	
@@ -108,6 +106,15 @@ public class Plan implements Serializable {
 	}
 	public void setScheme(String scheme) {
 		this.scheme = scheme;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 }
