@@ -135,10 +135,6 @@ CREATE TABLE `user` (
 -- 转存表中的数据 `user`
 --
 
-INSERT INTO `user` (`userid`, `email`, `password`, `nickname`, `interest`, `face`, `level`, `exp`, `points`, `money`) VALUES
-(1, '123@qq.com', '123', 'jack', '流行-古典', '123_qq.jpg', 1, 0, 0, 9999),
-(2, '124@qq.com', '124', 'bob', '流行-古典-摇滚', '124_qq.jpg', 2, 0, 0, 9999);
-
 -- --------------------------------------------------------
 
 --
@@ -211,6 +207,7 @@ ALTER TABLE `promulgator`
 ALTER TABLE `seat`
   ADD PRIMARY KEY (`id`);
 
+
 --
 -- Indexes for table `user`
 --
@@ -252,8 +249,6 @@ ALTER TABLE `user`
 
 
 
-
-
 -- wanglei
 
 
@@ -288,6 +283,9 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `goods` (
   `id` int(11) NOT NULL,
   `planid` int(11) NOT NULL,
+  `goodsname` varchar(20) NOT NULL,
+  `desc` varchar(400) NOT NULL,
+  `pic` varchar(30) NOT NULL,
   `price` double NOT NULL,
   `orderid` int(20),
   PRIMARY KEY (`id`)
