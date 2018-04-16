@@ -38,7 +38,16 @@ CREATE TABLE `venue` (
    `name`		varchar(20)		NOT NULL
 ) ;
 INSERT INTO `venue` (`id`, `city`, `address`, `name`) VALUES (1, "南京", "玄武区洪武北路123号苏苑大厦15-16层", "江苏省歌舞剧院") ;
-INSERT INTO `venue` (`id`, `city`, `address`, `name`) VALUES (2, "南京", "秦淮区延龄巷5号", "江南剧院") ;
+INSERT INTO `venue` (`id`, `city`, `address`, `name`) VALUES (2, "北京", "海淀区复兴路69号", "凯迪拉克中心") ;
+INSERT INTO `venue` (`id`, `city`, `address`, `name`) VALUES (3, "上海", "静安区延安中路1000号2164室", "上海展览中心") ;
+INSERT INTO `venue` (`id`, `city`, `address`, `name`) VALUES (4, "广州", "越秀区人民北路696号", "广州友谊剧院") ;
+INSERT INTO `venue` (`id`, `city`, `address`, `name`) VALUES (5, "深圳", "龙岗区龙翔大道3001号", "深圳大运中心体育馆") ;
+INSERT INTO `venue` (`id`, `city`, `address`, `name`) VALUES (6, "杭州", "江干区钱潮路12号", "江干体育中心") ;
+INSERT INTO `venue` (`id`, `city`, `address`, `name`) VALUES (7, "武汉", "汉阳区知音大道7号", "武汉琴台大剧院") ;
+INSERT INTO `venue` (`id`, `city`, `address`, `name`) VALUES (8, "长沙", "开福区会展路1号", "湖南国际会展中心") ;
+INSERT INTO `venue` (`id`, `city`, `address`, `name`) VALUES (9, "大连", "甘井子区岚岭路699号", "大连体育中心体育场") ;
+INSERT INTO `venue` (`id`, `city`, `address`, `name`) VALUES (10, "宁波", "鄞州区中山东路1999号", "宁波文化广场万人广场") ;
+INSERT INTO `venue` (`id`, `city`, `address`, `name`) VALUES (11, "青岛", "市南区太平路9号", "青岛市人民会堂") ;
 CREATE TABLE `seat` (
    `id`			INT(11)			PRIMARY KEY		AUTO_INCREMENT,
    `venueid`		INT(11)			NOT NULL,
