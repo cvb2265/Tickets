@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class Level implements Serializable {
     private static final long serialVersionUID = -1073531577986198577L;
-    private int id;
-    private int level_num;// 当前等级
-    private int maxxp;//当前等级升级所需经验
+    private Integer id;
+    private Integer level_num;// 当前等级
+    private Integer maxxp;//当前等级升级所需经验
     private double discount;//当前等级享受的折扣
 
     public static long getSerialVersionUID() {

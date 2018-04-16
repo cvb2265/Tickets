@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class Notice implements Serializable {
     private static final long serialVersionUID = 7910358669326408211L;
-    private int id;
-    private int targetid;// 接收消息的购票者id
-    private int orderid;//被取消的订单id
+    private Integer id;
+    private Integer targetid;// 接收消息的购票者id
+    private Integer orderid;//被取消的订单id
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

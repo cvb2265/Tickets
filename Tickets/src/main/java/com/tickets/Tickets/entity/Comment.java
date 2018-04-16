@@ -4,15 +4,15 @@ import java.io.Serializable;
 
 public class Comment implements Serializable {
     private static final long serialVersionUID = -7398187628098509372L;
-    private int id;
-    private int planid;// 所属演出id
-    private int userid;// 评论者id
-    private int parentid;// 母评论id（第一级评论默认设置为0）
+    private Integer id;
+    private Integer planid;// 所属演出id
+    private Integer userid;// 评论者id
+    private Integer parentid;// 母评论id（第一级评论默认设置为0）
     private String comment_time;// 评论时间,暂时用String表示事后需要改变
     private String content;//评论内容
-    private int rate;// 星级
-    private int type;// 类型（预期为0，评论为1）
-    private int deleteflag;// 删除标志（删除为1，未删除为0）
+    private Integer rate;// 星级
+    private Integer type;// 类型（预期为0，评论为1）
+    private Integer deleteflag;// 删除标志（删除为1，未删除为0）
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

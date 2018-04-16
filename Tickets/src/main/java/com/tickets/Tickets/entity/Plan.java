@@ -11,14 +11,14 @@ public class Plan implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String name;
 	private String starttime;
 	private String endtime;
 	private String introduction;
 	private String cover;
 	private String location;
-	private int venueid;
+	private Integer venueid;
 	private boolean overdue;
 	private boolean isrecommend;
 	private String type;//演唱会类型

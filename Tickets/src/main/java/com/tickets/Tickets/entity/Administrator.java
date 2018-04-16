@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Administrator implements Serializable {
     private static final long serialVersionUID = 4878032331962414748L;
-    private int id;
+    private Integer id;
     private String name;
     private String password;
     private String head;

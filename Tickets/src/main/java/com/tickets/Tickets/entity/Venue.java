@@ -5,7 +5,7 @@ import java.io.Serializable;
 //
 public class Venue implements Serializable {
     private static final long serialVersionUID = -8344780188907829753L;
-    private int id;
+    private Integer id;
     private String city;
     private String address;
     private String name;

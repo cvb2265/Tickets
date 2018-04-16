@@ -8,8 +8,8 @@ public class Promulgator implements Serializable {
     private String email;
     private String password;
     private String name;
-    private int balance;
-    private int power; //是否有管理员权限
+    private Integer balance;
+    private Integer power; //是否有管理员权限
     private String head;//头像
 
     public static long getSerialVersionUID() {

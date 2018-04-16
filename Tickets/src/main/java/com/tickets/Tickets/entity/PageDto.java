@@ -4,12 +4,12 @@ import java.io.Serializable;
 //分页辅助类
 public class PageDto implements Serializable {
     private static final long serialVersionUID = -3166444663071519405L;
-    private int total_rows; //总记录数 可以查
-    private int current_page; //当前页 传递过来的
-    private int page_size; //每页条数 应该是有的  可以定义
+    private Integer total_rows; //总记录数 可以查
+    private Integer current_page; //当前页 传递过来的
+    private Integer page_size; //每页条数 应该是有的  可以定义
 
-    private int total_pages; //总页数   可以算
-    private int offset_row; //偏移量  可以算
+    private Integer total_pages; //总页数   可以算
+    private Integer offset_row; //偏移量  可以算
     private boolean hasPrev; //是否有前一页  可以算
     private boolean hasNext; //是否有下一页 可算
 
