@@ -90,7 +90,7 @@ CREATE TABLE `plan` (
 CREATE TABLE `seatprice` (
    `id`			INT(11)			PRIMARY KEY		AUTO_INCREMENT,
   `planid` int(11) NOT NULL,
-  `orderid` int(11) DEFAULT NULL,
+  `orderid` int(20) DEFAULT NULL,
   `seatid` int(11) NOT NULL,
   `venueid` int(11) NOT NULL,
   `price` double NOT NULL,
@@ -104,16 +104,8 @@ CREATE TABLE IF NOT EXISTS `goods` (
   `desc` varchar(400) NOT NULL,
   `pic` varchar(30) NOT NULL,
   `price` double NOT NULL,
-  `orderid` int(20)
+  `orderid` int(20) DEFAULT NULL
 );
-INSERT INTO `goods` (`id`, `planid`, `goodsname`, `desc`, `pic`, `price`, `orderid`)
- VALUES (1, 1, "玉石挂坠", "古人讲佩玉为美，黄金有价玉无价。玉埋藏地下几千年或是上亿年，玉中含有大量矿物元素，所以人们常说人养玉玉养人，如果人的身体好长期佩玉可以滋润玉，玉的水头也就是折光度会越来越好，越来越亮。", "1.jpg", 79.5, null) ;
-INSERT INTO `goods` (`id`, `planid`, `goodsname`, `desc`, `pic`, `price`, `orderid`)
- VALUES (2, 1, "玉石挂坠", "古人讲佩玉为美，黄金有价玉无价。玉埋藏地下几千年或是上亿年，玉中含有大量矿物元素，所以人们常说人养玉玉养人，如果人的身体好长期佩玉可以滋润玉，玉的水头也就是折光度会越来越好，越来越亮。", "2.jpg", 79.5, null) ;
-INSERT INTO `goods` (`id`, `planid`, `goodsname`, `desc`, `pic`, `price`, `orderid`)
- VALUES (3, 1, "玉石挂坠", "古人讲佩玉为美，黄金有价玉无价。玉埋藏地下几千年或是上亿年，玉中含有大量矿物元素，所以人们常说人养玉玉养人，如果人的身体好长期佩玉可以滋润玉，玉的水头也就是折光度会越来越好，越来越亮。", "3.jpg", 79.5, null) ;
-
-
 
 
 

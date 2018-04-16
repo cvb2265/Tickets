@@ -28,6 +28,11 @@ import com.mysql.jdbc.PreparedStatement;
  * 第1天是2018-06-01
  * 暂时这样设定。
  * 
+ * 539个plan，每个plan对应1个场馆，每个场馆100座位，一共有53900个seatprice
+ * 
+ * 539个plan，每个plan对应3个goods，一共有1617个goods
+ * 
+ * 
  * @author tqy
  * @date 2018年4月16日
  *
@@ -116,16 +121,29 @@ public class InsertMain {
 			String[] citys= {"南京", "北京", "上海", "广州", "深圳", "杭州", "武汉", "长沙", "大连", "宁波", "青岛"};
 			String[] types= {"流行", "古典", "摇滚", "名族", "乡村", "管弦乐", "其它"};
 			int planid=1;
+			int start_goodsid=1;
 			String day="2018-06-01";
 			for(int i=0; i<49; i++) {//遍历49个音乐家
 				String day_cur=day;
 				for(int k=0; k<11; k++) {//连续去11个城市演唱
 					conn = dbHelper.getConnection();
+//					f2(conn,planid,musician[i]+"音乐会"+citys[k]+"站", day_cur+" 19:00:00", day_cur+" 23:00:00", introductions[i],
+//							   planid+".jpg", citys[k], k+1, false, true, types[i/7], "aaa");
 					f2(conn,planid,musician[i]+"音乐会"+citys[k]+"站", day_cur+" 19:00:00", day_cur+" 23:00:00", introductions[i],
-					   planid+".jpg", citys[k], k+1, false, true, types[i/7], "aaa");
+							   "14.jpg", citys[k], k+1, false, true, types[i/7], "aaa");
 					
+
+					//插入本场音乐会相关的seatprice，k+1就是venueid
+					int start_seatid = 100*k+1;
+					conn = dbHelper.getConnection();
+					f3(conn, planid, start_seatid, k+1);
 					
-					//插入本场音乐会相关的seatprice、goods
+
+					
+					//插入本场音乐会相关的goods
+					conn = dbHelper.getConnection();
+					f4(conn, planid, start_goodsid);
+					start_goodsid += 3;
 					
 					
 					
@@ -241,6 +259,98 @@ public class InsertMain {
 			pstmt.setString(12, scheme);
 			pstmt.executeUpdate();
 
+			pstmt.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+	
+
+	public static void f3(Connection connection, int planid, int start_seatid, int venueid) {
+		PreparedStatement pstmt = null;
+		
+		String sql = "INSERT into seatprice(planid,seatid,venueid,price) VALUES (?,?,?,?)";
+		
+
+		try {
+			
+			for(int i=0;i<100;i++) {//100个座位设置价格
+				pstmt = (PreparedStatement) connection.prepareStatement(sql);
+				pstmt.setInt(1, planid);
+				pstmt.setInt(2, start_seatid + i);
+				pstmt.setInt(3, venueid);
+				pstmt.setDouble(4, 139.5);
+				pstmt.executeUpdate();
+			}
+
+			pstmt.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+	
+	
+	public static void f4(Connection connection, int planid, int start_goodsid) {
+		
+		PreparedStatement pstmt = null;
+		
+		//sql里有关键字desc，所以这里的desc用``括起来
+		String sql = "INSERT into goods(id,planid,goodsname,`desc`,pic,price) VALUES (?,?,?,?,?,?)";
+		
+
+		try {
+
+			pstmt = (PreparedStatement) connection.prepareStatement(sql);
+			pstmt.setInt(1, start_goodsid);
+			pstmt.setInt(2, planid);
+			pstmt.setString(3, "玉石挂坠");
+			pstmt.setString(4, "古人讲佩玉为美，黄金有价玉无价。玉埋藏地下几千年或是上亿年，玉中含有大量矿物元素，所以人们常说人养玉玉养人，如果人的身体好长期佩玉可以滋润玉，玉的水头也就是折光度会越来越好，越来越亮。");
+			pstmt.setString(5, "1.jpg");
+			pstmt.setDouble(6, 237.0);
+			pstmt.executeUpdate();
+			
+			pstmt = (PreparedStatement) connection.prepareStatement(sql);
+			pstmt.setInt(1, start_goodsid+1);
+			pstmt.setInt(2, planid);
+			pstmt.setString(3, "印花T恤");
+			pstmt.setString(4, "印上特殊图案的T恤，非常有纪念意义。");
+			pstmt.setString(5, "1.jpg");
+			pstmt.setDouble(6, 237.0);
+			pstmt.executeUpdate();
+			
+			pstmt = (PreparedStatement) connection.prepareStatement(sql);
+			pstmt.setInt(1, start_goodsid+2);
+			pstmt.setInt(2, planid);
+			pstmt.setString(3, "木屋模型");
+			pstmt.setString(4, "小巧精致的木屋模型，看到它心情就会好很多。");
+			pstmt.setString(5, "1.jpg");
+			pstmt.setDouble(6, 237.0);
+			pstmt.executeUpdate();
+
+			
+			
 			pstmt.close();
 			connection.close();
 		} catch (SQLException e) {
