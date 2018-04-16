@@ -5,11 +5,10 @@ import com.tickets.Tickets.entity.PageDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-
+//cf
+@Mapper
 public interface LevelMapper {
     Level getLevelDetails(int id);
-    //cf
-    @Mapper
     void addLevel(Level level);
     boolean delLevel(int id);
     void updateLevel(Level level);
