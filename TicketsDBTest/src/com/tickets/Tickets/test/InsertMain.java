@@ -336,8 +336,8 @@ public class InsertMain {
 			pstmt.setInt(2, planid);
 			pstmt.setString(3, "印花T恤");
 			pstmt.setString(4, "印上特殊图案的T恤，非常有纪念意义。");
-			pstmt.setString(5, "1.jpg");
-			pstmt.setDouble(6, 237.0);
+			pstmt.setString(5, "2.jpg");
+			pstmt.setDouble(6,76.0);
 			pstmt.executeUpdate();
 			
 			pstmt = (PreparedStatement) connection.prepareStatement(sql);
@@ -345,8 +345,8 @@ public class InsertMain {
 			pstmt.setInt(2, planid);
 			pstmt.setString(3, "木屋模型");
 			pstmt.setString(4, "小巧精致的木屋模型，看到它心情就会好很多。");
-			pstmt.setString(5, "1.jpg");
-			pstmt.setDouble(6, 237.0);
+			pstmt.setString(5, "3.jpg");
+			pstmt.setDouble(6, 89.0);
 			pstmt.executeUpdate();
 
 			
