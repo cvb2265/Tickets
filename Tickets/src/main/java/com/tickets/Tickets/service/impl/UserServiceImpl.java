@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional(readOnly=true)
 	@Override
 	public User login(String email, String password) {
-		logger.info("UserService的login方法 被调用，用户邮箱是"+email);
+		logger.info("login方法 被调用，用户邮箱是"+email);
 		return userMapper.find(email, password);
 	}
 	

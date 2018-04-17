@@ -24,23 +24,6 @@ public class Plan implements Serializable {
 	private String type;//演唱会类型
 	private String scheme;//上传的演唱会策划书路径名
 	
-	
-	
-	public Plan(int id, String name, String starttime, String endtime, String introduction, String cover,
-			String location, int venueid, boolean overdue, boolean isrecommend, String scheme) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.starttime = starttime;
-		this.endtime = endtime;
-		this.introduction = introduction;
-		this.cover = cover;
-		this.location = location;
-		this.venueid = venueid;
-		this.overdue = overdue;
-		this.isrecommend = isrecommend;
-		this.scheme = scheme;
-	}
 	public int getId() {
 		return id;
 	}

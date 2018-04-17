@@ -316,8 +316,7 @@ public class InsertMain {
 		
 		PreparedStatement pstmt = null;
 		
-		//sql里有关键字desc，所以这里的desc用``括起来
-		String sql = "INSERT into goods(id,planid,goodsname,`desc`,pic,price) VALUES (?,?,?,?,?,?)";
+		String sql = "INSERT into goods(id,planid,goodsname,introduction,pic,price) VALUES (?,?,?,?,?,?)";
 		
 
 		try {

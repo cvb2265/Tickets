@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `goods` (
    `id`			INT(11)			PRIMARY KEY		AUTO_INCREMENT,
   `planid` int(11) NOT NULL,
   `goodsname` varchar(20) NOT NULL,
-  `desc` varchar(400) NOT NULL,
+  `introduction` varchar(400) NOT NULL,
   `pic` varchar(30) NOT NULL,
   `price` double NOT NULL,
   `orderid` int(20) DEFAULT NULL

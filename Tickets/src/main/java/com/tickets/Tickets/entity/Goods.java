@@ -11,7 +11,7 @@ public class Goods implements Serializable {
 	private Integer id;
 	private Integer planid;
 	private String goodsname;
-	private String desc;
+	private String introduction;
 	private String pic;
 	private double price;
 	private Integer orederid;
@@ -52,11 +52,11 @@ public class Goods implements Serializable {
 	public void setGoodsname(String goodsname) {
 		this.goodsname = goodsname;
 	}
-	public String getDesc() {
-		return desc;
+	public String getIntroduction() {
+		return introduction;
 	}
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
 	}
 	public String getPic() {
 		return pic;

@@ -1,5 +1,7 @@
 package com.tickets.Tickets.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tickets.Tickets.entity.Plan;
 import com.tickets.Tickets.entity.User;
+import com.tickets.Tickets.service.PlanService;
 import com.tickets.Tickets.service.UserService;
+import com.tickets.Tickets.util.Page;
+import com.tickets.Tickets.util.PageAndPlanList;
 
 /**
  * @author tqy
@@ -27,10 +33,14 @@ public class UserController {
 	public UserController() {
 	}
 	
-	
+
 	@Autowired
 	@Qualifier("userService")
 	private UserService userService;
+	
+	@Autowired
+	@Qualifier("planService")
+	private PlanService planService;
 	
 	//打印日志
 	private static final Log logger = LogFactory.getLog(UserController.class);
@@ -61,6 +71,14 @@ public class UserController {
 			 HttpServletRequest request){
 		logger.info("/user/regV接口 被调用，请求者的地址是"+request.getRemoteAddr());
 		mv.setViewName("/user/reg");
+		return mv;
+	}
+	@RequestMapping(value="/user/planlistV")
+	public ModelAndView planlistV(
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/planlistV接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		mv.setViewName("/user/planlist");
 		return mv;
 	}
 	
@@ -158,6 +176,26 @@ public class UserController {
 			mv.setViewName("user/errorpage");
 		}
 		return mv;
+	}
+	
+
+	@RequestMapping(value="/user/searchplans")
+	@ResponseBody
+	public Object searchplans(
+			int pageSize, int index, String keyword, 
+			String day1, String day2, String location, boolean overdue, 
+			boolean isrecommend, String type, String sort_strategy
+			 ){
+		Page page = new Page();
+		List<Plan> list = planService.getPlans(pageSize, index, page, keyword,
+				day1, day2, location,  overdue, isrecommend, type,  sort_strategy);
+		
+		PageAndPlanList pageAndPlanList = new PageAndPlanList();
+		pageAndPlanList.setIndex(page.getIndex());
+		pageAndPlanList.setPageCount(page.getPageCount());
+		pageAndPlanList.setList(list);
+		
+		return pageAndPlanList;
 	}
 	
 }
