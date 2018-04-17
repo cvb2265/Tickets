@@ -1,6 +1,7 @@
 package com.tickets.Tickets.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 //
 public class Venue implements Serializable {
@@ -9,6 +10,7 @@ public class Venue implements Serializable {
     private String city;
     private String address;
     private String name;
+    private ArrayList<Seat> seats;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -17,17 +19,19 @@ public class Venue implements Serializable {
     public Venue() {
     }
 
-    public Venue(int id, String city, String address, String name) {
+    public Venue(int id, String city, String address, String name,ArrayList<Seat> seats) {
         this.id = id;
         this.city = city;
         this.address = address;
         this.name = name;
+        this.seats = seats;
     }
 
-    public Venue(String city, String address, String name) {
+    public Venue(String city, String address, String name,ArrayList<Seat> seats) {
         this.city = city;
         this.address = address;
         this.name = name;
+        this.seats = seats;
     }
 
     public int getId() {
@@ -60,5 +64,13 @@ public class Venue implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public ArrayList<Seat> getSeats(){
+    	return seats;
+    }
+    
+    public void setSeats(ArrayList<Seat> seats) {
+    	this.seats = seats;
     }
 }
