@@ -13,5 +13,6 @@ public interface LevelMapper {
     boolean delLevel(int id);
     void updateLevel(Level level);
 
+    int count();
     List<Level> ListLevels(PageDto pageDto);
 }

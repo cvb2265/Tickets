@@ -1,22 +1,62 @@
 package com.tickets.Tickets.controller;
 
 import com.tickets.Tickets.entity.Level;
+import com.tickets.Tickets.entity.PageDto;
 import com.tickets.Tickets.mapper.LevelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
 
 //cf
 @Controller
 public class LevelController {
     @Autowired
     LevelMapper lm;
-    Level newl =new Level(1,1,50,0.99);
+    @Value("${page_size}")
+    private int page_size;
+
+    //  Level newl =new Level(1,1,50,0.99);
     @RequestMapping("/level/{current_page}")
-    public String levelList(HttpSession httpSession){
-        lm.delLevel(newl.getId());
+    public String levelList(@PathVariable("current_page") int current_page, Map<String, Object> map, HttpSession httpSession) {
+        PageDto pageDto = new PageDto((int) lm.count(), current_page, page_size);
+        List<Level> levels = lm.ListLevels(pageDto);
+        //  lm.delLevel(newl.getId());
+        if (levels.size() == 0) {
+            return "redirect:/level/" + --current_page;
+        }
+
+        System.out.println(pageDto);
+        map.put("levels", levels);
+        map.put("pageDto", pageDto);
+
         return "/level/index";
+    }
+
+    @RequestMapping("/level/add")
+    public String addLevel(Level level, HttpSession httpSession) {
+        System.out.println(level);
+        lm.addLevel(level);
+        return "redirect:/level/1";
+    }
+
+    @RequestMapping("/level/{current_page}/{level_id}")
+    public String detailLevel(@PathVariable("current_page") int current_page, @PathVariable("level_id") int level_id, Model model) {
+        Level level = lm.getLevelDetails(level_id);
+        model.addAttribute("level", level);
+        model.addAttribute("current_page", current_page);
+        return "level/edit";
+    }
+
+    @RequestMapping("/level/{current_page}/{level_id}/delete")
+    public String deleteLevel(@PathVariable("current_page") int current_page, @PathVariable("level_id") int level_id) {
+        lm.delLevel(level_id);
+        return "redirect:/level/" + current_page;
     }
 }

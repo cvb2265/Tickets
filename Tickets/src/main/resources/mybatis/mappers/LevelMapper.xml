@@ -24,4 +24,16 @@
         set id =#{id},level_num =#{level_num},maxxp=#{maxxp},discount =#{discount}
         where id =#{id}
     </update>
+
+    <select id="count" parameterType="int">
+        SELECT count(id)
+        FROM level
+    </select>
+
+    <select id="ListLevels" parameterType="PageDto" resultType="Level">
+    SELECT	id,	level_num ,	maxxp, 	discount
+        from  level
+        ORDER BY level_num
+        limit #{offset_row} , #{page_size}
+    </select>
 </mapper>
