@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -22,21 +23,20 @@ public class LevelController {
     @Value("${page_size}")
     private int page_size;
 
-    //  Level newl =new Level(1,1,50,0.99);
     @RequestMapping("/level/{current_page}")
     public String levelList(@PathVariable("current_page") int current_page, Map<String, Object> map, HttpSession httpSession) {
+        //int a =lm.count();
+        //System.out.println(a);
         PageDto pageDto = new PageDto((int) lm.count(), current_page, page_size);
+        //System.out.println(pageDto);
         List<Level> levels = lm.ListLevels(pageDto);
-        //  lm.delLevel(newl.getId());
         if (levels.size() == 0) {
             return "redirect:/level/" + --current_page;
         }
-
-        System.out.println(pageDto);
         map.put("levels", levels);
         map.put("pageDto", pageDto);
 
-        return "/level/index";
+        return "/level/list";
     }
 
     @RequestMapping("/level/add")
@@ -58,5 +58,16 @@ public class LevelController {
     public String deleteLevel(@PathVariable("current_page") int current_page, @PathVariable("level_id") int level_id) {
         lm.delLevel(level_id);
         return "redirect:/level/" + current_page;
+    }
+
+    @RequestMapping(path= {"/level/update/{current_page}"} , method = {RequestMethod.POST})
+    public String edit (@PathVariable("current_page") int current_page , Level level) {
+        lm.updateLevel(level);
+        return "redirect:/level/" + current_page ;
+    }
+
+    @RequestMapping("/level/addpage")
+    public String toAddPage(){
+        return "/level/add";
     }
 }

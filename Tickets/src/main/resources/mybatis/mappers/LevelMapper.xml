@@ -11,7 +11,7 @@
 
     <insert id="addLevel" parameterType="Level">
         insert into LEVEL
-        (id,level_num ,	maxxp, discount)VALUES (	#{id},	#{level_num} ,#{maxxp}	, #{discount}	)
+        (level_num ,	maxxp, discount)VALUES (	#{level_num} ,#{maxxp}	, #{discount}	)
     </insert>
 
     <delete id="delLevel" parameterType="int">
@@ -21,11 +21,11 @@
 
     <update id="updateLevel" parameterType="Level">
         UPDATE LEVEL
-        set id =#{id},level_num =#{level_num},maxxp=#{maxxp},discount =#{discount}
+        set level_num =#{level_num},maxxp=#{maxxp},discount =#{discount}
         where id =#{id}
     </update>
 
-    <select id="count" parameterType="int">
+    <select id="count" resultType="Integer" >
         SELECT count(id)
         FROM level
     </select>

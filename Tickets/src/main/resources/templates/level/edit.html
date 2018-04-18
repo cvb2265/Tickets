@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<h1>EDIT PAGE </h1>
+<form th:action="@{/level/update/{current_page}(current_page=${current_page})}" method="POST">
+    <fieldset>
+        <legend>等级信息修改</legend>
+
+        <input type="hidden" name="id" th:value="${level.id}" />
+
+        <label for="level_num">level_num:</label>
+        <input type="text" name="level_num" id="level_num" th:attr="value=${level.level_num}" /><br /><br />
+        <label for="maxxp">maxxp:</label>
+        <input type="text" name="maxxp" id="maxxp" th:attr="value=${level.maxxp}"/><br /><br />
+        <label for="discount">discount:</label>
+        <input type="text" name="discount" id="discount" th:attr="value=${level.discount}"/><br /><br />
+        <!--<label for="emp_birthday">EMP_BIRTHDAY:</label>-->
+        <!--<input type="text" name="emp_birthday" id="emp_birthday"  th:attr="value=${#dates.format(emp.emp_birthday, 'yyyy-MM-dd')}" /><br /><br />-->
+
+
+        <input type="submit" value="确认修改" />
+    </fieldset>
+</form>
+</body>
+</html>
