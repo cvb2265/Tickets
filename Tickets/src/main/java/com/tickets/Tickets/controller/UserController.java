@@ -183,9 +183,19 @@ public class UserController {
 	@ResponseBody
 	public Object searchplans(
 			int pageSize, int index, String keyword, 
-			String day1, String day2, String location, boolean overdue, 
-			boolean isrecommend, String type, String sort_strategy
+			String day1, String day2, String location, String overdue, 
+			String isrecommend, String type, String sort_strategy
 			 ){
+		System.out.println("pageSize---"+pageSize);
+		System.out.println("index---"+index);
+		System.out.println("keyword---"+keyword);
+		System.out.println("day1---"+day1);
+		System.out.println("day2---"+day2);
+		System.out.println("location---"+location);
+		System.out.println("overdue---"+overdue);
+		System.out.println("isrecommend---"+isrecommend);
+		System.out.println("type---"+type);
+		System.out.println("sort_strategy---"+sort_strategy);
 		Page page = new Page();
 		List<Plan> list = planService.getPlans(pageSize, index, page, keyword,
 				day1, day2, location,  overdue, isrecommend, type,  sort_strategy);

@@ -24,7 +24,29 @@ public interface PlanMapper {
 	 * @date 2018年4月17日
 	 * 
 	 */
-	@Select(value = "SELECT COUNT(id) FROM plan")
+	@Select("<script>"
+            +"SELECT COUNT(id) FROM plan "
+            +"<where>"
+            +"<if test=\"overdue != null\">"
+            +"    overdue = #{overdue} "
+            +"</if>"
+            +"<if test=\"isrecommend != null\">"
+            +"    AND isrecommend = #{isrecommend} "
+            +"</if>"
+            +"<if test=\"location != null\">"
+            +"    AND location = #{location} "
+            +"</if>"
+            + "<if test=\"type != null\">"
+            + "    AND type = #{type} "
+            + "</if>"
+            + "<if test=\"day1 != null\">"
+            + "    AND starttime BETWEEN #{day1} AND #{day2} "
+            + "</if>"
+            + "<if test=\"keyword != null\">"
+            + "    AND name LIKE CONCAT('%',#{keyword},'%') "
+            + "</if>"
+            + "</where>"
+            + "</script>")
 	public Integer plancount(Map<String, Object> params);
 	
 	
@@ -38,7 +60,13 @@ public interface PlanMapper {
 	 */
 	@Select("<script>"
             +"SELECT id, name, starttime, endtime, introduction, cover, location, venueid, overdue, isrecommend, type, scheme  FROM plan "
-            +"WHERE overdue = #{overdue} AND isrecommend = #{isrecommend}"
+            +"<where>"
+            +"<if test=\"overdue != null\">"
+            +"    overdue = #{overdue} "
+            +"</if>"
+            +"<if test=\"isrecommend != null\">"
+            +"    AND isrecommend = #{isrecommend} "
+            +"</if>"
             +"<if test=\"location != null\">"
             +"    AND location = #{location} "
             +"</if>"
@@ -48,6 +76,10 @@ public interface PlanMapper {
             + "<if test=\"day1 != null\">"
             + "    AND starttime BETWEEN #{day1} AND #{day2} "
             + "</if>"
+            + "<if test=\"keyword != null\">"
+            + "    AND name LIKE CONCAT('%',#{keyword},'%') "
+            + "</if>"
+            + "</where>"
             + "<choose>"
             + "    <when test=\"sort_strategy != null and 'DESC' == sort_strategy\">"
             + "        ORDER BY starttime DESC "
@@ -58,8 +90,6 @@ public interface PlanMapper {
             + "</choose>"
             + "LIMIT #{offset} , #{num}"
             + "</script>")
-	//@Select(value = "SELECT id, name, starttime, endtime, introduction, cover, location, venueid, overdue, isrecommend, type, scheme  FROM plan")
 	public List<Plan> findByPage(Map<String, Object> params);
-	//还差keyword   day1  day2
 
 }

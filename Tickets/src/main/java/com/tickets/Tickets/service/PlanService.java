@@ -14,7 +14,7 @@ public interface PlanService {
 	 * 
 	 */
 	public List<Plan> getPlans(int pageSize, int index, Page page, String keyword, String day1, String day2,
-			String location, boolean overdue, boolean isrecommend, String type, String sort_strategy);
+			String location, String overdue, String isrecommend, String type, String sort_strategy);
 	
 	
 }

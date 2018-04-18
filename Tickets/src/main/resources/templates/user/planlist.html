@@ -5,13 +5,107 @@
 <title>Tickets</title>
 <script th:src="@{/js/jquery.js}" type="text/javascript"></script>
 <script th:inline="javascript">
-
+/*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
 	$(function () {
+		$("a.ctype, a.ctype_selected").click(function(){
+			$("a.ctype_selected").attr("class","ctype");
+			$(this).attr("class","ctype_selected");
+			search();
+		});
+		$("#scb").click(function(){
+			var overdue = "";
+			var isrecommend = "";
+			var sort_strategy = "";
+			var overdue_radios = $("input.overdue_radio");
+			var isrecommend_radios = $("input.isrecommend_radios");
+			var sort_strategy_radios = $("input.sort_strategy_radio");
+	        for(var i=0;i < overdue_radios.length;i++) {
+	        	if(overdue_radios.eq(i).prop("checked")) {
+	        		overdue = overdue_radios.eq(i).val();
+	        		break;
+	        	}
+	        }
+	        for(var i=0;i < isrecommend_radios.length;i++) {
+	        	if(isrecommend_radios.eq(i).prop("checked")) {
+	        		isrecommend = isrecommend_radios.eq(i).val();
+	        		break;
+	        	}
+	        }
+	        for(var i=0;i < sort_strategy_radios.length;i++) {
+	        	if(sort_strategy_radios.eq(i).prop("checked")) {
+	        		sort_strategy = sort_strategy_radios.eq(i).val();
+	        		break;
+	        	}
+	        }
+			//window.location.href= [[ @{/user/indexV} ]];		//thymeleaf写法
+		});
 	});
 
-	function func1(data){
+	
+	function search(){
+		var ctype_val = $("a.ctype_selected").html();
+        var city_val=$("#two").val();
+        if(city_val=="不限"){
+        	city_val="";
+        }
+        var day1_val=$("#day1").val();
+        var day2_val=$("#day2").val();
+        if(CompareDate(day1_val, day2_val)){
+        	alert("第一个日期应该在第二个日期之前！");
+        	return;
+        }
+
+		var overdue_val = "";
+		var isrecommend_val = "";
+		var sort_strategy_val = "";
+		var rd = $("input.overdue_radio");
+        for(var i=0;i<rd.length;i++) {
+        	if(rd.eq(i).prop("checked")) {
+        		overdue_val = rd.eq(i).val();
+        		break;
+        	}
+        }
+		rd = $("input.isrecommend_radio");
+        for(var i=0;i<rd.length;i++) {
+        	if(rd.eq(i).prop("checked")) {
+        		isrecommend_val = rd.eq(i).val();
+        		break;
+        	}
+        }
+		rd = $("input.sort_strategy_radio");
+        for(var i=0;i<rd.length;i++) {
+        	if(rd.eq(i).prop("checked")) {
+        		sort_strategy_val = rd.eq(i).val();
+        		break;
+        	}
+        }
+
+		$.ajax({
+			type : "POST",
+			url : [[ @{/user/searchplans} ]],	//thymeleaf写法
+			data : {
+				pageSize : 10,
+				index : 1,
+				keyword : $("#kword").val(),
+				day1 : day1_val,
+				day2 : day2_val,
+				location : city_val,
+				overdue : overdue_val,
+				isrecommend : isrecommend_val,
+				type : ctype_val,
+				sort_strategy : sort_strategy_val
+			},
+			dataType : "json",
+			success : func1
+		});
 	}
 	
+	function CompareDate(d1,d2) {
+		return ((new Date(d1.replace(/-/g,"\/"))) > (new Date(d2.replace(/-/g,"\/"))));
+	}
+	function func1(data){
+	}
+/*]]>*/
 </script>
 
 <!-- layui相关 -->
@@ -56,6 +150,40 @@ layui.use('element', function(){
 	margin-left:120px;
 }
 
+
+/*筛选条件表格*/
+#cate_table {
+	border:#cccccc solid; 
+	border-width:1px;
+	
+	width:996px;
+}
+#cate_table tr {
+	padding-top:10px;
+	padding-bottom:10px;
+	display:block;
+}
+#cate_table tr td:first-child {
+	width:100px;
+}
+span.cate {
+	margin-left:17px;
+	color:#777777;
+}
+
+a.ctype, a.ctype:link, a.ctype_selected, a.ctype_selected:link{/*超链接平常的状态*/
+	text-decoration:none;/*去掉下划线*/
+	margin-right:30px;
+    padding:6px 10px 6px 10px;/*设置上、右、下、左内边距*/
+}
+a.ctype:hover, a.ctype:active, a.ctype_selected:hover, a.ctype_selected:active{/*鼠标放到超链接上的时候；超链接被按下的时候 */
+	color:#ffffff;
+	background-color:#f00a75;
+}
+a.ctype_selected{/*超链接平常的状态*/	
+	color:#ffffff;
+	background-color:#f00a75;
+}
 
 </style>
 </head>
@@ -102,12 +230,107 @@ layui.use('element', function(){
 <br/>
 
 
-<form id="searchbox" th:action="@{/user/login}" method="post">
 	<a th:href="@{/user/indexV}"><img th:src="@{/images/logo.png}"/></a>
 	<input type="text" id="kword" name="kword" placeholder="请输入关键字"/>
-	<button class="layui-btn layui-btn-normal layui-btn-radius">搜全网</button>
-</form>
+	<button id="scb" class="layui-btn layui-btn-normal layui-btn-radius">搜全网</button>
 
+
+<br/>
+<br/>
+<table id="cate_table">
+<tr>
+<td>
+	<span class="cate">分类：</span>
+</td>
+<td>
+	<a class="ctype_selected" href="#">全部</a>
+	<a class="ctype" href="#">流行</a>
+	<a class="ctype" href="#">古典</a>
+	<a class="ctype" href="#">摇滚</a>
+	<a class="ctype" href="#">名族</a>
+	<a class="ctype" href="#">乡村</a>
+	<a class="ctype" href="#">管弦乐</a>
+	<a class="ctype" href="#">其它</a>
+</td>
+</tr>
+<tr>
+<td>
+	<span class="cate">城市：</span>
+</td>
+<td>
+	<select id="one" onchange="changecity(this.value)">
+        <option value="0">不限</option>
+        <option value="1">江苏</option>
+        <option value="2">广东</option>
+        <option value="3">福建</option>
+    </select>
+    <select id="two">
+        <option value="不限">不限</option>
+    </select>
+    <script>
+    /*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
+    function changecity(m){
+        var two = $("#two");
+        two.empty();
+        var city = [];
+        switch(Number(m)){
+        case 0:city = ['不限'];break;
+        case 1:city = ['南京'];break;
+        case 2:city = ['广州','揭阳'];break;
+        case 3:city = ['厦门'];break;
+        default:break;
+        }
+        for (var i = 0; i < city.length; i++) {
+			var option = $("<option/>");//创建一个<option/>元素
+			option.attr("value",city[i]).html(city[i]).appendTo(two);
+        };
+    }
+    /*]]>*/
+	</script>
+</td>
+</tr>
+<tr>
+<td>
+	<span class="cate">时间：</span>
+</td>
+<td>
+	从<input id="day1" type="date" value="2018-04-01"/>到
+	<input id="day2" type="date" value="2018-12-31"/>
+</td>
+</tr>
+
+<tr>
+<td>
+	<span class="cate">是否过期：</span>
+</td>
+<td>
+	<input class="overdue_radio" name="overdue" value="" type="radio" checked="true"/>全部
+	<input class="overdue_radio" name="overdue" value="false" type="radio"/>不过期
+	<input class="overdue_radio" name="overdue" value="true" type="radio"/>过期
+</td>
+</tr>
+
+<tr>
+<td>
+	<span class="cate">是否推荐：</span>
+</td>
+<td>
+	<input class="isrecommend_radio" name="isrecommend" value="" type="radio" checked="true"/>全部
+	<input class="isrecommend_radio" name="isrecommend" value="true" type="radio"/>推荐
+	<input class="isrecommend_radio" name="isrecommend" value="false" type="radio"/>非推荐
+</td>
+</tr>
+
+<tr>
+<td>
+	<span class="cate">排序规则：</span>
+</td>
+<td>
+	<input class="sort_strategy_radio" name="sort_strategy" value="DESC" type="radio" checked="true"/>时间降序
+	<input class="sort_strategy_radio" name="sort_strategy" value="ASC" type="radio"/>时间升序
+</td>
+</tr>
+</table>
 
 </div>
 
