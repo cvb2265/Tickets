@@ -73,14 +73,6 @@ public class UserController {
 		mv.setViewName("/user/reg");
 		return mv;
 	}
-	@RequestMapping(value="/user/planlistV")
-	public ModelAndView planlistV(
-			 ModelAndView mv,
-			 HttpServletRequest request){
-		logger.info("/user/planlistV接口 被调用，请求者的地址是"+request.getRemoteAddr());
-		mv.setViewName("/user/planlist");
-		return mv;
-	}
 	
 	
 	
@@ -203,9 +195,28 @@ public class UserController {
 		PageAndPlanList pageAndPlanList = new PageAndPlanList();
 		pageAndPlanList.setIndex(page.getIndex());
 		pageAndPlanList.setPageCount(page.getPageCount());
+		pageAndPlanList.setRecordCount(page.getRecordCount());
 		pageAndPlanList.setList(list);
 		
 		return pageAndPlanList;
+	}
+	
+
+	@RequestMapping(value="/user/planlistV")
+	public ModelAndView planlistV(String keyword, String type,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/planlistV接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		logger.info(keyword);
+		logger.info(type);
+		if(!"".equals(keyword) || keyword!=null) {
+			mv.addObject("keyword", keyword);
+		}
+		if(!"".equals(type) || type!=null) {
+			mv.addObject("type", type);
+		}
+		mv.setViewName("/user/planlist");
+		return mv;
 	}
 	
 }

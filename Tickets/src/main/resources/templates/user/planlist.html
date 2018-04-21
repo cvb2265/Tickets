@@ -7,43 +7,86 @@
 <script th:inline="javascript">
 /*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
 	$(function () {
+		//先隐藏所有结果div
+		var rs_items = $("div.rs_item");
+		for(var k=0;k<10;k++) {
+			rs_items.eq(k).hide();
+		}
+
+		$("#scb").click(function(){
+	        search(1);
+		});
 		$("a.ctype, a.ctype_selected").click(function(){
 			$("a.ctype_selected").attr("class","ctype");
 			$(this).attr("class","ctype_selected");
-			search();
+			search(1);
 		});
-		$("#scb").click(function(){
-			var overdue = "";
-			var isrecommend = "";
-			var sort_strategy = "";
-			var overdue_radios = $("input.overdue_radio");
-			var isrecommend_radios = $("input.isrecommend_radios");
-			var sort_strategy_radios = $("input.sort_strategy_radio");
-	        for(var i=0;i < overdue_radios.length;i++) {
-	        	if(overdue_radios.eq(i).prop("checked")) {
-	        		overdue = overdue_radios.eq(i).val();
-	        		break;
-	        	}
-	        }
-	        for(var i=0;i < isrecommend_radios.length;i++) {
-	        	if(isrecommend_radios.eq(i).prop("checked")) {
-	        		isrecommend = isrecommend_radios.eq(i).val();
-	        		break;
-	        	}
-	        }
-	        for(var i=0;i < sort_strategy_radios.length;i++) {
-	        	if(sort_strategy_radios.eq(i).prop("checked")) {
-	        		sort_strategy = sort_strategy_radios.eq(i).val();
-	        		break;
-	        	}
-	        }
-			//window.location.href= [[ @{/user/indexV} ]];		//thymeleaf写法
+		
+		
+		$(".add_and_top").hide();
+		$(window).scroll(function(){
+			if ($(window).scrollTop()>200){
+				$(".add_and_top").fadeIn(1000);
+			}
+			else{
+				$(".add_and_top").fadeOut(1000);
+			}
+            var scrolltop = $(window).scrollTop();
+            if(scrolltop >= 80){
+                $(".class_title").css({
+                    "position":"fixed",
+                    "_position":"absolute",
+                    "_top":scrolltop-80+"px",
+                    "top":0+"px",
+                    "width":"100%"
+                });
+            }else{
+                $(".class_title").css({
+                    "position":"relative",
+                    "top":0
+                });    
+            }
 		});
+		$(".add_and_top .to_top_aside").click(function(){
+			$('body,html').animate({scrollTop:0},400);//400毫秒回到顶部
+			return false;
+		});
+		
+
+		$("#sub").click(function(){
+			var maxI = $("#sp2").html()*1.0;
+			if($("#index").val()>maxI){
+				alert("页数超出范围！");
+				$("#index").val(1);
+				return;
+			}
+			search(Number($("#index").val()));
+		});
+		
+		
+		//第一次通过链接进入页面，马上搜索
+		if($("#kw_input_h").val()!="" || $("#type_input_h").val()!=""){
+			$("#kword").val($("#kw_input_h").val());
+			if($("#type_input_h").val()!=""){
+				$("a.ctype_selected").attr("class","ctype");
+				var a_s = $("a.ctype");
+		        for(var i=0;i < a_s.length;i++) {
+		        	if(a_s.eq(i).html()==$("#type_input_h").val()) {
+		        		a_s.eq(i).attr("class","ctype_selected");
+		        		break;
+		        	}
+		        }
+			}
+		}
+		search(1);
 	});
 
 	
-	function search(){
+	function search(pageNum){
 		var ctype_val = $("a.ctype_selected").html();
+        if(ctype_val=="全部"){
+        	ctype_val="";
+        }
         var city_val=$("#two").val();
         if(city_val=="不限"){
         	city_val="";
@@ -80,12 +123,19 @@
         	}
         }
 
+
+		//先隐藏所有结果div
+		var rs_items = $("div.rs_item");
+		for(var k=0;k<10;k++) {
+			rs_items.eq(k).hide();
+		}
+		
 		$.ajax({
 			type : "POST",
 			url : [[ @{/user/searchplans} ]],	//thymeleaf写法
 			data : {
 				pageSize : 10,
-				index : 1,
+				index : pageNum,
 				keyword : $("#kword").val(),
 				day1 : day1_val,
 				day2 : day2_val,
@@ -103,7 +153,67 @@
 	function CompareDate(d1,d2) {
 		return ((new Date(d1.replace(/-/g,"\/"))) > (new Date(d2.replace(/-/g,"\/"))));
 	}
+	
 	function func1(data){
+
+		var recordCount = data.recordCount;
+		var pageCount = data.pageCount;
+		var index = data.index;
+		if( $("#kword").val()!="" ){
+			$("#kw_span").html($("#kword").val());
+			$("#e_kw_span").show();
+		}else{
+			$("#e_kw_span").hide();
+		}
+		$("#num_span").html(recordCount);
+		$("#sp1").html(index);
+		$("#sp2").html(pageCount);
+		if(pageCount==0){//0页，即0个结果
+			return;
+		}
+		
+
+		var rs_items = $("div.rs_item");
+		var covers = $("img.cover");
+		var title_spans = $("span.title_span");
+		var introduction_spans = $(".introduction_span");
+		var starttime_spans = $("span.starttime_span");
+		var endtime_spans = $("span.endtime_span");
+		var location_spans = $("span.location_span");
+		var type_spans = $("span.type_span");
+		var preoder_btns = $(".preoder_btn");
+		var ovds = $("span.ovd");
+		var cover_head_val = $("#cover_head").val();//封面路径前缀
+		var loadseat_path_val = $("#loadseat_path").val();//"/user/loadseat"控制器路径
+        var i=0;
+		var list = data.list;
+		$.each(list, function(){
+			covers.eq(i).attr("src", cover_head_val + this.cover);
+			title_spans.eq(i).html(this.name);
+			introduction_spans.eq(i).html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+this.introduction);
+			starttime_spans.eq(i).html(this.starttime.substring(0,19));
+			endtime_spans.eq(i).html(this.endtime.substring(0,19));
+			location_spans.eq(i).html(this.location);
+			type_spans.eq(i).html(this.type);
+			
+            
+            if(this.overdue==1){
+            	preoder_btns.eq(i).hide();
+            	ovds.eq(i).show();
+            }else if(this.overdue==0){
+            	ovds.eq(i).hide();
+            	preoder_btns.eq(i).show();
+                var url= loadseat_path_val+"?planid="+this.id;
+                preoder_btns.eq(i).click(function(){
+                	window.location.href=url;
+        		});
+            }
+			
+			rs_items.eq(i).show();
+            i++;
+		});
+		
+		
 	}
 /*]]>*/
 </script>
@@ -185,6 +295,84 @@ a.ctype_selected{/*超链接平常的状态*/
 	background-color:#f00a75;
 }
 
+
+/*搜索结果集div*/
+.rs {
+	border:#cccccc solid; 
+	border-width:1px;
+	
+	width:996px;
+	display:block;
+    margin-top:20px;
+}
+
+.rs_item {
+	/*调内外边距时取消注释这两句会很清楚
+	border:#ff0000 solid; 
+	border-width:1px;
+	background-color:#aaaaaa;
+	*/
+	
+	border-radius:5px;/*圆角矩形样式*/
+	opacity:1.0;/*透明度*/
+
+	display:block; /*将tr设置为块体元素*/
+    margin:20px 0px 20px 0px;/*设置上、右、下、左外边距*/
+    padding:20px 10px 0px 10px;/*设置上、右、下、左内边距*/
+    
+    
+	height: 240px;
+}
+img.cover {
+	width: 389px;
+	height: 220px;
+}
+.title_span {
+	
+    margin-left:20px;/*左外边距*/
+	font-size:18px;/*字体大小*/
+}
+.introduction_span {
+	/*调内外边距时取消注释这两句会很清楚
+	border:#ff0000 solid; 
+	border-width:1px;
+	*/
+	
+	font-size:14px;/*字体大小*/
+	color:#999999;
+	
+    margin-left:20px;/*左外边距*/
+	
+max-width: 550px;
+height: 80px;
+overflow: hidden;
+text-overflow: ellipsis;
+/*
+white-space: nowrap;
+*/
+}
+
+.title_span ,.timelabel ,.citylabel ,.typelabel ,.preoder_btn {
+	
+    margin-left:20px;/*左外边距*/
+}
+
+
+
+.add_and_top{
+	position:fixed;/*固定坐标*/
+	bottom:100px;
+	right:50px;
+	width:60px;
+	height:60px;
+}
+.to_top_aside{
+	display:block;/*没有这句图片就显示不出来*/
+	background:url(  [[@{/images/totop.png}]]  ) no-repeat;	/*thymeleaf写法*/
+	width:60px;
+	height:60px;
+	cursor:pointer;
+}
 </style>
 </head>
 <body>
@@ -332,6 +520,310 @@ a.ctype_selected{/*超链接平常的状态*/
 </tr>
 </table>
 
+<br/>
+<span><span id="e_kw_span" style="display:none;">搜索“<span id="kw_span" style="color:#f00a75;"></span>”, </span>共<span id="num_span" style="color:#f00a75;"></span>个结果</span>
+<div class="rs">
+	<div class="rs_item">
+	<table>
+	<tr>
+	<td>
+		<img class="cover"/>
+	</td>
+	<td>
+	<div>
+		<span class="title_span"></span>
+		<br/>
+		<p class="introduction_span"></p>
+		<br/>
+		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<br/>
+		<span class="citylabel">城市：</span><span class="location_span"></span>
+		<br/>
+		<span class="typelabel">类型：</span><span class="type_span"></span>
+		<br/>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+	</div>
+	</td>
+	</tr>
+	</table>
+	<br/>
+	<img th:src="@{/images/border.png}"/>
+	</div>
+	
+	
+		<div class="rs_item">
+	<table>
+	<tr>
+	<td>
+		<img class="cover"/>
+	</td>
+	<td>
+	<div>
+		<span class="title_span"></span>
+		<br/>
+		<p class="introduction_span"></p>
+		<br/>
+		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<br/>
+		<span class="citylabel">城市：</span><span class="location_span"></span>
+		<br/>
+		<span class="typelabel">类型：</span><span class="type_span"></span>
+		<br/>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+	</div>
+	</td>
+	</tr>
+	</table>
+	<br/>
+	<img th:src="@{/images/border.png}"/>
+	</div>
+	
+	
+		<div class="rs_item">
+	<table>
+	<tr>
+	<td>
+		<img class="cover"/>
+	</td>
+	<td>
+	<div>
+		<span class="title_span"></span>
+		<br/>
+		<p class="introduction_span"></p>
+		<br/>
+		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<br/>
+		<span class="citylabel">城市：</span><span class="location_span"></span>
+		<br/>
+		<span class="typelabel">类型：</span><span class="type_span"></span>
+		<br/>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+	</div>
+	</td>
+	</tr>
+	</table>
+	<br/>
+	<img th:src="@{/images/border.png}"/>
+	</div>
+	
+	
+		<div class="rs_item">
+	<table>
+	<tr>
+	<td>
+		<img class="cover"/>
+	</td>
+	<td>
+	<div>
+		<span class="title_span"></span>
+		<br/>
+		<p class="introduction_span"></p>
+		<br/>
+		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<br/>
+		<span class="citylabel">城市：</span><span class="location_span"></span>
+		<br/>
+		<span class="typelabel">类型：</span><span class="type_span"></span>
+		<br/>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+	</div>
+	</td>
+	</tr>
+	</table>
+	<br/>
+	<img th:src="@{/images/border.png}"/>
+	</div>
+	
+	
+		<div class="rs_item">
+	<table>
+	<tr>
+	<td>
+		<img class="cover"/>
+	</td>
+	<td>
+	<div>
+		<span class="title_span"></span>
+		<br/>
+		<p class="introduction_span"></p>
+		<br/>
+		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<br/>
+		<span class="citylabel">城市：</span><span class="location_span"></span>
+		<br/>
+		<span class="typelabel">类型：</span><span class="type_span"></span>
+		<br/>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+	</div>
+	</td>
+	</tr>
+	</table>
+	<br/>
+	<img th:src="@{/images/border.png}"/>
+	</div>
+	
+	
+		<div class="rs_item">
+	<table>
+	<tr>
+	<td>
+		<img class="cover"/>
+	</td>
+	<td>
+	<div>
+		<span class="title_span"></span>
+		<br/>
+		<p class="introduction_span"></p>
+		<br/>
+		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<br/>
+		<span class="citylabel">城市：</span><span class="location_span"></span>
+		<br/>
+		<span class="typelabel">类型：</span><span class="type_span"></span>
+		<br/>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+	</div>
+	</td>
+	</tr>
+	</table>
+	<br/>
+	<img th:src="@{/images/border.png}"/>
+	</div>
+	
+	
+		<div class="rs_item">
+	<table>
+	<tr>
+	<td>
+		<img class="cover"/>
+	</td>
+	<td>
+	<div>
+		<span class="title_span"></span>
+		<br/>
+		<p class="introduction_span"></p>
+		<br/>
+		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<br/>
+		<span class="citylabel">城市：</span><span class="location_span"></span>
+		<br/>
+		<span class="typelabel">类型：</span><span class="type_span"></span>
+		<br/>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+	</div>
+	</td>
+	</tr>
+	</table>
+	<br/>
+	<img th:src="@{/images/border.png}"/>
+	</div>
+	
+	
+		<div class="rs_item">
+	<table>
+	<tr>
+	<td>
+		<img class="cover"/>
+	</td>
+	<td>
+	<div>
+		<span class="title_span"></span>
+		<br/>
+		<p class="introduction_span"></p>
+		<br/>
+		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<br/>
+		<span class="citylabel">城市：</span><span class="location_span"></span>
+		<br/>
+		<span class="typelabel">类型：</span><span class="type_span"></span>
+		<br/>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+	</div>
+	</td>
+	</tr>
+	</table>
+	<br/>
+	<img th:src="@{/images/border.png}"/>
+	</div>
+	
+	
+		<div class="rs_item">
+	<table>
+	<tr>
+	<td>
+		<img class="cover"/>
+	</td>
+	<td>
+	<div>
+		<span class="title_span"></span>
+		<br/>
+		<p class="introduction_span"></p>
+		<br/>
+		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<br/>
+		<span class="citylabel">城市：</span><span class="location_span"></span>
+		<br/>
+		<span class="typelabel">类型：</span><span class="type_span"></span>
+		<br/>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+	</div>
+	</td>
+	</tr>
+	</table>
+	<br/>
+	<img th:src="@{/images/border.png}"/>
+	</div>
+	
+	
+		<div class="rs_item">
+	<table>
+	<tr>
+	<td>
+		<img class="cover"/>
+	</td>
+	<td>
+	<div>
+		<span class="title_span"></span>
+		<br/>
+		<p class="introduction_span"></p>
+		<br/>
+		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<br/>
+		<span class="citylabel">城市：</span><span class="location_span"></span>
+		<br/>
+		<span class="typelabel">类型：</span><span class="type_span"></span>
+		<br/>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+	</div>
+	</td>
+	</tr>
+	</table>
+	<br/>
+	<img th:src="@{/images/border.png}"/>
+	</div>
+	
+	
+	
+	<br/>
+	
+	<span style="margin-left:400px;">第<span id="sp1"></span>页，共<span id="sp2"></span>页</span>
+	
+    	<input type="number" id="index" name="index" min="1" value="1"/>
+		<input type="button" id="sub" value="跳转"/>
+		
+		
+	<br/>
+	<br/>
+</div>
+
+<input id="kw_input_h" type="hidden" name="kw_input_h" th:value="${keyword}"/>
+<input id="type_input_h" type="hidden" name="type_input_h" th:value="${type}" />
+<input id="cover_head" type="hidden" name="cover_head" th:value="@{/cover/}" />
+<input id="loadseat_path" type="hidden" name="loadseat_path" th:value="@{/user/loadseat}" />
+</div>
+
+<div class="add_and_top">
+	<a class="to_top_aside" title="返回顶部"></a>
 </div>
 
 

@@ -75,7 +75,7 @@ public class PlanServiceImpl implements PlanService {
 		
 		
 		int recordCount = planMapper.plancount(params);
-		logger.info("getplans方法 被调用，aaaaaaaaaaaaaaaaaaaaaa"+recordCount);
+		page.setRecordCount(recordCount);
 		int pageCount = recordCount/pageSize;
 		if(recordCount==0){
 			return null;

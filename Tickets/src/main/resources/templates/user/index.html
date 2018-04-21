@@ -33,6 +33,17 @@
 	function func1(data){
 	}
 	
+	
+	function validate1(f){
+        /*
+        if($("#kword").val()==""){
+    		alert("请输入关键字");
+        	return false;
+        }
+        */
+        return true;
+	}
+	
 </script>
 
 <!-- layui相关 -->
@@ -171,9 +182,9 @@ div.citem {
 <br/>
 
 
-<form id="searchbox" th:action="@{/user/login}" method="post">
+<form id="searchbox" th:action="@{/user/planlistV}" method="post" onsubmit="return validate1(this)">
 	<a th:href="@{/user/indexV}"><img th:src="@{/images/logo.png}"/></a>
-	<input type="text" id="kword" name="kword" placeholder="请输入关键字"/>
+	<input type="text" id="kword" name="keyword" placeholder="请输入关键字"/>
 	<button class="layui-btn layui-btn-normal layui-btn-radius">搜全网</button>
 </form>
 
@@ -183,13 +194,13 @@ div.citem {
 <div id="main">
 <div id="leftdiv">
 <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="demo" style="margin-right: 10px;">
-  <li class="layui-nav-item"><a href="">流行</a></li>
-  <li class="layui-nav-item"><a href="">古典</a></li>
-  <li class="layui-nav-item"><a href="">摇滚</a></li>
-  <li class="layui-nav-item"><a href="">名族</a></li>
-  <li class="layui-nav-item"><a href="">乡村</a></li>
-  <li class="layui-nav-item"><a href="">管弦乐</a></li>
-  <li class="layui-nav-item"><a href="">其它</a></li>
+  <li class="layui-nav-item"><a th:href="@{/user/planlistV(type=流行)}">流行</a></li>
+  <li class="layui-nav-item"><a th:href="@{/user/planlistV(type=古典)}">古典</a></li>
+  <li class="layui-nav-item"><a th:href="@{/user/planlistV(type=摇滚)}">摇滚</a></li>
+  <li class="layui-nav-item"><a th:href="@{/user/planlistV(type=名族)}">名族</a></li>
+  <li class="layui-nav-item"><a th:href="@{/user/planlistV(type=乡村)}">乡村</a></li>
+  <li class="layui-nav-item"><a th:href="@{/user/planlistV(type=管弦乐)}">管弦乐</a></li>
+  <li class="layui-nav-item"><a th:href="@{/user/planlistV(type=其它)}">其它</a></li>
 </ul>
 </div>
 
@@ -223,7 +234,7 @@ layui.use(['carousel', 'form'], function(){
 <h2 th:if="${session.user}">猜您喜欢</h2>
 
 <div class="ct">
-<span class="ctword">流行</span><a class="getall" href="javascript:;">查看全部&gt;&gt;</a>
+<span class="ctword">流行</span><a class="getall" th:href="@{/user/planlistV(type=流行)}">查看全部&gt;&gt;</a>
 <table>
 	<tr>
 		<td>
@@ -273,7 +284,7 @@ layui.use(['carousel', 'form'], function(){
 </div>
 
 <div class="ct">
-<span class="ctword">古典</span><a class="getall" href="javascript:;">查看全部&gt;&gt;</a>
+<span class="ctword">古典</span><a class="getall" th:href="@{/user/planlistV(type=古典)}">查看全部&gt;&gt;</a>
 <table>
 	<tr>
 		<td>

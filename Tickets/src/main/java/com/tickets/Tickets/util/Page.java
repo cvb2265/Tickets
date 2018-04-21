@@ -6,11 +6,19 @@ package com.tickets.Tickets.util;
  * 
  */
 public class Page {
+	private int recordCount;	//总记录数
 	private int pageCount;	//总页数
 	private int index;		//第几页
 	public Page(){
+		recordCount=0;
 		pageCount=0;
 		index=0;
+	}
+	public int getRecordCount() {
+		return recordCount;
+	}
+	public void setRecordCount(int recordCount) {
+		this.recordCount = recordCount;
 	}
 	public int getPageCount() {
 		return pageCount;
@@ -26,6 +34,6 @@ public class Page {
 	}
 	@Override
 	public String toString() {
-		return "Page [pageCount=" + pageCount + ", index=" + index + "]";
+		return "Page [recordCount=" + recordCount + ", pageCount=" + pageCount + ", index=" + index + "]";
 	}
 }
