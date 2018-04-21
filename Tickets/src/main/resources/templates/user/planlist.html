@@ -204,9 +204,19 @@
             	ovds.eq(i).hide();
             	preoder_btns.eq(i).show();
                 var url= loadseat_path_val+"?planid="+this.id;
-                preoder_btns.eq(i).click(function(){
-                	window.location.href=url;
-        		});
+                var url2= [[ @{/user/loginV} ]];	//thymeleaf写法，没登录就跳转到登录
+                
+                if([[${session.user}]]==null){//没有登录
+                	preoder_btns.eq(i).click(function(){
+                    	window.location.href=url2;
+            		});
+                }else{
+                	preoder_btns.eq(i).click(function(){
+                    	window.location.href=url;
+            		});
+                }
+
+                
             }
 			
 			rs_items.eq(i).show();
@@ -452,7 +462,7 @@ white-space: nowrap;
         <option value="2">广东</option>
         <option value="3">福建</option>
     </select>
-    <select id="two">
+    <select id="two" onchange="search(1);">
         <option value="不限">不限</option>
     </select>
     <script>
@@ -472,6 +482,7 @@ white-space: nowrap;
 			var option = $("<option/>");//创建一个<option/>元素
 			option.attr("value",city[i]).html(city[i]).appendTo(two);
         };
+        search(1);
     }
     /*]]>*/
 	</script>
@@ -663,7 +674,7 @@ white-space: nowrap;
 	</div>
 	
 	
-		<div class="rs_item">
+	<div class="rs_item">
 	<table>
 	<tr>
 	<td>

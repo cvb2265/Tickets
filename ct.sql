@@ -93,6 +93,8 @@ CREATE TABLE `seatprice` (
   `orderid` int(20) DEFAULT NULL,
   `seatid` int(11) NOT NULL,
   `venueid` int(11) NOT NULL,
+   `x`			int(11)			NOT NULL,
+   `y`			int(11)			NOT NULL,
   `price` double NOT NULL,
   `avail` tinyint(1) NOT NULL DEFAULT '1'
 );

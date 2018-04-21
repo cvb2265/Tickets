@@ -12,8 +12,22 @@ public class Seatprice implements Serializable {
 	private Integer orderid;
 	private Integer seatid;
 	private Integer venueid;
+    private Integer x;//x坐标
+    private Integer y;//y坐标
 	private double price;
 	private boolean avail;
+	public Integer getX() {
+		return x;
+	}
+	public void setX(Integer x) {
+		this.x = x;
+	}
+	public Integer getY() {
+		return y;
+	}
+	public void setY(Integer y) {
+		this.y = y;
+	}
 	public Integer getId() {
 		return id;
 	}

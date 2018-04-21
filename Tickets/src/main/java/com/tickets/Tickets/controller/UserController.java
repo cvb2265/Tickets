@@ -1,6 +1,9 @@
 package com.tickets.Tickets.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,9 +20,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tickets.Tickets.entity.Plan;
+import com.tickets.Tickets.entity.Seatprice;
 import com.tickets.Tickets.entity.User;
+import com.tickets.Tickets.entity.Venue;
 import com.tickets.Tickets.service.PlanService;
+import com.tickets.Tickets.service.SeatpriceService;
 import com.tickets.Tickets.service.UserService;
+import com.tickets.Tickets.service.VenueService;
 import com.tickets.Tickets.util.Page;
 import com.tickets.Tickets.util.PageAndPlanList;
 
@@ -37,10 +44,15 @@ public class UserController {
 	@Autowired
 	@Qualifier("userService")
 	private UserService userService;
-	
 	@Autowired
 	@Qualifier("planService")
 	private PlanService planService;
+	@Autowired
+	@Qualifier("seatpriceService")
+	private SeatpriceService seatpriceService;
+	@Autowired
+	@Qualifier("venueService")
+	private VenueService venueService;
 	
 	//打印日志
 	private static final Log logger = LogFactory.getLog(UserController.class);
@@ -216,6 +228,32 @@ public class UserController {
 			mv.addObject("type", type);
 		}
 		mv.setViewName("/user/planlist");
+		return mv;
+	}
+	
+	@RequestMapping(value="/user/loadseat")
+	public ModelAndView loadseat(
+			 int planid,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/loadseat接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		Plan plan = planService.getById(planid);
+		Venue venue = venueService.getById(plan.getVenueid());
+		List<Seatprice> sp = seatpriceService.getByPlanid(planid);
+		mv.addObject("plan", plan);
+		mv.addObject("venue", venue);
+		mv.addObject("sp", sp);
+		mv.setViewName("/user/plandetail");
+		return mv;
+	}	
+	@RequestMapping(value="/user/loadgoods")
+	public ModelAndView loadgoods(
+			 int planid,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/loadgoods接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		logger.info("planid是"+planid);
+		mv.setViewName("/user/goodsdetail");
 		return mv;
 	}
 	

@@ -15,6 +15,13 @@ public interface PlanService {
 	 */
 	public List<Plan> getPlans(int pageSize, int index, Page page, String keyword, String day1, String day2,
 			String location, String overdue, String isrecommend, String type, String sort_strategy);
+
+	/**
+	 * @author tqy
+	 * @date 2018年4月21日
+	 * 
+	 */
+	public Plan getById(int planid);
 	
 	
 }

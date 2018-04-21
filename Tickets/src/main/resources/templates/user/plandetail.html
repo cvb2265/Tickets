@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Tickets</title>
+<script th:src="@{/js/jquery.js}" type="text/javascript"></script>
+<script th:inline="javascript">
+
+	$(function () {
+		var cover_head_val = $("#cover_head").val();//封面路径前缀
+        var url2= [[${plan.cover}]];
+		$(".cover").attr("src", cover_head_val + url2);
+		
+	});
+
+	function func1(data){
+	}
+	
+</script>
+
+<!-- layui相关 -->
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all"/>
+<script th:src="@{/layui/layui.js}" type="text/javascript"></script>
+<script>
+layui.use('element', function(){
+  var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+  
+  //监听导航点击
+  element.on('nav(demo)', function(elem){
+    //console.log(elem)
+    layer.msg(elem.text());
+  });
+});
+
+</script>
+
+<style type="text/css" th:inline="text">
+#t1 {
+	margin:0 auto;
+	background-color:#393D49;
+}
+/*t2在水平上居中，且有宽度1000px*/
+#t2 {
+	width:1000px;
+	margin:0 auto;/*t2在水平上居中*/
+	position:relative;
+}
+#t3 {
+	width:1000px;
+	margin:0 auto;
+}
+
+
+.cover {
+	width: 778px;
+	height: 440px;
+	margin-left:111px;
+}
+
+
+</style>
+</head>
+<body>
+
+<div id="t1">
+<div id="t2">
+<ul class="layui-nav">
+  <li class="layui-nav-item layui-this"><a th:href="@{/user/indexV}">最新演出</a></li>
+  <li class="layui-nav-item" th:if="${session.user}">
+    <a href="javascript:;">我的订单</a>
+    <dl class="layui-nav-child">
+      <dd><a href="">全部订单</a></dd>
+      <dd><a href="">未支付</a></dd>
+      <dd><a href="">已支付</a></dd>
+      <dd><a href="">已完成</a></dd>
+      <dd><a href="">已取消</a></dd>
+    </dl>
+  </li>
+</ul>
+<ul class="layui-nav layui-layout-right" th:unless="${session.user}">
+  <li class="layui-nav-item"><a th:href="@{/user/loginV}">登录</a></li>
+  <li class="layui-nav-item"><a th:href="@{/user/regV}">注册</a></li>
+</ul>
+<ul class="layui-nav layui-layout-right" th:if="${session.user}">
+   <li class="layui-nav-item">
+    <a href="">系统消息<span class="layui-badge">9</span></a>
+  </li>
+  <li class="layui-nav-item" lay-unselect="" style="margin-right: 20px;">
+    <a href="javascript:;"><img th:src="@{/faces/default.jpg}" class="layui-nav-img"/><font th:text="${session.user.nickname}"></font></a>
+    <dl class="layui-nav-child">
+      <dd><a href="javascript:;">修改信息</a></dd>
+      <dd><a href="javascript:;">安全管理</a></dd>
+      <dd><a href="javascript:;">充值</a></dd>
+      <dd><a th:href="@{/user/logout}">退了</a></dd>
+    </dl>
+  </li>
+</ul>
+</div>
+</div>
+
+<div id="t3">
+<br/>
+<br/>
+<img class="cover"/>
+<br/>
+
+
+<span class="title_span" th:text="${plan.name}"></span>
+<br/>
+<p class="introduction_span" th:text="${plan.introduction}"></p>
+<br/>
+<span class="timelabel">时间：</span><span class="starttime_span" th:text="${plan.starttime}"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span" th:text="${plan.endtime}"></span>
+<br/>
+<span class="citylabel">城市：</span><span class="location_span" th:text="${plan.location}"></span>
+<br/>
+<span class="typelabel">类型：</span><span class="type_span" th:text="${plan.type}"></span>
+<br/>
+<span class="typelabel">场馆名：</span><span class="type_span" th:text="${venue.name}"></span>
+<br/>
+<span class="typelabel">场馆地址：</span><span class="type_span" th:text="${venue.address}"></span>
+<br/>
+<a th:href="@{/user/loadgoods}+'?planid='+${plan.id}">预订周边产品</a>
+<br/>
+<span class="typelabel">座位详情：</span>
+<br/>
+<table>
+<tr th:each="s: ${sp}">
+
+
+				<td th:text="${s.x}"></td>
+				<td th:text="${s.y}"></td>
+				<td th:text="${s.price}"></td>
+				<td th:text="${s.avail}"></td>
+				
+</tr>
+</table>
+
+
+
+<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+<br/>
+<br/>
+<br/>
+<br/>
+<input id="cover_head" type="hidden" name="cover_head" th:value="@{/cover/}" />
+</div>
+
+
+</body>
+</html>

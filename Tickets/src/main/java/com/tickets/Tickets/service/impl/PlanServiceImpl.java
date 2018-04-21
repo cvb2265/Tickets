@@ -42,7 +42,7 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public List<Plan> getPlans(int pageSize, int index, Page page, String keyword, String day1,
 			String day2, String location, String overdue, String isrecommend, String type, String sort_strategy) {
-		logger.info("getplans方法 被调用，aaaaaaaaaaaaaaaaaaaaaa");
+		logger.info("getplans方法 被调用");
 		
 		/** 当前需要分页的总数据条数  */
 		Map<String,Object> params = new HashMap<>();
@@ -107,6 +107,22 @@ public class PlanServiceImpl implements PlanService {
 		page.setIndex(index);
 		page.setPageCount(pageCount);
 		return list;
+	}
+
+
+
+
+
+	/**
+	 * @author tqy
+	 * @date 2018年4月21日
+	 * 
+	 */
+	@Transactional(readOnly=true)
+	@Override
+	public Plan getById(int planid) {
+		logger.info("getById方法 被调用");
+		return planMapper.findById(planid);
 	}
 	
 	

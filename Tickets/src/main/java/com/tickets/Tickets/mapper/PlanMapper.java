@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
@@ -91,5 +92,14 @@ public interface PlanMapper {
             + "LIMIT #{offset} , #{num}"
             + "</script>")
 	public List<Plan> findByPage(Map<String, Object> params);
+	
+	/**
+	 * 
+	 * @author tqy
+	 * @date 2018年4月21日
+	 * 
+	 */
+	@Select(value = "SELECT * FROM plan WHERE id = #{planid}")
+	public Plan findById(@Param("planid")Integer planid);
 
 }

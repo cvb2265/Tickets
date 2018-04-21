@@ -280,18 +280,23 @@ public class InsertMain {
 	public static void f3(Connection connection, int planid, int start_seatid, int venueid) {
 		PreparedStatement pstmt = null;
 		
-		String sql = "INSERT into seatprice(planid,seatid,venueid,price) VALUES (?,?,?,?)";
+		String sql = "INSERT into seatprice(planid,seatid,venueid,x,y,price) VALUES (?,?,?,?,?,?)";
 		
 
 		try {
 			
-			for(int i=0;i<100;i++) {//100个座位设置价格
-				pstmt = (PreparedStatement) connection.prepareStatement(sql);
-				pstmt.setInt(1, planid);
-				pstmt.setInt(2, start_seatid + i);
-				pstmt.setInt(3, venueid);
-				pstmt.setDouble(4, 139.5);
-				pstmt.executeUpdate();
+			
+			for(int x=1;x<11;x++) {//100个座位设置价格
+				for(int y=1;y<11;y++) {
+					pstmt = (PreparedStatement) connection.prepareStatement(sql);
+					pstmt.setInt(1, planid);
+					pstmt.setInt(2, start_seatid + (x-1)*10 + (y-1));
+					pstmt.setInt(3, venueid);
+					pstmt.setInt(4, x);
+					pstmt.setInt(5, y);
+					pstmt.setDouble(6, 139.5);
+					pstmt.executeUpdate();
+				}
 			}
 
 			pstmt.close();
