@@ -1,6 +1,7 @@
 package com.tickets.Tickets.service;
 
 import com.tickets.Tickets.entity.User;
+import com.tickets.Tickets.util.ResultMessage;
 
 /**
  * @author tqy
@@ -19,5 +20,8 @@ public interface UserService {
     public boolean sendActivationEmail(String email, String password);
 	//激活账户
 	public boolean activationAccount(Integer userid);
+	
+	//预订座位，需要同步synchronized
+	public ResultMessage createOrder(Integer userid, String spids);
 	
 }

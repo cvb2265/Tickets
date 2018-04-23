@@ -54,6 +54,20 @@ CREATE TABLE `seat` (
    `x`			int(11)			NOT NULL,
    `y`			int(11)			NOT NULL
 ) ;
+CREATE TABLE level(
+   id			INT(11)			PRIMARY KEY		AUTO_INCREMENT,
+   level_num			INT(11)			NOT NULL	unique,
+   maxexp			INT(11)			NOT NULL,			#升级所需经验
+   discount			double			NOT NULL			#折扣
+) ;
+INSERT INTO level VALUES (1, 50, false, 1.00) ;
+INSERT INTO level VALUES (2, 200, false, 0.99) ;
+INSERT INTO level VALUES (3, 350, false, 0.98) ;
+INSERT INTO level VALUES (4, 500, false, 0.97) ;
+INSERT INTO level VALUES (5, 650, false, 0.96) ;
+INSERT INTO level VALUES (6, 800, false, 0.95) ;
+INSERT INTO level VALUES (7, 950, false, 0.93) ;
+INSERT INTO level VALUES (8, -1, true, 0.9) ;		#约定最高级的maxexp填-1
 
 
 

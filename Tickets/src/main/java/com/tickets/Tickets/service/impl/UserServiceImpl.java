@@ -1,10 +1,18 @@
 package com.tickets.Tickets.service.impl;
 
+import com.tickets.Tickets.entity.Order;
+import com.tickets.Tickets.entity.Seatprice;
 import com.tickets.Tickets.entity.User;
+import com.tickets.Tickets.mapper.OrderMapper;
+import com.tickets.Tickets.mapper.SeatpriceMapper;
 import com.tickets.Tickets.mapper.UserMapper;
 import com.tickets.Tickets.service.UserService;
+import com.tickets.Tickets.util.ResultMessage;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Session;
@@ -38,10 +46,16 @@ public class UserServiceImpl implements UserService {
 	@Value("${adminEmailSMTPHost}")
 	private String adminEmailSMTPHost;
 	
-	
+
 	@Autowired
 	@Qualifier("userMapper")
 	private UserMapper userMapper;
+	@Autowired
+	@Qualifier("orderMapper")
+	private OrderMapper orderMapper;
+	@Autowired
+	@Qualifier("seatpriceMapper")
+	private SeatpriceMapper seatpriceMapper;
 
 	
 	//打印日志
@@ -163,6 +177,51 @@ public class UserServiceImpl implements UserService {
 		user.setLevel(1);//激活
 		userMapper.update(user);
 		return true;
+	}
+
+	@Override
+	public synchronized ResultMessage createOrder(Integer userid, String spids) {
+		ResultMessage rm = new ResultMessage();
+		double money = 0.0;
+		List<Seatprice> ls = new ArrayList<Seatprice>();
+		String[] ss = spids.split("-");
+		for(int i=0;i<ss.length;i++) {
+			Seatprice sp = seatpriceMapper.findById(Integer.parseInt(ss[i]));
+			if(!sp.isAvail()) {
+				rm.setResult(false);
+				rm.setMessage("座位已经被预订，请重新预订！");
+				return rm;
+			}
+			money += sp.getPrice();
+			ls.add(sp);
+		}
+		Order order = new Order();
+		order.setUserid(userid);
+	    Date dt = new Date();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");     
+	    String time = sdf.format(dt);
+		order.setTime(time);
+		order.setMoney(money);
+		order.setPoints_cost(points);
+		order.setPerc(perc);
+		order.setRmoney(money*perc);
+		order.setState("unpaid");
+		orderMapper.save(order);
+		
+		
+		//更新seatprice表
+		int orderid = orderMapper.getOrderid(userid, time);
+		for(int i=0;i<ls.size();i++) {
+			ls.get(i).setAvail(false);
+			ls.get(i).setOrderid(orderid);
+			seatpriceMapper.update(ls.get(i));
+		}
+		
+		//更新user表，扣除积分
+		
+
+		rm.setResult(true);
+		return rm;
 	}
 
 

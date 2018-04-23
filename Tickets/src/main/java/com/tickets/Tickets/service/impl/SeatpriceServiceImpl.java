@@ -42,6 +42,22 @@ public class SeatpriceServiceImpl implements SeatpriceService {
 		logger.info("getByPlanid方法 被调用");
 		return seatpriceMapper.findByPlanid(planid);
 	}
+
+
+
+
+
+	/**
+	 * @author tqy
+	 * @date 2018年4月23日
+	 * 
+	 */
+	@Transactional(readOnly=true)
+	@Override
+	public Seatprice getById(int id) {
+		logger.info("getById方法 被调用");
+		return seatpriceMapper.findById(id);
+	}
 	
 	
 	

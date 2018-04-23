@@ -239,10 +239,30 @@ public class UserController {
 		logger.info("/user/loadseat接口 被调用，请求者的地址是"+request.getRemoteAddr());
 		Plan plan = planService.getById(planid);
 		Venue venue = venueService.getById(plan.getVenueid());
-		List<Seatprice> sp = seatpriceService.getByPlanid(planid);
+		List<Seatprice> sps = seatpriceService.getByPlanid(planid);
+		List<List<Seatprice>> lists = new ArrayList<List<Seatprice>>();
+		List<Seatprice> list = new ArrayList<Seatprice>();
+		int x = sps.get(0).getX();
+		int len = sps.size();
+		for(int i=0; i<len;i++) {
+			if(sps.get(i).getX()==x) {
+				list.add(sps.get(i));
+				if(i==len-1) {
+					lists.add(list);
+				}
+			}else {
+				lists.add(list);
+				list = null;
+				list = new ArrayList<Seatprice>();
+				list.add(sps.get(i));
+				x = sps.get(i).getX();
+			}
+		}
+		System.out.println(lists.size());
+		System.out.println(lists.get(5).size());
 		mv.addObject("plan", plan);
 		mv.addObject("venue", venue);
-		mv.addObject("sp", sp);
+		mv.addObject("lists", lists);
 		mv.setViewName("/user/plandetail");
 		return mv;
 	}	
@@ -254,6 +274,19 @@ public class UserController {
 		logger.info("/user/loadgoods接口 被调用，请求者的地址是"+request.getRemoteAddr());
 		logger.info("planid是"+planid);
 		mv.setViewName("/user/goodsdetail");
+		return mv;
+	}
+	
+	@RequestMapping(value="/user/preorder", method=RequestMethod.POST)
+	public ModelAndView preorder(
+			 String spids,
+			 ModelAndView mv,
+			 HttpSession session,
+			 HttpServletRequest request,
+			 Model model){
+		logger.info("/user/preorder接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		User user = (User) session.getAttribute("user");
+		String rs = userService.createOrder(user.getUserid(), spids);
 		return mv;
 	}
 	

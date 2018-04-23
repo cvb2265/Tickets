@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
-import com.tickets.Tickets.entity.User;
+import com.tickets.Tickets.entity.Order;
 
 /**
  * @author tqy
@@ -17,6 +17,12 @@ import com.tickets.Tickets.entity.User;
 @Mapper
 @Repository("orderMapper")
 public interface OrderMapper {
-
+	
+	@Insert(value = "INSERT INTO order_(userid,time,money,points_cost,perc, rmoney,state)\n" + 
+			"VALUES (#{userid}, #{time}, #{money}, #{points_cost}, #{perc}, #{rmoney}, #{state})")
+	public Integer save(Order order);	
+	
+	@Insert(value = "SELECT orderid FROM order_ WHERE userid = #{userid} AND time = #{time})")
+	public Integer getOrderid(@Param("userid")int userid, @Param("time")String time);
 
 }

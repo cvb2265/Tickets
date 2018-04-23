@@ -4,14 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tickets.Tickets.mapper.LevelMapper">
     <select id="getLevelDetails" parameterType="int" resultType="Level">
-        SELECT	id,	level_num ,	maxxp, 	discount
+        SELECT	id,	level_num ,	maxexp, 	discount
         from  level
         WHERE id =#{id}
     </select>
 
     <insert id="addLevel" parameterType="Level">
         insert into LEVEL
-        (level_num ,	maxxp, discount)VALUES (	#{level_num} ,#{maxxp}	, #{discount}	)
+        (level_num ,	maxexp, discount)VALUES (	#{level_num} ,#{maxexp}	, #{discount}	)
     </insert>
 
     <delete id="delLevel" parameterType="int">
@@ -21,7 +21,7 @@
 
     <update id="updateLevel" parameterType="Level">
         UPDATE LEVEL
-        set level_num =#{level_num},maxxp=#{maxxp},discount =#{discount}
+        set level_num =#{level_num},maxexp=#{maxexp},discount =#{discount}
         where id =#{id}
     </update>
 
@@ -31,7 +31,7 @@
     </select>
 
     <select id="ListLevels" parameterType="PageDto" resultType="Level">
-    SELECT	id,	level_num ,	maxxp, 	discount
+    SELECT	id,	level_num ,	maxexp, 	discount
         from  level
         ORDER BY level_num
         limit #{offset_row} , #{page_size}

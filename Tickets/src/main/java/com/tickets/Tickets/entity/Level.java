@@ -6,7 +6,7 @@ public class Level implements Serializable {
     private static final long serialVersionUID = -1073531577986198577L;
     private Integer id;
     private Integer level_num;// 当前等级
-    private Integer maxxp;//当前等级升级所需经验
+    private Integer maxexp;//当前等级升级所需经验
     private double discount;//当前等级享受的折扣
 
     public static long getSerialVersionUID() {
@@ -16,16 +16,16 @@ public class Level implements Serializable {
     public Level() {
     }
 
-    public Level(int id, int level_num, int maxxp, double discount) {
+    public Level(int id, int level_num, int maxexp, double discount) {
         this.id = id;
         this.level_num = level_num;
-        this.maxxp = maxxp;
+        this.maxexp = maxexp;
         this.discount = discount;
     }
 
-    public Level(int level_num, int maxxp, double discount) {
+    public Level(int level_num, int maxexp, double discount) {
         this.level_num = level_num;
-        this.maxxp = maxxp;
+        this.maxexp = maxexp;
         this.discount = discount;
     }
 
@@ -45,12 +45,12 @@ public class Level implements Serializable {
         this.level_num = level_num;
     }
 
-    public int getMaxxp() {
-        return maxxp;
+    public int getMaxexp() {
+        return maxexp;
     }
 
-    public void setMaxxp(int maxxp) {
-        this.maxxp = maxxp;
+    public void setMaxexp(int maxexp) {
+        this.maxexp = maxexp;
     }
 
     public double getDiscount() {

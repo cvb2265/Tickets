@@ -294,7 +294,15 @@ public class InsertMain {
 					pstmt.setInt(3, venueid);
 					pstmt.setInt(4, x);
 					pstmt.setInt(5, y);
-					pstmt.setDouble(6, 139.5);
+					if(x<=2) {
+						pstmt.setDouble(6, 835.5);
+					}else if(x<=4) {
+						pstmt.setDouble(6, 555.5);
+					}else if(x<=6) {
+						pstmt.setDouble(6, 375.5);
+					}else {
+						pstmt.setDouble(6, 139.5);
+					}
 					pstmt.executeUpdate();
 				}
 			}
