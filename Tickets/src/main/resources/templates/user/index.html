@@ -5,45 +5,196 @@
 <title>Tickets</title>
 <script th:src="@{/js/jquery.js}" type="text/javascript"></script>
 <script th:inline="javascript">
-
-	$(function () {		
+/*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
+	$(function () {
+		var lxplans = [[${lxplans}]];
+		var i=1;
+		$.each(lxplans, function(){
+			var td=$("<td/>");
+			td.attr("class", "plantd");
+			var img=$("<img/>");
+			img.attr("class", "cover2").attr("src", [[@{/cover/}]] + this.cover).appendTo(td);
+            var url= [[@{/user/loadseat}]]+"?planid="+this.id;
+            var url2= [[ @{/user/loginV} ]];	//thymeleaf写法，没登录就跳转到登录
+            if([[${session.user}]]==null){//没有登录
+            	img.click(function(){window.location.href=url2;});
+            }else{
+            	img.click(function(){window.location.href=url;});
+            }
+            $("<br/>").appendTo(td);
+			$("<span/>").attr("class", "plantitle").html(this.name).appendTo(td);
+			if(i<=3){$("#lxtable tr:nth-child(1)").append(td);}else{$("#lxtable tr:nth-child(2)").append(td);}
+			i++;
+		});
 		
-		//请求主页推荐大图
-		$.ajax({
-			type : "POST",
-			url : [[ @{/user/searchplans} ]],	//thymeleaf写法
-			data : {
-				pageSize : 6,
-				index : 1,
-				keyword : "",
-				day1 : "",
-				day2 : "",
-				location : "",
-				overdue : "false",
-				isrecommend : "true",
-				type : "",
-				sort_strategy : "DESC"
-			},
-			dataType : "json",
-			success : func1
+
+		var gdplans = [[${gdplans}]];
+		i=1;
+		$.each(gdplans, function(){
+			var td=$("<td/>");
+			td.attr("class", "plantd");
+			var img=$("<img/>");
+			img.attr("class", "cover2").attr("src", [[@{/cover/}]] + this.cover).appendTo(td);
+            var url= [[@{/user/loadseat}]]+"?planid="+this.id;
+            var url2= [[ @{/user/loginV} ]];	//thymeleaf写法，没登录就跳转到登录
+            if([[${session.user}]]==null){//没有登录
+            	img.click(function(){window.location.href=url2;});
+            }else{
+            	img.click(function(){window.location.href=url;});
+            }
+            $("<br/>").appendTo(td);
+			$("<span/>").attr("class", "plantitle").html(this.name).appendTo(td);
+			if(i<=3){$("#gdtable tr:nth-child(1)").append(td);}else{$("#gdtable tr:nth-child(2)").append(td);}
+			i++;
+		});
+		
+
+		var ygplans = [[${ygplans}]];
+		i=1;
+		$.each(ygplans, function(){
+			var td=$("<td/>");
+			td.attr("class", "plantd");
+			var img=$("<img/>");
+			img.attr("class", "cover2").attr("src", [[@{/cover/}]] + this.cover).appendTo(td);
+            var url= [[@{/user/loadseat}]]+"?planid="+this.id;
+            var url2= [[ @{/user/loginV} ]];	//thymeleaf写法，没登录就跳转到登录
+            if([[${session.user}]]==null){//没有登录
+            	img.click(function(){window.location.href=url2;});
+            }else{
+            	img.click(function(){window.location.href=url;});
+            }
+            $("<br/>").appendTo(td);
+			$("<span/>").attr("class", "plantitle").html(this.name).appendTo(td);
+			if(i<=3){$("#ygtable tr:nth-child(1)").append(td);}else{$("#ygtable tr:nth-child(2)").append(td);}
+			i++;
+		});
+		
+
+		var mzplans = [[${mzplans}]];
+		i=1;
+		$.each(mzplans, function(){
+			var td=$("<td/>");
+			td.attr("class", "plantd");
+			var img=$("<img/>");
+			img.attr("class", "cover2").attr("src", [[@{/cover/}]] + this.cover).appendTo(td);
+            var url= [[@{/user/loadseat}]]+"?planid="+this.id;
+            var url2= [[ @{/user/loginV} ]];	//thymeleaf写法，没登录就跳转到登录
+            if([[${session.user}]]==null){//没有登录
+            	img.click(function(){window.location.href=url2;});
+            }else{
+            	img.click(function(){window.location.href=url;});
+            }
+            $("<br/>").appendTo(td);
+			$("<span/>").attr("class", "plantitle").html(this.name).appendTo(td);
+			if(i<=3){$("#mztable tr:nth-child(1)").append(td);}else{$("#mztable tr:nth-child(2)").append(td);}
+			i++;
+		});
+		
+
+		var xcplans = [[${xcplans}]];
+		i=1;
+		$.each(lxplans, function(){
+			var td=$("<td/>");
+			td.attr("class", "plantd");
+			var img=$("<img/>");
+			img.attr("class", "cover2").attr("src", [[@{/cover/}]] + this.cover).appendTo(td);
+            var url= [[@{/user/loadseat}]]+"?planid="+this.id;
+            var url2= [[ @{/user/loginV} ]];	//thymeleaf写法，没登录就跳转到登录
+            if([[${session.user}]]==null){//没有登录
+            	img.click(function(){window.location.href=url2;});
+            }else{
+            	img.click(function(){window.location.href=url;});
+            }
+            $("<br/>").appendTo(td);
+			$("<span/>").attr("class", "plantitle").html(this.name).appendTo(td);
+			if(i<=3){$("#xctable tr:nth-child(1)").append(td);}else{$("#xctable tr:nth-child(2)").append(td);}
+			i++;
+		});
+		
+
+		var gxyplans = [[${gxyplans}]];
+		i=1;
+		$.each(gxyplans, function(){
+			var td=$("<td/>");
+			td.attr("class", "plantd");
+			var img=$("<img/>");
+			img.attr("class", "cover2").attr("src", [[@{/cover/}]] + this.cover).appendTo(td);
+            var url= [[@{/user/loadseat}]]+"?planid="+this.id;
+            var url2= [[ @{/user/loginV} ]];	//thymeleaf写法，没登录就跳转到登录
+            if([[${session.user}]]==null){//没有登录
+            	img.click(function(){window.location.href=url2;});
+            }else{
+            	img.click(function(){window.location.href=url;});
+            }
+            $("<br/>").appendTo(td);
+			$("<span/>").attr("class", "plantitle").html(this.name).appendTo(td);
+			if(i<=3){$("#gxytable tr:nth-child(1)").append(td);}else{$("#gxytable tr:nth-child(2)").append(td);}
+			i++;
+		});
+		
+
+		var qtplans = [[${qtplans}]];
+		i=1;
+		$.each(qtplans, function(){
+			var td=$("<td/>");
+			td.attr("class", "plantd");
+			var img=$("<img/>");
+			img.attr("class", "cover2").attr("src", [[@{/cover/}]] + this.cover).appendTo(td);
+            var url= [[@{/user/loadseat}]]+"?planid="+this.id;
+            var url2= [[ @{/user/loginV} ]];	//thymeleaf写法，没登录就跳转到登录
+            if([[${session.user}]]==null){//没有登录
+            	img.click(function(){window.location.href=url2;});
+            }else{
+            	img.click(function(){window.location.href=url;});
+            }
+            $("<br/>").appendTo(td);
+			$("<span/>").attr("class", "plantitle").html(this.name).appendTo(td);
+			if(i<=3){$("#qttable tr:nth-child(1)").append(td);}else{$("#qttable tr:nth-child(2)").append(td);}
+			i++;
+		});
+		
+
+		$(".add_and_top").hide();
+		$(window).scroll(function(){
+			if ($(window).scrollTop()>200){
+				$(".add_and_top").fadeIn(1000);
+			}
+			else{
+				$(".add_and_top").fadeOut(1000);
+			}
+            var scrolltop = $(window).scrollTop();
+            if(scrolltop >= 80){
+                $(".class_title").css({
+                    "position":"fixed",
+                    "_position":"absolute",
+                    "_top":scrolltop-80+"px",
+                    "top":0+"px",
+                    "width":"100%"
+                });
+            }else{
+                $(".class_title").css({
+                    "position":"relative",
+                    "top":0
+                });    
+            }
+		});
+		$(".add_and_top .to_top_aside").click(function(){
+			$('body,html').animate({scrollTop:0},400);//400毫秒回到顶部
+			return false;
 		});
 	});
 
-	
-	function func1(data){
-	}
+
+	$("#scb").click(function(){
+        search(1);
+	});
 	
 	
 	function validate1(f){
-        /*
-        if($("#kword").val()==""){
-    		alert("请输入关键字");
-        	return false;
-        }
-        */
         return true;
 	}
-	
+
+/*]]>*/
 </script>
 
 <!-- layui相关 -->
@@ -111,7 +262,6 @@ layui.use('element', function(){
 	border-width:1px;
 	
 	width:996px;
-	height:996px;
 	display:block;
     margin-top:20px;
 }
@@ -131,12 +281,47 @@ a.getall:hover, a.getall:active{/*鼠标放到超链接上的时候；超链接�
 }
 
 
-div.citem {
-	width:200px;
-	height:200px;
-    margin:20px 0px 0px 40px;/*设置上、右、下、左外边距*/
+.cover1_div div{
+	text-align: center; /*里面的元素水平居中*/
+}
+.cover1_div span{
+	width:778px;
+	display:block; /*将tr设置为块体元素*/
+	background-color:#ffffff;
+	font-size: 28px;
+	font-weight:bold; /*加粗*/
 }
 
+td.plantd {
+	width: 332px;
+    padding:10px 16px 20px 16px;/*设置上、右、下、左内边距*/
+	text-align: center; /*里面的元素水平居中*/
+}
+img.cover2 {
+	width: 300px;
+	height: 170px;
+	cursor:pointer;
+}
+.plantitle {
+	color:#f00a75;
+}
+
+
+
+.add_and_top{
+	position:fixed;/*固定坐标*/
+	bottom:100px;
+	right:50px;
+	width:60px;
+	height:60px;
+}
+.to_top_aside{
+	display:block;/*没有这句图片就显示不出来*/
+	background:url(  [[@{/images/totop.png}]]  ) no-repeat;	/*thymeleaf写法*/
+	width:60px;
+	height:60px;
+	cursor:pointer;
+}
 </style>
 </head>
 <body>
@@ -193,6 +378,9 @@ div.citem {
 
 <div id="main">
 <div id="leftdiv">
+<br/>
+<br/>
+<br/>
 <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="demo" style="margin-right: 10px;">
   <li class="layui-nav-item"><a th:href="@{/user/planlistV(type=流行)}">流行</a></li>
   <li class="layui-nav-item"><a th:href="@{/user/planlistV(type=古典)}">古典</a></li>
@@ -207,11 +395,11 @@ div.citem {
 
 
 <div class="layui-carousel" id="test10">
-  <div carousel-item="">
-    <div><img th:src="@{/cover/14.jpg}"/></div>
-    <div><img th:src="@{/cover/14.jpg}"/></div>
-    <div><img th:src="@{/cover/14.jpg}"/></div>
-    <div><img th:src="@{/cover/14.jpg}"/></div>
+  <div carousel-item="" class="cover1_div">
+    <div th:each="plan: ${rcmplans}">
+    	<span th:text="${plan.name}"></span>
+    	<img th:src="@{/cover/}+${plan.cover}"/>
+    </div>
   </div>
 </div>
 <script>
@@ -231,112 +419,47 @@ layui.use(['carousel', 'form'], function(){
 </script>
 </div>
 
-<h2 th:if="${session.user}">猜您喜欢</h2>
-
 <div class="ct">
 <span class="ctword">流行</span><a class="getall" th:href="@{/user/planlistV(type=流行)}">查看全部&gt;&gt;</a>
-<table>
-	<tr>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-	</tr>
-</table>
+<table id="lxtable"><tr></tr><tr></tr></table>
 </div>
-
 <div class="ct">
 <span class="ctword">古典</span><a class="getall" th:href="@{/user/planlistV(type=古典)}">查看全部&gt;&gt;</a>
-<table>
-	<tr>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-		<td>
-			<div class="citem">
-				<img th:src="@{/faces/default.jpg}"/>
-			</div>
-		</td>
-	</tr>
-</table>
+<table id="gdtable"><tr></tr><tr></tr></table>
+</div>
+<div class="ct">
+<span class="ctword">摇滚</span><a class="getall" th:href="@{/user/planlistV(type=摇滚)}">查看全部&gt;&gt;</a>
+<table id="ygtable"><tr></tr><tr></tr></table>
+</div>
+<div class="ct">
+<span class="ctword">名族</span><a class="getall" th:href="@{/user/planlistV(type=名族)}">查看全部&gt;&gt;</a>
+<table id="mztable"><tr></tr><tr></tr></table>
+</div>
+<div class="ct">
+<span class="ctword">乡村</span><a class="getall" th:href="@{/user/planlistV(type=乡村)}">查看全部&gt;&gt;</a>
+<table id="xctable"><tr></tr><tr></tr></table>
+</div>
+<div class="ct">
+<span class="ctword">管弦乐</span><a class="getall" th:href="@{/user/planlistV(type=管弦乐)}">查看全部&gt;&gt;</a>
+<table id="gxytable"><tr></tr><tr></tr></table>
+</div>
+<div class="ct">
+<span class="ctword">其它</span><a class="getall" th:href="@{/user/planlistV(type=其它)}">查看全部&gt;&gt;</a>
+<table id="qttable"><tr></tr><tr></tr></table>
 </div>
 
 
 
 
+<br/>
+<br/>
 </div>
+
+
+<div class="add_and_top">
+	<a class="to_top_aside" title="返回顶部"></a>
+</div>
+
 
 </body>
 </html>

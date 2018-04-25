@@ -132,6 +132,15 @@
         $("#total_price").html("￥"+sum);
         $("#selected_spids").val(selected_spids_str);
 	}
+	
+	function validate1(f){
+        if($("#selected_spids").val()==""){
+        	alert("请选票！");
+            return false;
+		}
+		$("#points_cost_input").val(500);
+        return true;
+	}
 /*]]>*/
 </script>
 
@@ -174,16 +183,34 @@ layui.use('element', function(){
 	margin-left:111px;
 }
 
+#price_level_div {
+	width: 996px;
+	height: 60px;
+}
+.price_level_span {
+	margin-left: 70px;
+}
+.price_level_span img {
+	width: 42px;
+	height: 40px;
+}
+
+
 #seat_div {
 	width: 996px;
 	height: 400px;
+	text-align:center;
 	background-color:#eeeeee;
 	overflow: scroll;/*里面的元素超出大小就会显示滚动条*/
 }
+#seat_table {
+	margin:0 auto;/*居中*/
+}
 /*座位价格类型、是否可用、是否已经被选择*/
 div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat_selected, div.seat_unavailable {
-	width: 100px;
-	height: 120px;
+	width: 60px;
+	height: 80px;
+	/*background-color:#eeee00;*/
 	
 	cursor:pointer; /*改鼠标样式*/
 	display:block; /*将tr设置为块体元素*/
@@ -191,33 +218,33 @@ div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat
     text-align: center; /*里面的元素水平居中*/
 }
 .seat_level_1 img {
-	width: 85px;
-	height: 80px;
+	width: 42px;
+	height: 40px;
 	background:url(  [[@{/images/seat_level_1.png}]]  ) center;
 }
 .seat_level_2 img {
-	width: 85px;
-	height: 80px;
+	width: 42px;
+	height: 40px;
 	background:url(  [[@{/images/seat_level_2.png}]]  ) center;
 }
 .seat_level_3 img {
-	width: 85px;
-	height: 80px;
+	width: 42px;
+	height: 40px;
 	background:url(  [[@{/images/seat_level_3.png}]]  ) center;
 }
 .seat_level_4 img {
-	width: 85px;
-	height: 80px;
+	width: 42px;
+	height: 40px;
 	background:url(  [[@{/images/seat_level_4.png}]]  ) center;
 }
 .seat_selected img {
-	width: 85px;
-	height: 80px;
+	width: 42px;
+	height: 40px;
 	background:url(  [[@{/images/seat_selected.png}]]  ) center;
 }
 .seat_unavailable img {
-	width: 85px;
-	height: 80px;
+	width: 42px;
+	height: 40px;
 	background:url(  [[@{/images/seat_unavailable.png}]]  ) center;
 }
 
@@ -225,6 +252,39 @@ div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat
 	color:#ee0000;
 }
 
+
+
+.info_table{ 
+}
+.info_table td:nth-child(even) {
+	background: #d8ebfa;
+} 
+.info_table td:nth-child(odd) {
+	background: White;
+}
+
+
+
+
+
+
+
+
+
+
+.quan_div {
+	width: 244px;
+	height: 110px;
+	background:url(  [[@{/images/quan-bg.png}]]  ) center;
+}
+.quan_name {
+	margin-left:50px;
+	color: White;
+}
+.points_cost {
+	margin-left:80px;
+	color: White;
+}
 
 </style>
 </head>
@@ -272,11 +332,45 @@ div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat
 <img class="cover" th:src="@{/cover/}+${plan.cover}"/>
 <br/>
 
+<fieldset class="layui-elem-field">
+  <legend><span class="title_span" th:text="${plan.name}"></span></legend>
+  <div class="layui-field-box">
+    <p class="introduction_span" th:text="${plan.introduction}"></p>
+  </div>
+</fieldset>
 
-<span class="title_span" th:text="${plan.name}"></span>
-<br/>
-<p class="introduction_span" th:text="${plan.introduction}"></p>
-<br/>
+<fieldset class="layui-elem-field">
+  <legend>基本信息</legend>
+  <div class="layui-field-box">
+    
+    
+<table class="info_table">
+ 	<tbody>
+		<tr>
+			<td width="90" class="bg">演出时间</td><td>2018.04.25-04.26</td>
+			<td width="90" class="bg">演出场馆</td><td width="200">隆福剧场</td>
+		</tr>
+		<tr>
+			<td width="90" class="bg">演出时间</td><td>2018.04.25-04.26</td>
+			<td width="90" class="bg">演出场馆</td><td width="200">隆福剧场</td>
+		</tr>
+		<tr>
+			<td width="90" class="bg">演出时间</td><td>2018.04.25-04.26</td>
+			<td width="90" class="bg">演出场馆</td><td width="200">隆福剧场</td>
+		</tr>
+		<tr>
+			<td width="90" class="bg">演出时间</td><td>2018.04.25-04.26</td>
+			<td width="90" class="bg">演出场馆</td><td width="200">隆福剧场</td>
+		</tr>
+	</tbody>
+</table>
+    
+    
+  </div>
+</fieldset>
+
+
+
 <span class="timelabel">时间：</span><span class="starttime_span" th:text="${plan.starttime}"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span" th:text="${plan.endtime}"></span>
 <br/>
 <span class="citylabel">城市：</span><span class="location_span" th:text="${plan.location}"></span>
@@ -291,6 +385,14 @@ div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat
 <br/>
 <span class="typelabel">座位详情：</span>
 <br/>
+<br/>
+<div id="price_level_div">
+<span class="price_level_span"><img th:src="@{/images/seat_level_1.png}"/><span class="seat_price">￥0~￥250</span></span>
+<span class="price_level_span"><img th:src="@{/images/seat_level_2.png}"/><span class="seat_price">￥250~￥500</span></span>
+<span class="price_level_span"><img th:src="@{/images/seat_level_3.png}"/><span class="seat_price">￥500~￥750</span></span>
+<span class="price_level_span"><img th:src="@{/images/seat_level_4.png}"/><span class="seat_price">￥750及以上</span></span>
+<span class="price_level_span"><img th:src="@{/images/seat_unavailable.png}"/><span class="seat_price">不可用</span></span>
+</div>
 <div id="seat_div">
 <table id="seat_table">
 </table>
@@ -298,8 +400,22 @@ div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat
 
 
 <span id="total_price" class="seat_price">￥0</span>
-<form th:action="@{/user/preorder}" method="post">
+<form th:action="@{/user/preorder}" onsubmit="return validate1(this)" method="post">
+<br/>
+<div class="layui-collapse" lay-accordion="">
+  <div class="layui-colla-item">
+    <h2 class="layui-colla-title">使用优惠券</h2>
+    <div class="layui-colla-content">
+    	<div class="quan_div">
+    		<span class="quan_name">5%折扣优惠券</span>
+			<br/>
+    		<span class="points_cost">-500积分</span>
+    	</div>
+    </div>
+  </div>
+</div>
 <input id="selected_spids" type="hidden" name="spids"/>
+<input id="points_cost_input" type="hidden" name="points_cost"/>
 <button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
 </form>
 <br/>

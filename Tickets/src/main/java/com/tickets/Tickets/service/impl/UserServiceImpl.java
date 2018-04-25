@@ -180,7 +180,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public synchronized ResultMessage createOrder(Integer userid, String spids) {
+	public synchronized ResultMessage createOrder(Integer userid, String spids, Integer points_cost) {
+		logger.info("createOrder方法 被调用");
 		ResultMessage rm = new ResultMessage();
 		double money = 0.0;
 		List<Seatprice> ls = new ArrayList<Seatprice>();
@@ -195,6 +196,19 @@ public class UserServiceImpl implements UserService {
 			money += sp.getPrice();
 			ls.add(sp);
 		}
+
+		//更新user表，扣除积分
+		User u = userMapper.findById(userid);
+		if(u.getPoints()<points_cost) {//积分不够，失败
+			rm.setResult(false);
+			rm.setMessage("积分不足，预订失败！");
+			return rm;
+		}
+		u.setPoints(u.getPoints() - points_cost);
+		userMapper.update(u);
+		
+		
+		//增加order记录
 		Order order = new Order();
 		order.setUserid(userid);
 	    Date dt = new Date();
@@ -202,11 +216,14 @@ public class UserServiceImpl implements UserService {
 	    String time = sdf.format(dt);
 		order.setTime(time);
 		order.setMoney(money);
-		order.setPoints_cost(points);
+		order.setPoints_cost(points_cost);
+		double perc=0.0;
+		perc=1.0-(points_cost/10000);
 		order.setPerc(perc);
 		order.setRmoney(money*perc);
 		order.setState("unpaid");
 		orderMapper.save(order);
+
 		
 		
 		//更新seatprice表
@@ -216,8 +233,6 @@ public class UserServiceImpl implements UserService {
 			ls.get(i).setOrderid(orderid);
 			seatpriceMapper.update(ls.get(i));
 		}
-		
-		//更新user表，扣除积分
 		
 
 		rm.setResult(true);

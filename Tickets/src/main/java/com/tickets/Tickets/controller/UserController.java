@@ -29,6 +29,7 @@ import com.tickets.Tickets.service.UserService;
 import com.tickets.Tickets.service.VenueService;
 import com.tickets.Tickets.util.Page;
 import com.tickets.Tickets.util.PageAndPlanList;
+import com.tickets.Tickets.util.ResultMessage;
 
 /**
  * @author tqy
@@ -60,15 +61,6 @@ public class UserController {
 	
 
 	/**********************只负责将请求转发给页面的Controller*****************************/
-	//主页
-	@RequestMapping(value={"/user/", "/user/indexV"})
-	public ModelAndView indexV(
-			 ModelAndView mv,
-			 HttpServletRequest request){
-		logger.info("/user/接口 被调用，请求者的地址是"+request.getRemoteAddr());
-		mv.setViewName("/user/index");
-		return mv;
-	}
 	@RequestMapping(value="/user/loginV")
 	public ModelAndView loginV(
 			 ModelAndView mv,
@@ -92,6 +84,46 @@ public class UserController {
 	
 	
 	/**************************包含数据处理的Controller*****************************/
+	//主页
+	@RequestMapping(value={"/user/", "/user/indexV"})
+	public ModelAndView indexV(
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		
+		
+
+		Page page = new Page();
+		List<Plan> list = planService.getPlans(6, 1, page, "",
+				"", "", "",  "false", "true", "",  "DESC");
+		mv.addObject("rcmplans", list);
+		List<Plan> list2 = planService.getPlans(6, 1, page, "",
+				"", "", "",  "false", "true", "流行",  "DESC");
+		mv.addObject("lxplans", list2);
+		List<Plan> list3 = planService.getPlans(6, 1, page, "",
+				"", "", "",  "false", "true", "古典",  "DESC");
+		mv.addObject("gdplans", list3);
+		List<Plan> list4 = planService.getPlans(6, 1, page, "",
+				"", "", "",  "false", "true", "摇滚",  "DESC");
+		mv.addObject("ygplans", list4);
+		List<Plan> list5 = planService.getPlans(6, 1, page, "",
+				"", "", "",  "false", "true", "名族",  "DESC");
+		mv.addObject("mzplans", list5);
+		List<Plan> list6 = planService.getPlans(6, 1, page, "",
+				"", "", "",  "false", "true", "乡村",  "DESC");
+		mv.addObject("xcplans", list6);
+		List<Plan> list7 = planService.getPlans(6, 1, page, "",
+				"", "", "",  "false", "true", "管弦乐",  "DESC");
+		mv.addObject("gxyplans", list7);
+		List<Plan> list8 = planService.getPlans(6, 1, page, "",
+				"", "", "",  "false", "true", "其它",  "DESC");
+		mv.addObject("qtplans", list8);
+		
+		
+		mv.setViewName("/user/index");
+		return mv;
+	}
+	
 	
 	/**
 	 * 处理/user/login请求，而且只接受post请求
@@ -280,13 +312,19 @@ public class UserController {
 	@RequestMapping(value="/user/preorder", method=RequestMethod.POST)
 	public ModelAndView preorder(
 			 String spids,
+			 Integer points_cost,
 			 ModelAndView mv,
 			 HttpSession session,
-			 HttpServletRequest request,
-			 Model model){
+			 HttpServletRequest request){
 		logger.info("/user/preorder接口 被调用，请求者的地址是"+request.getRemoteAddr());
 		User user = (User) session.getAttribute("user");
-		String rs = userService.createOrder(user.getUserid(), spids);
+		ResultMessage rs = userService.createOrder(user.getUserid(), spids, points_cost);
+		if(!rs.isResult()) {
+			mv.addObject("emsg", rs.getMessage());
+			mv.setViewName("user/errorpage");
+			return mv;
+		}
+		mv.setViewName("user/orders_all");
 		return mv;
 	}
 	

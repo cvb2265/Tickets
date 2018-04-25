@@ -22,6 +22,6 @@ public interface UserService {
 	public boolean activationAccount(Integer userid);
 	
 	//预订座位，需要同步synchronized
-	public ResultMessage createOrder(Integer userid, String spids);
+	public ResultMessage createOrder(Integer userid, String spids, Integer points_cost);
 	
 }

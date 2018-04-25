@@ -22,7 +22,7 @@ public interface OrderMapper {
 			"VALUES (#{userid}, #{time}, #{money}, #{points_cost}, #{perc}, #{rmoney}, #{state})")
 	public Integer save(Order order);	
 	
-	@Insert(value = "SELECT orderid FROM order_ WHERE userid = #{userid} AND time = #{time})")
-	public Integer getOrderid(@Param("userid")int userid, @Param("time")String time);
+	@Select(value = "SELECT orderid FROM order_ WHERE userid = #{userid} AND time = #{time}")
+	public int getOrderid(@Param("userid")int userid, @Param("time")String time);
 
 }

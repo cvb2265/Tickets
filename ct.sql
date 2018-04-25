@@ -60,14 +60,14 @@ CREATE TABLE level(
    maxexp			INT(11)			NOT NULL,			#升级所需经验
    discount			double			NOT NULL			#折扣
 ) ;
-INSERT INTO level VALUES (1, 50, false, 1.00) ;
-INSERT INTO level VALUES (2, 200, false, 0.99) ;
-INSERT INTO level VALUES (3, 350, false, 0.98) ;
-INSERT INTO level VALUES (4, 500, false, 0.97) ;
-INSERT INTO level VALUES (5, 650, false, 0.96) ;
-INSERT INTO level VALUES (6, 800, false, 0.95) ;
-INSERT INTO level VALUES (7, 950, false, 0.93) ;
-INSERT INTO level VALUES (8, -1, true, 0.9) ;		#约定最高级的maxexp填-1
+INSERT INTO level VALUES (1, 1, 50, 1.00) ;
+INSERT INTO level VALUES (2, 2, 200,  0.99) ;
+INSERT INTO level VALUES (3, 3, 350,  0.98) ;
+INSERT INTO level VALUES (4, 4, 500,  0.97) ;
+INSERT INTO level VALUES (5, 5, 650,  0.96) ;
+INSERT INTO level VALUES (6, 6, 800,  0.95) ;
+INSERT INTO level VALUES (7, 7, 950,  0.93) ;
+INSERT INTO level VALUES (8, 8, 1100,  0.9) ;
 
 
 
