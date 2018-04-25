@@ -53,17 +53,6 @@
 		});
 		
 
-		$("#sub").click(function(){
-			var maxI = $("#sp2").html()*1.0;
-			if($("#index").val()>maxI){
-				alert("页数超出范围！");
-				$("#index").val(1);
-				return;
-			}
-			search(Number($("#index").val()));
-		});
-		
-		
 		//第一次通过链接进入页面，马上搜索
 		if($("#kw_input_h").val()!="" || $("#type_input_h").val()!=""){
 			$("#kword").val($("#kw_input_h").val());
@@ -154,6 +143,36 @@
 		return ((new Date(d1.replace(/-/g,"\/"))) > (new Date(d2.replace(/-/g,"\/"))));
 	}
 	
+/*
+例1：页数10 ,9个按钮（为了居中，按钮个数是奇数最好）
+[1, 5]
+1 2   3 4 5 6 7 ... 10
+[6, 10]
+1 ... 4 5 6 7 8  9  10
+例2：页数20 ,9个按钮（为了居中，按钮个数是奇数最好）
+[1, 5]
+1 2   3 4 5 6 7 ... 20
+
+6
+1 ... 4 5 6 7 8 ... 20
+
+[16,20]
+1 ... 14 15 16 17 18 19 20
+
+
+
+总结：页数设为c, 按钮数设为n(n为奇数)，p是当前页
+
+当 c<=n时，全部画。
+当c==n+1时：
+	当1<=p&&p<=(n+1)/2，右边有一个...，p不一定居中
+	当p> c-((n+1)/2)，左边有一个...，p不一定居中
+当c > n+1时：
+	当1<=p&&p<=(n+1)/2，右边有一个...，p不一定居中
+	当(n+1)/2 < p&&p <= c-((n+1)/2)，两边都有一个...，p一定居中
+	当p> c-((n+1)/2)，左边有一个...，p不一定居中
+
+*/
 	function func1(data){
 
 		var recordCount = data.recordCount;
@@ -166,11 +185,176 @@
 			$("#e_kw_span").hide();
 		}
 		$("#num_span").html(recordCount);
-		$("#sp1").html(index);
-		$("#sp2").html(pageCount);
+		
+		//设置底部分页
 		if(pageCount==0){//0页，即0个结果
+			$("#page_table").hide();
 			return;
 		}
+		$("#page_table").show();
+		$("#pageCount_input").val(pageCount);
+		
+		var n=13;//为了居中，按钮个数是奇数最好
+		var c=pageCount, p=index;
+		//c=6;
+		var page_tr = $("#page_table tr");
+		page_tr.empty();
+		if(c<=n){
+	        for(var i=1;i<=c;i++) {
+	        	var td = $("<td/>");
+	        	var div = $("<div/>");
+	        	if(i==p){
+	        		div.attr("class", "current_page").html(i);
+	        	}else{
+	        		div.attr("class", "normal_page").html(i);
+	        	}
+	        	td.appendTo(page_tr).append(div);
+	    	}
+		}else if(c==n+1){
+			if(1<=p&&p<=(n+1)/2) {
+		        for(var i=1;i<=n-2;i++) {
+		        	var td = $("<td/>");
+		        	var div = $("<div/>");
+		        	if(i==p){
+		        		div.attr("class", "current_page").html(i);
+		        	}else{
+		        		div.attr("class", "normal_page").html(i);
+		        	}
+		        	td.appendTo(page_tr).append(div);
+		    	}
+	        	var td2 = $("<td/>");
+	        	var div2 = $("<div/>");
+	        	div2.attr("class", "more_page").html("...");
+	        	td2.appendTo(page_tr).append(div2);
+	        	var td3 = $("<td/>");
+	        	var div3 = $("<div/>");
+	        	div3.attr("class", "normal_page").html(c);
+	        	td3.appendTo(page_tr).append(div3);
+			}else if(p> c-((n+1)/2)) {
+	        	var td2 = $("<td/>");
+	        	var div2 = $("<div/>");
+	        	div2.attr("class", "normal_page").html(1);
+	        	td2.appendTo(page_tr).append(div2);
+	        	var td3 = $("<td/>");
+	        	var div3 = $("<div/>");
+	        	div3.attr("class", "more_page").html("...");
+	        	td3.appendTo(page_tr).append(div3);
+		        for(var i=c-n+3;i<=c;i++) {
+		        	var td = $("<td/>");
+		        	var div = $("<div/>");
+		        	if(i==p){
+		        		div.attr("class", "current_page").html(i);
+		        	}else{
+		        		div.attr("class", "normal_page").html(i);
+		        	}
+		        	td.appendTo(page_tr).append(div);
+		    	}
+			}
+		}else if(c > n+1){
+			if(1<=p&&p<=(n+1)/2) {
+		        for(var i=1;i<=n-2;i++) {
+		        	var td = $("<td/>");
+		        	var div = $("<div/>");
+		        	if(i==p){
+		        		div.attr("class", "current_page").html(i);
+		        	}else{
+		        		div.attr("class", "normal_page").html(i);
+		        	}
+		        	td.appendTo(page_tr).append(div);
+		    	}
+	        	var td2 = $("<td/>");
+	        	var div2 = $("<div/>");
+	        	div2.attr("class", "more_page").html("...");
+	        	td2.appendTo(page_tr).append(div2);
+	        	var td3 = $("<td/>");
+	        	var div3 = $("<div/>");
+	        	div3.attr("class", "normal_page").html(c);
+	        	td3.appendTo(page_tr).append(div3);
+			}else if((n+1)/2 < p&&p <= c-((n+1)/2)) {
+	        	var td2 = $("<td/>");
+	        	var div2 = $("<div/>");
+	        	div2.attr("class", "normal_page").html(1);
+	        	td2.appendTo(page_tr).append(div2);
+	        	var td3 = $("<td/>");
+	        	var div3 = $("<div/>");
+	        	div3.attr("class", "more_page").html("...");
+	        	td3.appendTo(page_tr).append(div3);
+		        for(var i=p-((n+1)/2-2)+1;i<=p+((n+1)/2-2)-1;i++) {
+		        	var td = $("<td/>");
+		        	var div = $("<div/>");
+		        	if(i==p){
+		        		div.attr("class", "current_page").html(i);
+		        	}else{
+		        		div.attr("class", "normal_page").html(i);
+		        	}
+		        	td.appendTo(page_tr).append(div);
+		    	}
+	        	var td4 = $("<td/>");
+	        	var div4 = $("<div/>");
+	        	div4.attr("class", "more_page").html("...");
+	        	td4.appendTo(page_tr).append(div4);
+	        	var td5 = $("<td/>");
+	        	var div5 = $("<div/>");
+	        	div5.attr("class", "normal_page").html(c);
+	        	td5.appendTo(page_tr).append(div5);
+			}else if(p> c-((n+1)/2)) {
+	        	var td2 = $("<td/>");
+	        	var div2 = $("<div/>");
+	        	div2.attr("class", "normal_page").html(1);
+	        	td2.appendTo(page_tr).append(div2);
+	        	var td3 = $("<td/>");
+	        	var div3 = $("<div/>");
+	        	div3.attr("class", "more_page").html("...");
+	        	td3.appendTo(page_tr).append(div3);
+		        for(var i=c-n+3;i<=c;i++) {
+		        	var td = $("<td/>");
+		        	var div = $("<div/>");
+		        	if(i==p){
+		        		div.attr("class", "current_page").html(i);
+		        	}else{
+		        		div.attr("class", "normal_page").html(i);
+		        	}
+		        	td.appendTo(page_tr).append(div);
+		    	}
+			}
+		}
+		$(".normal_page").hover(function(){
+			$(this).attr("class","normal_page_hover");
+		},function(){
+			$(this).attr("class","normal_page");
+		});
+		$(".normal_page, .current_page").click(function(){
+			search(Number($(this).html()));
+		});
+    	var pageNum_td = $("<td/>");
+    	var pageNum_input = $("<input/>");
+    	pageNum_input.attr("type", "text").attr("class", "pageNum").val(1);
+    	pageNum_td.appendTo(page_tr).append(pageNum_input);
+    	var jmp_td = $("<td/>");
+    	var jmp_div = $("<div/>");
+    	jmp_div.attr("class", "jmp_btn").html("跳转");
+    	jmp_div.hover(function(){
+			$(this).attr("class","jmp_btn_hover");
+		},function(){
+			$(this).attr("class","jmp_btn");
+		});
+    	jmp_div.click(function(){
+    		var page_n = $("input.pageNum").val();
+    		if(!/^[0-9]+$/.test(page_n) || Number(page_n)==0) {//是否为正整数
+    			alert("请输入正整数！");
+    			$("input.pageNum").val(1);
+    			return;
+    		}
+    		if(Number(page_n)>Number($("#pageCount_input").val())) {//是否超出页数
+    			alert("超出页数！");
+    			$("input.pageNum").val(1);
+    			return;
+    		}
+			search(Number(page_n));
+    	});
+    	jmp_td.appendTo(page_tr).append(jmp_div);
+		//设置底部分页完
+		
 		
 
 		var rs_items = $("div.rs_item");
@@ -383,6 +567,80 @@ white-space: nowrap;
 	height:60px;
 	cursor:pointer;
 }
+
+/*底部分页样式*/
+#page_div{
+	width:998px;
+}
+#page_table{
+	margin:0 auto;
+	display: none; /*隐藏*/
+}
+.current_page, .normal_page, .more_page{
+	width:30px;
+	height:30px;
+	text-align: center; /*里面的元素水平居中*/
+	line-height:30px;
+}
+.current_page {
+	border:#ff5722 solid; 
+	border-width:1px;
+	background-color:#ff5722;
+	color:#ffffff;
+}
+.normal_page, .more_page{
+	border:#cccccc solid; 
+	border-width:1px;
+	background-color:#ffffff;
+	color:#000000;
+}
+.normal_page_hover{
+	width:30px;
+	height:30px;
+	text-align: center; /*里面的元素水平居中*/
+	line-height:30px;
+	border:#ff5722 solid; 
+	border-width:1px;
+	background-color:#ff5722;
+	color:#ffffff;
+}
+.current_page, .normal_page, .normal_page_hover {
+	cursor:pointer;
+}
+.pageNum {
+	background-color:#eeeeee;
+	font-size:12px;
+	width:30px;
+	padding:5px 0px 5px 0px;/*设置上、右、下、左内边距*/
+	margin:0px 3px 0px 10px;/*设置上、右、下、左外边距*/
+	
+	border:none;/*没有边框*/
+}
+.jmp_btn {
+	width:50px;
+	height:30px;
+	text-align: center; /*里面的元素水平居中*/
+	line-height:30px;
+	border:#cccccc solid; 
+	border-width:1px;
+	background-color:#ffffff;
+	color:#000000;
+	cursor:pointer;
+}
+.jmp_btn_hover {
+	width:50px;
+	height:30px;
+	text-align: center; /*里面的元素水平居中*/
+	line-height:30px;
+	border:#ff5722 solid; 
+	border-width:1px;
+	background-color:#ff5722;
+	color:#ffffff;
+	cursor:pointer;
+}
+/*底部分页样式完*/
+
+
 </style>
 </head>
 <body>
@@ -817,12 +1075,10 @@ white-space: nowrap;
 	
 	<br/>
 	
-	<span style="margin-left:400px;">第<span id="sp1"></span>页，共<span id="sp2"></span>页</span>
-	
-    	<input type="number" id="index" name="index" min="1" value="1"/>
-		<input type="button" id="sub" value="跳转"/>
-		
-		
+
+<input id="pageCount_input" type="hidden" name="pageCount"/>
+<div id="page_div"><table id="page_table"><tr></tr></table></div>
+
 	<br/>
 	<br/>
 </div>
