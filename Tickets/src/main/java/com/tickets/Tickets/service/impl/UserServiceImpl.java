@@ -198,14 +198,16 @@ public class UserServiceImpl implements UserService {
 		}
 
 		//更新user表，扣除积分
-		User u = userMapper.findById(userid);
-		if(u.getPoints()<points_cost) {//积分不够，失败
-			rm.setResult(false);
-			rm.setMessage("积分不足，预订失败！");
-			return rm;
+		if(points_cost!=0) {
+			User u = userMapper.findById(userid);
+			if(u.getPoints()<points_cost) {//积分不够，失败
+				rm.setResult(false);
+				rm.setMessage("积分不足，预订失败！");
+				return rm;
+			}
+			u.setPoints(u.getPoints() - points_cost);
+			userMapper.update(u);
 		}
-		u.setPoints(u.getPoints() - points_cost);
-		userMapper.update(u);
 		
 		
 		//增加order记录

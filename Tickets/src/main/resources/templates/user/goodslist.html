@@ -13,14 +13,6 @@
 			rs_items.eq(k).hide();
 		}
 
-		$("#scb").click(function(){
-	        search(1);
-		});
-		$("a.ctype, a.ctype_selected").click(function(){
-			$("a.ctype_selected").attr("class","ctype");
-			$(this).attr("class","ctype_selected");
-			search(1);
-		});
 		
 		
 		$(".add_and_top").hide();
@@ -54,93 +46,27 @@
 		
 
 		//第一次通过链接进入页面，马上搜索
-		if($("#kw_input_h").val()!="" || $("#type_input_h").val()!=""){
-			$("#kword").val($("#kw_input_h").val());
-			if($("#type_input_h").val()!=""){
-				$("a.ctype_selected").attr("class","ctype");
-				var a_s = $("a.ctype");
-		        for(var i=0;i < a_s.length;i++) {
-		        	if(a_s.eq(i).html()==$("#type_input_h").val()) {
-		        		a_s.eq(i).attr("class","ctype_selected");
-		        		break;
-		        	}
-		        }
-			}
-		}
 		search(1);
 	});
 
 	
 	function search(pageNum){
-		var ctype_val = $("a.ctype_selected").html();
-        if(ctype_val=="全部"){
-        	ctype_val="";
-        }
-        var city_val=$("#two").val();
-        if(city_val=="不限"){
-        	city_val="";
-        }
-        var day1_val=$("#day1").val();
-        var day2_val=$("#day2").val();
-        if(CompareDate(day1_val, day2_val)){
-        	alert("第一个日期应该在第二个日期之前！");
-        	return;
-        }
-
-		var overdue_val = "";
-		var isrecommend_val = "";
-		var sort_strategy_val = "";
-		var rd = $("input.overdue_radio");
-        for(var i=0;i<rd.length;i++) {
-        	if(rd.eq(i).prop("checked")) {
-        		overdue_val = rd.eq(i).val();
-        		break;
-        	}
-        }
-		rd = $("input.isrecommend_radio");
-        for(var i=0;i<rd.length;i++) {
-        	if(rd.eq(i).prop("checked")) {
-        		isrecommend_val = rd.eq(i).val();
-        		break;
-        	}
-        }
-		rd = $("input.sort_strategy_radio");
-        for(var i=0;i<rd.length;i++) {
-        	if(rd.eq(i).prop("checked")) {
-        		sort_strategy_val = rd.eq(i).val();
-        		break;
-        	}
-        }
-
-
 		//先隐藏所有结果div
 		var rs_items = $("div.rs_item");
 		for(var k=0;k<10;k++) {
 			rs_items.eq(k).hide();
 		}
-		
 		$.ajax({
 			type : "POST",
-			url : [[ @{/user/searchplans} ]],	//thymeleaf写法
+			url : [[ @{/user/searchgoods} ]],	//thymeleaf写法
 			data : {
 				pageSize : 10,
 				index : pageNum,
-				keyword : $("#kword").val(),
-				day1 : day1_val,
-				day2 : day2_val,
-				location : city_val,
-				overdue : overdue_val,
-				isrecommend : isrecommend_val,
-				type : ctype_val,
-				sort_strategy : sort_strategy_val
+				planid : $("#planid_input_h").val()
 			},
 			dataType : "json",
 			success : func1
 		});
-	}
-	
-	function CompareDate(d1,d2) {
-		return ((new Date(d1.replace(/-/g,"\/"))) > (new Date(d2.replace(/-/g,"\/"))));
 	}
 	
 /*
@@ -178,13 +104,6 @@
 		var recordCount = data.recordCount;
 		var pageCount = data.pageCount;
 		var index = data.index;
-		if( $("#kword").val()!="" ){
-			$("#kw_span").html($("#kword").val());
-			$("#e_kw_span").show();
-		}else{
-			$("#e_kw_span").hide();
-		}
-		$("#num_span").html(recordCount);
 		
 		//设置底部分页
 		if(pageCount==0){//0页，即0个结果
@@ -354,53 +273,25 @@
     	jmp_td.appendTo(page_tr).append(jmp_div);
 		//设置底部分页完
 		
-		
 
 		var rs_items = $("div.rs_item");
 		var covers = $("img.cover");
 		var title_spans = $("span.title_span");
 		var introduction_spans = $(".introduction_span");
-		var starttime_spans = $("span.starttime_span");
-		var endtime_spans = $("span.endtime_span");
-		var location_spans = $("span.location_span");
-		var type_spans = $("span.type_span");
+		var price_spans = $("span.price_span");
 		var preoder_btns = $(".preoder_btn");
-		var ovds = $("span.ovd");
-		var cover_head_val = $("#cover_head").val();//封面路径前缀
-		var loadseat_path_val = $("#loadseat_path").val();//"/user/loadseat"控制器路径
         var i=0;
 		var list = data.list;
 		$.each(list, function(){
-			covers.eq(i).attr("src", cover_head_val + this.cover);
-			title_spans.eq(i).html(this.name);
+			covers.eq(i).attr("src", [[ @{/goodpic/} ]] + this.pic);
+			title_spans.eq(i).html(this.goodsname);
 			introduction_spans.eq(i).html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+this.introduction);
-			starttime_spans.eq(i).html(this.starttime.substring(0,19));
-			endtime_spans.eq(i).html(this.endtime.substring(0,19));
-			location_spans.eq(i).html(this.location);
-			type_spans.eq(i).html(this.type);
+			price_spans.eq(i).html("￥"+this.price);
 			
-            
-            if(this.overdue==1){
-            	preoder_btns.eq(i).hide();
-            	ovds.eq(i).show();
-            }else if(this.overdue==0){
-            	ovds.eq(i).hide();
-            	preoder_btns.eq(i).show();
-                var url= loadseat_path_val+"?planid="+this.id;
-                var url2= [[ @{/user/loginV} ]];	//thymeleaf写法，没登录就跳转到登录
-                
-                if([[${session.user}]]==null){//没有登录
-                	preoder_btns.eq(i).click(function(){
-                    	window.location.href=url2;
-            		});
-                }else{
-                	preoder_btns.eq(i).click(function(){
-                    	window.location.href=url;
-            		});
-                }
-
-                
-            }
+			var url= [[ @{/user/aaw} ]]+"?goodsid="+this.id;
+           	preoder_btns.eq(i).click(function(){
+               	window.location.href=url;
+       		});
 			
 			rs_items.eq(i).show();
             i++;
@@ -545,9 +436,12 @@ white-space: nowrap;
 */
 }
 
-.title_span ,.timelabel ,.citylabel ,.typelabel ,.preoder_btn {
+.title_span ,.pricelabel ,.preoder_btn {
 	
     margin-left:20px;/*左外边距*/
+}
+.price_span {
+	color:#ee0000;
 }
 
 
@@ -685,112 +579,9 @@ white-space: nowrap;
 <br/>
 
 
-	<a th:href="@{/user/indexV}"><img th:src="@{/images/logo.png}"/></a>
-	<input type="text" id="kword" name="kword" placeholder="请输入关键字"/>
-	<button id="scb" class="layui-btn layui-btn-normal layui-btn-radius">搜全网</button>
-
-
-<br/>
-<br/>
-<table id="cate_table">
-<tr>
-<td>
-	<span class="cate">分类：</span>
-</td>
-<td>
-	<a class="ctype_selected" href="#">全部</a>
-	<a class="ctype" href="#">流行</a>
-	<a class="ctype" href="#">古典</a>
-	<a class="ctype" href="#">摇滚</a>
-	<a class="ctype" href="#">名族</a>
-	<a class="ctype" href="#">乡村</a>
-	<a class="ctype" href="#">管弦乐</a>
-	<a class="ctype" href="#">其它</a>
-</td>
-</tr>
-<tr>
-<td>
-	<span class="cate">城市：</span>
-</td>
-<td>
-	<select id="one" onchange="changecity(this.value)">
-        <option value="0">不限</option>
-        <option value="1">江苏</option>
-        <option value="2">广东</option>
-        <option value="3">福建</option>
-    </select>
-    <select id="two" onchange="search(1);">
-        <option value="不限">不限</option>
-    </select>
-    <script>
-    /*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
-    function changecity(m){
-        var two = $("#two");
-        two.empty();
-        var city = [];
-        switch(Number(m)){
-        case 0:city = ['不限'];break;
-        case 1:city = ['南京'];break;
-        case 2:city = ['广州','揭阳'];break;
-        case 3:city = ['厦门'];break;
-        default:break;
-        }
-        for (var i = 0; i < city.length; i++) {
-			var option = $("<option/>");//创建一个<option/>元素
-			option.attr("value",city[i]).html(city[i]).appendTo(two);
-        };
-        search(1);
-    }
-    /*]]>*/
-	</script>
-</td>
-</tr>
-<tr>
-<td>
-	<span class="cate">时间：</span>
-</td>
-<td>
-	从<input id="day1" type="date" value="2018-04-01"/>到
-	<input id="day2" type="date" value="2018-12-31"/>
-</td>
-</tr>
-
-<tr>
-<td>
-	<span class="cate">是否过期：</span>
-</td>
-<td>
-	<input class="overdue_radio" name="overdue" value="" type="radio" checked="true"/>全部
-	<input class="overdue_radio" name="overdue" value="false" type="radio"/>不过期
-	<input class="overdue_radio" name="overdue" value="true" type="radio"/>过期
-</td>
-</tr>
-
-<tr>
-<td>
-	<span class="cate">是否推荐：</span>
-</td>
-<td>
-	<input class="isrecommend_radio" name="isrecommend" value="" type="radio" checked="true"/>全部
-	<input class="isrecommend_radio" name="isrecommend" value="true" type="radio"/>推荐
-	<input class="isrecommend_radio" name="isrecommend" value="false" type="radio"/>非推荐
-</td>
-</tr>
-
-<tr>
-<td>
-	<span class="cate">排序规则：</span>
-</td>
-<td>
-	<input class="sort_strategy_radio" name="sort_strategy" value="DESC" type="radio" checked="true"/>时间降序
-	<input class="sort_strategy_radio" name="sort_strategy" value="ASC" type="radio"/>时间升序
-</td>
-</tr>
-</table>
-
-<br/>
-<span><span id="e_kw_span" style="display:none;">搜索“<span id="kw_span" style="color:#f00a75;"></span>”, </span>共<span id="num_span" style="color:#f00a75;"></span>个结果</span>
 <div class="rs">
+
+
 	<div class="rs_item">
 	<table>
 	<tr>
@@ -803,13 +594,9 @@ white-space: nowrap;
 		<br/>
 		<p class="introduction_span"></p>
 		<br/>
-		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<span class="citylabel">城市：</span><span class="location_span"></span>
-		<br/>
-		<span class="typelabel">类型：</span><span class="type_span"></span>
-		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
 	</div>
 	</td>
 	</tr>
@@ -817,120 +604,7 @@ white-space: nowrap;
 	<br/>
 	<img th:src="@{/images/border.png}"/>
 	</div>
-	
-	
-		<div class="rs_item">
-	<table>
-	<tr>
-	<td>
-		<img class="cover"/>
-	</td>
-	<td>
-	<div>
-		<span class="title_span"></span>
-		<br/>
-		<p class="introduction_span"></p>
-		<br/>
-		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
-		<br/>
-		<span class="citylabel">城市：</span><span class="location_span"></span>
-		<br/>
-		<span class="typelabel">类型：</span><span class="type_span"></span>
-		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
-	</div>
-	</td>
-	</tr>
-	</table>
-	<br/>
-	<img th:src="@{/images/border.png}"/>
-	</div>
-	
-	
-		<div class="rs_item">
-	<table>
-	<tr>
-	<td>
-		<img class="cover"/>
-	</td>
-	<td>
-	<div>
-		<span class="title_span"></span>
-		<br/>
-		<p class="introduction_span"></p>
-		<br/>
-		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
-		<br/>
-		<span class="citylabel">城市：</span><span class="location_span"></span>
-		<br/>
-		<span class="typelabel">类型：</span><span class="type_span"></span>
-		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
-	</div>
-	</td>
-	</tr>
-	</table>
-	<br/>
-	<img th:src="@{/images/border.png}"/>
-	</div>
-	
-	
-		<div class="rs_item">
-	<table>
-	<tr>
-	<td>
-		<img class="cover"/>
-	</td>
-	<td>
-	<div>
-		<span class="title_span"></span>
-		<br/>
-		<p class="introduction_span"></p>
-		<br/>
-		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
-		<br/>
-		<span class="citylabel">城市：</span><span class="location_span"></span>
-		<br/>
-		<span class="typelabel">类型：</span><span class="type_span"></span>
-		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
-	</div>
-	</td>
-	</tr>
-	</table>
-	<br/>
-	<img th:src="@{/images/border.png}"/>
-	</div>
-	
-	
-		<div class="rs_item">
-	<table>
-	<tr>
-	<td>
-		<img class="cover"/>
-	</td>
-	<td>
-	<div>
-		<span class="title_span"></span>
-		<br/>
-		<p class="introduction_span"></p>
-		<br/>
-		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
-		<br/>
-		<span class="citylabel">城市：</span><span class="location_span"></span>
-		<br/>
-		<span class="typelabel">类型：</span><span class="type_span"></span>
-		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
-	</div>
-	</td>
-	</tr>
-	</table>
-	<br/>
-	<img th:src="@{/images/border.png}"/>
-	</div>
-	
-	
+
 	<div class="rs_item">
 	<table>
 	<tr>
@@ -943,13 +617,9 @@ white-space: nowrap;
 		<br/>
 		<p class="introduction_span"></p>
 		<br/>
-		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<span class="citylabel">城市：</span><span class="location_span"></span>
-		<br/>
-		<span class="typelabel">类型：</span><span class="type_span"></span>
-		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
 	</div>
 	</td>
 	</tr>
@@ -957,9 +627,8 @@ white-space: nowrap;
 	<br/>
 	<img th:src="@{/images/border.png}"/>
 	</div>
-	
-	
-		<div class="rs_item">
+
+	<div class="rs_item">
 	<table>
 	<tr>
 	<td>
@@ -971,13 +640,9 @@ white-space: nowrap;
 		<br/>
 		<p class="introduction_span"></p>
 		<br/>
-		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<span class="citylabel">城市：</span><span class="location_span"></span>
-		<br/>
-		<span class="typelabel">类型：</span><span class="type_span"></span>
-		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
 	</div>
 	</td>
 	</tr>
@@ -985,9 +650,8 @@ white-space: nowrap;
 	<br/>
 	<img th:src="@{/images/border.png}"/>
 	</div>
-	
-	
-		<div class="rs_item">
+
+	<div class="rs_item">
 	<table>
 	<tr>
 	<td>
@@ -999,13 +663,9 @@ white-space: nowrap;
 		<br/>
 		<p class="introduction_span"></p>
 		<br/>
-		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<span class="citylabel">城市：</span><span class="location_span"></span>
-		<br/>
-		<span class="typelabel">类型：</span><span class="type_span"></span>
-		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
 	</div>
 	</td>
 	</tr>
@@ -1013,9 +673,8 @@ white-space: nowrap;
 	<br/>
 	<img th:src="@{/images/border.png}"/>
 	</div>
-	
-	
-		<div class="rs_item">
+
+	<div class="rs_item">
 	<table>
 	<tr>
 	<td>
@@ -1027,13 +686,9 @@ white-space: nowrap;
 		<br/>
 		<p class="introduction_span"></p>
 		<br/>
-		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<span class="citylabel">城市：</span><span class="location_span"></span>
-		<br/>
-		<span class="typelabel">类型：</span><span class="type_span"></span>
-		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
 	</div>
 	</td>
 	</tr>
@@ -1041,9 +696,8 @@ white-space: nowrap;
 	<br/>
 	<img th:src="@{/images/border.png}"/>
 	</div>
-	
-	
-		<div class="rs_item">
+
+	<div class="rs_item">
 	<table>
 	<tr>
 	<td>
@@ -1055,13 +709,9 @@ white-space: nowrap;
 		<br/>
 		<p class="introduction_span"></p>
 		<br/>
-		<span class="timelabel">时间：</span><span class="starttime_span"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span"></span>
+		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<span class="citylabel">城市：</span><span class="location_span"></span>
-		<br/>
-		<span class="typelabel">类型：</span><span class="type_span"></span>
-		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已过期]</span>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
 	</div>
 	</td>
 	</tr>
@@ -1069,12 +719,104 @@ white-space: nowrap;
 	<br/>
 	<img th:src="@{/images/border.png}"/>
 	</div>
-	
-	
-	
+
+	<div class="rs_item">
+	<table>
+	<tr>
+	<td>
+		<img class="cover"/>
+	</td>
+	<td>
+	<div>
+		<span class="title_span"></span>
+		<br/>
+		<p class="introduction_span"></p>
+		<br/>
+		<span class="pricelabel">价格：</span><span class="price_span"></span>
+		<br/>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+	</div>
+	</td>
+	</tr>
+	</table>
 	<br/>
+	<img th:src="@{/images/border.png}"/>
+	</div>
+
+	<div class="rs_item">
+	<table>
+	<tr>
+	<td>
+		<img class="cover"/>
+	</td>
+	<td>
+	<div>
+		<span class="title_span"></span>
+		<br/>
+		<p class="introduction_span"></p>
+		<br/>
+		<span class="pricelabel">价格：</span><span class="price_span"></span>
+		<br/>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+	</div>
+	</td>
+	</tr>
+	</table>
+	<br/>
+	<img th:src="@{/images/border.png}"/>
+	</div>
+
+	<div class="rs_item">
+	<table>
+	<tr>
+	<td>
+		<img class="cover"/>
+	</td>
+	<td>
+	<div>
+		<span class="title_span"></span>
+		<br/>
+		<p class="introduction_span"></p>
+		<br/>
+		<span class="pricelabel">价格：</span><span class="price_span"></span>
+		<br/>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+	</div>
+	</td>
+	</tr>
+	</table>
+	<br/>
+	<img th:src="@{/images/border.png}"/>
+	</div>
+
+	<div class="rs_item">
+	<table>
+	<tr>
+	<td>
+		<img class="cover"/>
+	</td>
+	<td>
+	<div>
+		<span class="title_span"></span>
+		<br/>
+		<p class="introduction_span"></p>
+		<br/>
+		<span class="pricelabel">价格：</span><span class="price_span"></span>
+		<br/>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+	</div>
+	</td>
+	</tr>
+	</table>
+	<br/>
+	<img th:src="@{/images/border.png}"/>
+	</div>
 	
 
+	
+	
+	<br/>
+	
 <input id="pageCount_input" type="hidden" name="pageCount"/>
 <div id="page_div"><table id="page_table"><tr></tr></table></div>
 
@@ -1082,10 +824,8 @@ white-space: nowrap;
 	<br/>
 </div>
 
-<input id="kw_input_h" type="hidden" name="kw_input_h" th:value="${keyword}"/>
-<input id="type_input_h" type="hidden" name="type_input_h" th:value="${type}" />
-<input id="cover_head" type="hidden" name="cover_head" th:value="@{/cover/}" />
-<input id="loadseat_path" type="hidden" name="loadseat_path" th:value="@{/user/loadseat}" />
+<input id="planid_input_h" type="hidden" name="planid_input_h" th:value="${planid}"/>
+
 </div>
 
 <div class="add_and_top">

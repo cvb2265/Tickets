@@ -15,13 +15,6 @@ public class Goods implements Serializable {
 	private String pic;
 	private double price;
 	private Integer orederid;
-	public Goods(int id, int planid, int price, int orederid) {
-		super();
-		this.id = id;
-		this.planid = planid;
-		this.price = price;
-		this.orederid = orederid;
-	}
 	public Integer getId() {
 		return id;
 	}

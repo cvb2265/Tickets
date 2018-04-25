@@ -19,15 +19,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tickets.Tickets.entity.Goods;
 import com.tickets.Tickets.entity.Plan;
 import com.tickets.Tickets.entity.Seatprice;
 import com.tickets.Tickets.entity.User;
 import com.tickets.Tickets.entity.Venue;
+import com.tickets.Tickets.service.GoodsService;
 import com.tickets.Tickets.service.PlanService;
 import com.tickets.Tickets.service.SeatpriceService;
 import com.tickets.Tickets.service.UserService;
 import com.tickets.Tickets.service.VenueService;
 import com.tickets.Tickets.util.Page;
+import com.tickets.Tickets.util.PageAndGoodsList;
 import com.tickets.Tickets.util.PageAndPlanList;
 import com.tickets.Tickets.util.ResultMessage;
 
@@ -54,6 +57,9 @@ public class UserController {
 	@Autowired
 	@Qualifier("venueService")
 	private VenueService venueService;
+	@Autowired
+	@Qualifier("goodsService")
+	private GoodsService goodsService;
 	
 	//打印日志
 	private static final Log logger = LogFactory.getLog(UserController.class);
@@ -220,18 +226,11 @@ public class UserController {
 	public Object searchplans(
 			int pageSize, int index, String keyword, 
 			String day1, String day2, String location, String overdue, 
-			String isrecommend, String type, String sort_strategy
+			String isrecommend, String type, String sort_strategy,
+			 HttpServletRequest request
 			 ){
-		System.out.println("pageSize---"+pageSize);
-		System.out.println("index---"+index);
-		System.out.println("keyword---"+keyword);
-		System.out.println("day1---"+day1);
-		System.out.println("day2---"+day2);
-		System.out.println("location---"+location);
-		System.out.println("overdue---"+overdue);
-		System.out.println("isrecommend---"+isrecommend);
-		System.out.println("type---"+type);
-		System.out.println("sort_strategy---"+sort_strategy);
+		logger.info("/user/searchgoods接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		
 		Page page = new Page();
 		List<Plan> list = planService.getPlans(pageSize, index, page, keyword,
 				day1, day2, location,  overdue, isrecommend, type,  sort_strategy);
@@ -304,10 +303,35 @@ public class UserController {
 			 ModelAndView mv,
 			 HttpServletRequest request){
 		logger.info("/user/loadgoods接口 被调用，请求者的地址是"+request.getRemoteAddr());
-		logger.info("planid是"+planid);
-		mv.setViewName("/user/goodsdetail");
+		mv.addObject("planid", planid);
+		mv.setViewName("/user/goodslist");
 		return mv;
 	}
+
+	@RequestMapping(value="/user/searchgoods")
+	@ResponseBody
+	public Object searchgoods(
+			int pageSize, int index,
+			int planid,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/searchgoods接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		
+		Page page = new Page();
+		List<Goods> list = goodsService.getGoodsByPlanid(pageSize, index, page, planid);
+		
+		PageAndGoodsList pageAndGoodsList = new PageAndGoodsList();
+		pageAndGoodsList.setIndex(page.getIndex());
+		pageAndGoodsList.setPageCount(page.getPageCount());
+		pageAndGoodsList.setRecordCount(page.getRecordCount());
+		pageAndGoodsList.setList(list);
+		System.out.println(list.get(0).getPrice());
+		
+		return pageAndGoodsList;
+	}
+	
+	
+	
 	
 	@RequestMapping(value="/user/preorder", method=RequestMethod.POST)
 	public ModelAndView preorder(
