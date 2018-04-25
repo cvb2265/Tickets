@@ -36,41 +36,66 @@ public class PromulatorServiceImpl implements Promulgator {
 
 	@Override
 	public boolean createPlan(Plan plan) {
-		Date date = new Date();
+		Date startdate = new Date();
+		Date enddate = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
-			date = sdf.parse(plan.getStarttime());
+			startdate = sdf.parse(plan.getStarttime());
+			enddate = sdf.parse(plan.getEndtime());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		if(util.IstimeLegal(date))
+		if(util.IstimeLegal(startdate)&&util.IstimeLegal(enddate)) {
+			promulatorMapper.WritePlan(plan);
 			return true;
+		}
 		else
 			return false;
 	}
 
 	@Override
 	public boolean setseatprice(Venue venue) {
-		// TODO Auto-generated method stub
+		//to do
 		return false;
 	}
 
 	@Override
-	public void createGoodsPlan(ArrayList<Goods> allgoods) {
-		// TODO Auto-generated method stub
-
-	}
+	public boolean createGoodsPlan(ArrayList<Goods> allgoods) {
+		boolean isLegal = true;
+		for(int i=0;i<allgoods.size();i++) {
+			if(!util.IspriceIegat(allgoods.get(i).getPrice())) {
+				isLegal = false;
+				break;
+			}
+		}
+		if(isLegal)
+			promulatorMapper.WriteGoods(allgoods);
+		return isLegal;
+	}	
 
 	@Override
 	public void uploadfile(String filename) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public boolean updatePlan(Plan plan) {
-		// TODO Auto-generated method stub
-		return false;
+		Date startdate = new Date();
+		Date enddate = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			startdate = sdf.parse(plan.getStarttime());
+			enddate = sdf.parse(plan.getEndtime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		if(util.IstimeLegal(startdate)&&util.IstimeLegal(enddate)) {
+			promulatorMapper.WritePlan(plan);
+			return true;
+		}
+		else
+			return false;
 	}
+	
 
 }

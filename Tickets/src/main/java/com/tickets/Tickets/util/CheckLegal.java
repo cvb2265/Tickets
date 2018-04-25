@@ -7,4 +7,8 @@ public class CheckLegal {
 		//to do
 		return false;
 	}
+	public boolean IspriceIegat(double price) {
+		//to do
+		return false;
+	}
 }

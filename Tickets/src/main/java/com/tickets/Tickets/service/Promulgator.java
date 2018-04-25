@@ -18,7 +18,7 @@ public interface Promulgator {
 	//设置场馆座位信息
 	public boolean setseatprice(Venue venue);
 	//制定周边产品策划
-	public void createGoodsPlan(ArrayList<Goods> allgoods);
+	public boolean createGoodsPlan(ArrayList<Goods> allgoods);
 	//上传策划文档
 	public void uploadfile(String filename);
 	//修改未通过的音乐会信息

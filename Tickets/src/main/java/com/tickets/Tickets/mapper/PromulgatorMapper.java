@@ -1,5 +1,6 @@
 package com.tickets.Tickets.mapper;
 
+import com.tickets.Tickets.entity.Goods;
 import com.tickets.Tickets.entity.Plan;
 import com.tickets.Tickets.entity.Promulgator;
 
@@ -15,4 +16,6 @@ public interface PromulgatorMapper {
     public Promulgator proByName(String name);
     public ArrayList<Plan> allPlan(int id);
     public Plan findPlanByID(int id);
+    public void WritePlan(Plan plan);
+    public void WriteGoods(ArrayList<Goods> goods);
 }
