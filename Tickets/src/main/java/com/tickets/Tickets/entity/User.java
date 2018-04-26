@@ -12,7 +12,7 @@ public class User implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Integer userid;
+	private Long userid;
 	private String email;
 	private String password;
 	private String nickname;
@@ -22,10 +22,10 @@ public class User implements Serializable {
 	private Integer exp;
 	private Integer points;
 	private double money;
-	public Integer getUserid() {
+	public Long getUserid() {
 		return userid;
 	}
-	public void setUserid(Integer userid) {
+	public void setUserid(Long userid) {
 		this.userid = userid;
 	}
 	public String getEmail() {

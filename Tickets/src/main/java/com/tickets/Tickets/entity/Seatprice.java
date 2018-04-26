@@ -7,11 +7,11 @@ public class Seatprice implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Integer id;
-	private Integer planid;
-	private Integer orderid;
-	private Integer seatid;
-	private Integer venueid;
+	private Long id;
+	private Long planid;
+	private Long orderid;
+	private Long seatid;
+	private Long venueid;
     private Integer x;//x坐标
     private Integer y;//y坐标
 	private double price;
@@ -28,34 +28,34 @@ public class Seatprice implements Serializable {
 	public void setY(Integer y) {
 		this.y = y;
 	}
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-	public Integer getPlanid() {
+	public Long getPlanid() {
 		return planid;
 	}
-	public void setPlanid(Integer planid) {
+	public void setPlanid(Long planid) {
 		this.planid = planid;
 	}
-	public Integer getOrderid() {
+	public Long getOrderid() {
 		return orderid;
 	}
-	public void setOrderid(Integer orderid) {
+	public void setOrderid(Long orderid) {
 		this.orderid = orderid;
 	}
-	public Integer getSeatid() {
+	public Long getSeatid() {
 		return seatid;
 	}
-	public void setSeatid(Integer seatid) {
+	public void setSeatid(Long seatid) {
 		this.seatid = seatid;
 	}
-	public Integer getVenueid() {
+	public Long getVenueid() {
 		return venueid;
 	}
-	public void setVenueid(Integer venueid) {
+	public void setVenueid(Long venueid) {
 		this.venueid = venueid;
 	}
 	public double getPrice() {

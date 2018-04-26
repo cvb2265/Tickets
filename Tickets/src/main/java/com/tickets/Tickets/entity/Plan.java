@@ -11,23 +11,23 @@ public class Plan implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Integer id;
+	private Long id;
 	private String name;
 	private String starttime;
 	private String endtime;
 	private String introduction;
 	private String cover;
 	private String location;
-	private Integer venueid;
+	private Long venueid;
 	private boolean overdue;
 	private boolean isrecommend;
 	private String type;//演唱会类型
 	private String scheme;//上传的演唱会策划书路径名
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -66,10 +66,10 @@ public class Plan implements Serializable {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public int getVenueid() {
+	public Long getVenueid() {
 		return venueid;
 	}
-	public void setVenueid(int venueid) {
+	public void setVenueid(Long venueid) {
 		this.venueid = venueid;
 	}
 	public boolean isOverdue() {

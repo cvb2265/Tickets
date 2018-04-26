@@ -352,4 +352,20 @@ public class UserController {
 		return mv;
 	}
 	
+
+	//主页
+	@RequestMapping(value={"/user/", "/user/myordersV"})
+	public ModelAndView myordersV(
+			 String order_state,
+			 HttpSession session,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/myordersV接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		User user = (User) session.getAttribute("user");
+		mv.addObject("rcmplans", 1);
+		mv.setViewName("/user/myorders");
+		return mv;
+	}
+	
+	
 }

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Seat implements Serializable {
     private static final long serialVersionUID = -555631526669909845L;
-    private Integer id;
+    private Long id;
     private Integer venueid;//所属场馆id
     private Integer x;//x坐标
     private Integer y;//y坐标
@@ -16,7 +16,7 @@ public class Seat implements Serializable {
     public Seat() {
     }
 
-    public Seat(int id, int venueid, int x, int y) {
+    public Seat(Long id, int venueid, int x, int y) {
         this.id = id;
         this.venueid = venueid;
         this.x = x;
@@ -29,11 +29,11 @@ public class Seat implements Serializable {
         this.y = y;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

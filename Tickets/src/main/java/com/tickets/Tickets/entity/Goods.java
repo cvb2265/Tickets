@@ -8,23 +8,23 @@ public class Goods implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Integer id;
-	private Integer planid;
+	private Long id;
+	private Long planid;
 	private String goodsname;
 	private String introduction;
 	private String pic;
 	private double price;
-	private Integer orederid;
-	public Integer getId() {
+	private Long orederid;
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-	public Integer getPlanid() {
+	public Long getPlanid() {
 		return planid;
 	}
-	public void setPlanid(Integer planid) {
+	public void setPlanid(Long planid) {
 		this.planid = planid;
 	}
 	public double getPrice() {
@@ -33,10 +33,10 @@ public class Goods implements Serializable {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public Integer getOrederid() {
+	public Long getOrederid() {
 		return orederid;
 	}
-	public void setOrederid(Integer orederid) {
+	public void setOrederid(Long orederid) {
 		this.orederid = orederid;
 	}
 	public String getGoodsname() {

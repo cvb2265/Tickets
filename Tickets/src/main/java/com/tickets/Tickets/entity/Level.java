@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Level implements Serializable {
     private static final long serialVersionUID = -1073531577986198577L;
-    private Integer id;
+    private Long id;
     private Integer level_num;// 当前等级
     private Integer maxexp;//当前等级升级所需经验
     private double discount;//当前等级享受的折扣
@@ -16,7 +16,7 @@ public class Level implements Serializable {
     public Level() {
     }
 
-    public Level(int id, int level_num, int maxexp, double discount) {
+    public Level(Long id, int level_num, int maxexp, double discount) {
         this.id = id;
         this.level_num = level_num;
         this.maxexp = maxexp;
@@ -29,11 +29,11 @@ public class Level implements Serializable {
         this.discount = discount;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

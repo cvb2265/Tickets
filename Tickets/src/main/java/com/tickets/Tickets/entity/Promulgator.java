@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Promulgator implements Serializable {
     private static final long serialVersionUID = -2949672680438152783L;
-    private Integer id;
+    private Long id;
     private String email;
     private String password;
     private String name;
@@ -19,7 +19,7 @@ public class Promulgator implements Serializable {
     public Promulgator() {
     }
 
-    public Promulgator(int id, String email, String password, String name, int balance, int power, String head) {
+    public Promulgator(Long id, String email, String password, String name, int balance, int power, String head) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -38,11 +38,11 @@ public class Promulgator implements Serializable {
         this.head = head;
     }
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

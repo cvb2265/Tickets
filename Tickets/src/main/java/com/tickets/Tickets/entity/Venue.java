@@ -6,7 +6,7 @@ import java.util.ArrayList;
 //
 public class Venue implements Serializable {
     private static final long serialVersionUID = -8344780188907829753L;
-    private Integer id;
+    private Long id;
     private String city;
     private String address;
     private String name;
@@ -19,7 +19,7 @@ public class Venue implements Serializable {
     public Venue() {
     }
 
-    public Venue(int id, String city, String address, String name,ArrayList<Seat> seats) {
+    public Venue(Long id, String city, String address, String name,ArrayList<Seat> seats) {
         this.id = id;
         this.city = city;
         this.address = address;
@@ -34,11 +34,11 @@ public class Venue implements Serializable {
         this.seats = seats;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

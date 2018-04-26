@@ -4,7 +4,7 @@ USE concerttickets;
 
 #tqy
 CREATE TABLE user(
-   userid			INT(11)			PRIMARY KEY		AUTO_INCREMENT,
+   userid			bigint			PRIMARY KEY		AUTO_INCREMENT,
    email			VARCHAR(20)	NOT NULL	unique,
    password			VARCHAR(20)	NOT NULL,
    nickname			VARCHAR(20)	NOT NULL,
@@ -16,8 +16,8 @@ CREATE TABLE user(
    money			double			NOT NULL	#当前账号余额
 ) ;
 CREATE TABLE order_(
-   orderid			INT(20)			PRIMARY KEY		AUTO_INCREMENT,
-   userid			INT(11)			NOT NULL,
+   orderid			bigint			PRIMARY KEY		AUTO_INCREMENT,
+   userid			bigint			NOT NULL,
    time				datetime		NOT NULL,
    money			double			NOT NULL,	#原价
    points_cost		INT(11)			NOT NULL,	#花费的积分
@@ -32,7 +32,7 @@ INSERT INTO `user` (`userid`, `email`, `password`, `nickname`, `interest`, `face
 
 #chenfei
 CREATE TABLE `venue` (
-   `id`			INT(11)			PRIMARY KEY		AUTO_INCREMENT,
+   `id`			bigint			PRIMARY KEY		AUTO_INCREMENT,
    `city`		varchar(20)		NOT NULL,
    `address`		varchar(60)		NOT NULL,
    `name`		varchar(20)		NOT NULL
@@ -49,13 +49,13 @@ INSERT INTO `venue` (`id`, `city`, `address`, `name`) VALUES (9, "大连", "甘�
 INSERT INTO `venue` (`id`, `city`, `address`, `name`) VALUES (10, "宁波", "鄞州区中山东路1999号", "宁波文化广场万人广场") ;
 INSERT INTO `venue` (`id`, `city`, `address`, `name`) VALUES (11, "青岛", "市南区太平路9号", "青岛市人民会堂") ;
 CREATE TABLE `seat` (
-   `id`			INT(11)			PRIMARY KEY		AUTO_INCREMENT,
+   `id`			bigint			PRIMARY KEY		AUTO_INCREMENT,
    `venueid`		INT(11)			NOT NULL,
    `x`			int(11)			NOT NULL,
    `y`			int(11)			NOT NULL
 ) ;
 CREATE TABLE level(
-   id			INT(11)			PRIMARY KEY		AUTO_INCREMENT,
+   id			bigint			PRIMARY KEY		AUTO_INCREMENT,
    level_num			INT(11)			NOT NULL	unique,
    maxexp			INT(11)			NOT NULL,			#升级所需经验
    discount			double			NOT NULL			#折扣
@@ -68,6 +68,14 @@ INSERT INTO level VALUES (5, 5, 650,  0.96) ;
 INSERT INTO level VALUES (6, 6, 800,  0.95) ;
 INSERT INTO level VALUES (7, 7, 950,  0.93) ;
 INSERT INTO level VALUES (8, 8, 1100,  0.9) ;
+CREATE TABLE `notice`(
+   `id`			bigint		PRIMARY KEY		AUTO_INCREMENT,
+   `userid`		bigint			NOT NULL,
+   `time`		datetime		NOT NULL,
+   `title`		varchar(80)		NOT NULL,
+   `content`		varchar(900)		NOT NULL,
+   `read`		boolean			NOT NULL	#是否已读
+) ;
 
 
 
@@ -75,7 +83,7 @@ INSERT INTO level VALUES (8, 8, 1100,  0.9) ;
 #wanglei
 
 CREATE TABLE IF NOT EXISTS `promulgator` (
-   `id`			INT(11)			PRIMARY KEY		AUTO_INCREMENT,
+   `id`			bigint			PRIMARY KEY		AUTO_INCREMENT,
   `email` varchar(20) NOT NULL		UNIQUE,
   `password` varchar(20) NOT NULL,
   `name` varchar(20) NOT NULL,
@@ -87,14 +95,14 @@ INSERT INTO `promulgator` (`id`, `email`, `password`, `name`, `balance`, `power`
    VALUES (1, "125@qq.com", "125", "南京市城管大队", 333, false, "1.jpg") ;
 
 CREATE TABLE `plan` (
-   `id`			INT(11)			PRIMARY KEY		AUTO_INCREMENT,
+   `id`			bigint			PRIMARY KEY		AUTO_INCREMENT,
    `name`		varchar(60)		NOT NULL,
    `starttime`		datetime		NOT NULL,
    `endtime`		datetime		NOT NULL,
    `introduction`	varchar(900)		NOT NULL,
    `cover`		varchar(20)		NOT NULL,
    `location`		varchar(20)		NOT NULL,
-   `venueid`		int(11)			NOT NULL,
+   `venueid`		bigint			NOT NULL,
    `overdue`		tinyint(1)		NOT NULL	DEFAULT '0',
    `isrecommend`	tinyint(1)		NOT NULL	DEFAULT '0',
    `type`		varchar(20)		NOT NULL,
@@ -102,11 +110,11 @@ CREATE TABLE `plan` (
 ) ;
 
 CREATE TABLE `seatprice` (
-   `id`			INT(11)			PRIMARY KEY		AUTO_INCREMENT,
-  `planid` int(11) NOT NULL,
-  `orderid` int(20) DEFAULT NULL,
-  `seatid` int(11) NOT NULL,
-  `venueid` int(11) NOT NULL,
+   `id`			bigint			PRIMARY KEY		AUTO_INCREMENT,
+  `planid` bigint NOT NULL,
+  `orderid` bigint DEFAULT NULL,
+  `seatid` bigint NOT NULL,
+  `venueid` bigint NOT NULL,
    `x`			int(11)			NOT NULL,
    `y`			int(11)			NOT NULL,
   `price` double NOT NULL,
@@ -114,13 +122,13 @@ CREATE TABLE `seatprice` (
 );
 
 CREATE TABLE IF NOT EXISTS `goods` (
-   `id`			INT(11)			PRIMARY KEY		AUTO_INCREMENT,
-  `planid` int(11) NOT NULL,
+   `id`			bigint			PRIMARY KEY		AUTO_INCREMENT,
+  `planid` bigint NOT NULL,
   `goodsname` varchar(20) NOT NULL,
   `introduction` varchar(400) NOT NULL,
   `pic` varchar(30) NOT NULL,
   `price` double NOT NULL,
-  `orderid` int(20) DEFAULT NULL
+  `orderid` bigint DEFAULT NULL
 );
 
 

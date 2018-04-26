@@ -12,24 +12,24 @@ public class Order implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Integer orderid;
-	private Integer userid;
+	private Long orderid;
+	private Long userid;
 	private String time;//暂时用String
 	private double money;
 	private Integer points_cost;
 	private double perc;
 	private double rmoney;
 	private String state;
-	public Integer getOrderid() {
+	public Long getOrderid() {
 		return orderid;
 	}
-	public void setOrderid(Integer orderid) {
+	public void setOrderid(Long orderid) {
 		this.orderid = orderid;
 	}
-	public Integer getUserid() {
+	public Long getUserid() {
 		return userid;
 	}
-	public void setUserid(Integer userid) {
+	public void setUserid(Long userid) {
 		this.userid = userid;
 	}
 	public String getTime() {
