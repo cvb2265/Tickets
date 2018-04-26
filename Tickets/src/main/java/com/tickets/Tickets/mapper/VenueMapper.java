@@ -20,6 +20,6 @@ public interface VenueMapper {
 	 * 
 	 */
 	@Select(value = "SELECT * FROM venue WHERE id = #{venueid}")
-	public Venue findById(@Param("venueid")Integer venueid);
+	public Venue findById(@Param("venueid")Long venueid);
 
 }

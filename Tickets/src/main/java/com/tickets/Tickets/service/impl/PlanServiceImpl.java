@@ -40,7 +40,7 @@ public class PlanServiceImpl implements PlanService {
 	 */
 	@Transactional(readOnly=true)
 	@Override
-	public List<Plan> getPlans(int pageSize, int index, Page page, String keyword, String day1,
+	public List<Plan> getPlans(Long pageSize, Long index, Page page, String keyword, String day1,
 			String day2, String location, String overdue, String isrecommend, String type, String sort_strategy) {
 		logger.info("getplans方法 被调用");
 		
@@ -74,9 +74,9 @@ public class PlanServiceImpl implements PlanService {
 		
 		
 		
-		int recordCount = planMapper.plancount(params);
+		long recordCount = planMapper.plancount(params);
 		page.setRecordCount(recordCount);
-		int pageCount = recordCount/pageSize;
+		long pageCount = recordCount/pageSize;
 		if(recordCount==0){
 			return null;
 		}else{
@@ -90,10 +90,10 @@ public class PlanServiceImpl implements PlanService {
 		
 
 
-		int offset=(index-1)*pageSize;
+		long offset=(index-1)*pageSize;
 		params2.put("offset", offset);
 		
-		int num=pageSize;
+		long num=pageSize;
 		if(index==pageCount){//最后一页
 			num=recordCount-(pageCount-1)*pageSize;
 		}
@@ -120,7 +120,7 @@ public class PlanServiceImpl implements PlanService {
 	 */
 	@Transactional(readOnly=true)
 	@Override
-	public Plan getById(int planid) {
+	public Plan getById(Long planid) {
 		logger.info("getById方法 被调用");
 		return planMapper.findById(planid);
 	}

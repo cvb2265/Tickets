@@ -169,7 +169,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean activationAccount(Integer userid) {
+	public boolean activationAccount(Long userid) {
 		User user = userMapper.findById(userid);
 		if(user.getLevel()!=-1) {
 			return false;
@@ -180,14 +180,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public synchronized ResultMessage createOrder(Integer userid, String spids, Integer points_cost) {
+	public synchronized ResultMessage createOrder(Long userid, String spids, Integer points_cost) {
 		logger.info("createOrder方法 被调用");
 		ResultMessage rm = new ResultMessage();
 		double money = 0.0;
 		List<Seatprice> ls = new ArrayList<Seatprice>();
 		String[] ss = spids.split("-");
 		for(int i=0;i<ss.length;i++) {
-			Seatprice sp = seatpriceMapper.findById(Integer.parseInt(ss[i]));
+			Seatprice sp = seatpriceMapper.findById(Long.parseLong(ss[i]));
 			if(!sp.isAvail()) {
 				rm.setResult(false);
 				rm.setMessage("座位已经被预订，请重新预订！");
@@ -229,7 +229,7 @@ public class UserServiceImpl implements UserService {
 		
 		
 		//更新seatprice表
-		int orderid = orderMapper.getOrderid(userid, time);
+		long orderid = orderMapper.getOrderid(userid, time);
 		for(int i=0;i<ls.size();i++) {
 			ls.get(i).setAvail(false);
 			ls.get(i).setOrderid(orderid);

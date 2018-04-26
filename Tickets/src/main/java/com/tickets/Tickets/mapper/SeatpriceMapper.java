@@ -24,7 +24,7 @@ public interface SeatpriceMapper {
 	 * 
 	 */
 	@Select(value = "SELECT * FROM seatprice WHERE planid = #{planid} ORDER BY x ASC, y ASC")
-	public List<Seatprice> findByPlanid(@Param("planid")Integer planid);
+	public List<Seatprice> findByPlanid(@Param("planid")Long planid);
 	
 	/**
 	 * 
@@ -33,7 +33,7 @@ public interface SeatpriceMapper {
 	 * 
 	 */
 	@Select(value = "SELECT * FROM seatprice WHERE id = #{id}")
-	public Seatprice findById(@Param("id")Integer id);
+	public Seatprice findById(@Param("id")Long id);
 
 
 	/**

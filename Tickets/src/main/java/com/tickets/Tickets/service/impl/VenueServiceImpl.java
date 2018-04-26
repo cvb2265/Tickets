@@ -34,7 +34,7 @@ public class VenueServiceImpl implements VenueService {
 	 */
 	@Transactional(readOnly=true)
 	@Override
-	public Venue getById(int venueid) {
+	public Venue getById(Long venueid) {
 		logger.info("getById方法 被调用");
 		return venueMapper.findById(venueid);
 	}

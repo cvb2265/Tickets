@@ -10,7 +10,7 @@ public interface VenueService {
 	 * @date 2018年4月21日
 	 * 
 	 */
-	public Venue getById(int venueid);
+	public Venue getById(Long venueid);
 	
 	
 }

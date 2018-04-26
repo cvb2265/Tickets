@@ -48,7 +48,7 @@ public interface PlanMapper {
             + "</if>"
             + "</where>"
             + "</script>")
-	public Integer plancount(Map<String, Object> params);
+	public Long plancount(Map<String, Object> params);
 	
 	
 	/**
@@ -100,6 +100,6 @@ public interface PlanMapper {
 	 * 
 	 */
 	@Select(value = "SELECT * FROM plan WHERE id = #{planid}")
-	public Plan findById(@Param("planid")Integer planid);
+	public Plan findById(@Param("planid")Long planid);
 
 }

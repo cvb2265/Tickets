@@ -38,7 +38,7 @@ public class SeatpriceServiceImpl implements SeatpriceService {
 	 */
 	@Transactional(readOnly=true)
 	@Override
-	public List<Seatprice> getByPlanid(int planid) {
+	public List<Seatprice> getByPlanid(Long planid) {
 		logger.info("getByPlanid方法 被调用");
 		return seatpriceMapper.findByPlanid(planid);
 	}
@@ -54,7 +54,7 @@ public class SeatpriceServiceImpl implements SeatpriceService {
 	 */
 	@Transactional(readOnly=true)
 	@Override
-	public Seatprice getById(int id) {
+	public Seatprice getById(Long id) {
 		logger.info("getById方法 被调用");
 		return seatpriceMapper.findById(id);
 	}

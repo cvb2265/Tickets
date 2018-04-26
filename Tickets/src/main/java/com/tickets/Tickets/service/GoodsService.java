@@ -13,7 +13,7 @@ public interface GoodsService {
 	 * @date 2018年4月25日
 	 * 
 	 */
-	public List<Goods> getGoodsByPlanid(int pageSize, int index, Page page, int planid);
+	public List<Goods> getGoodsByPlanid(Long pageSize, Long index, Page page, Long planid);
 
 
 	

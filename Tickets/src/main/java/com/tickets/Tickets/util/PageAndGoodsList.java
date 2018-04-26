@@ -10,31 +10,31 @@ import com.tickets.Tickets.entity.Goods;
  * 
  */
 public class PageAndGoodsList {
-	private int recordCount;	//总记录数
-	private int pageCount;	//总页数
-	private int index;		//第几页
+	private Long recordCount;	//总记录数
+	private Long pageCount;	//总页数
+	private Long index;		//第几页
 	List<Goods> list;
 	public PageAndGoodsList(){
-		recordCount=0;
-		pageCount=0;
-		index=0;
+		recordCount=0L;
+		pageCount=0L;
+		index=0L;
 	}
-	public int getRecordCount() {
+	public Long getRecordCount() {
 		return recordCount;
 	}
-	public void setRecordCount(int recordCount) {
+	public void setRecordCount(Long recordCount) {
 		this.recordCount = recordCount;
 	}
-	public int getPageCount() {
+	public Long getPageCount() {
 		return pageCount;
 	}
-	public void setPageCount(int pageCount) {
+	public void setPageCount(Long pageCount) {
 		this.pageCount = pageCount;
 	}
-	public int getIndex() {
+	public Long getIndex() {
 		return index;
 	}
-	public void setIndex(int index) {
+	public void setIndex(Long index) {
 		this.index = index;
 	}
 	public List<Goods> getList() {

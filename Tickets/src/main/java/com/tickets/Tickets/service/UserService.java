@@ -19,9 +19,9 @@ public interface UserService {
 	//发送激活邮件
     public boolean sendActivationEmail(String email, String password);
 	//激活账户
-	public boolean activationAccount(Integer userid);
+	public boolean activationAccount(Long userid);
 	
 	//预订座位，需要同步synchronized
-	public ResultMessage createOrder(Integer userid, String spids, Integer points_cost);
+	public ResultMessage createOrder(Long userid, String spids, Integer points_cost);
 	
 }

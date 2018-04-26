@@ -23,6 +23,6 @@ public interface OrderMapper {
 	public Integer save(Order order);	
 	
 	@Select(value = "SELECT orderid FROM order_ WHERE userid = #{userid} AND time = #{time}")
-	public int getOrderid(@Param("userid")int userid, @Param("time")String time);
+	public Long getOrderid(@Param("userid")Long userid, @Param("time")String time);
 
 }

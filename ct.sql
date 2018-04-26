@@ -76,6 +76,9 @@ CREATE TABLE `notice`(
    `content`		varchar(900)		NOT NULL,
    `read`		boolean			NOT NULL	#是否已读
 ) ;
+INSERT INTO `notice` VALUES (1, 1, "2018-04-26 12:12:12", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
+INSERT INTO `notice` VALUES (2, 1, "2018-04-26 12:12:13", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
+INSERT INTO `notice` VALUES (3, 1, "2018-04-26 12:12:14", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
 
 
 

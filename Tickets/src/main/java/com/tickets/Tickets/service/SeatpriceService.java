@@ -12,14 +12,14 @@ public interface SeatpriceService {
 	 * @date 2018年4月21日
 	 * 
 	 */
-	public List<Seatprice> getByPlanid(int planid);
+	public List<Seatprice> getByPlanid(Long planid);
 	
 	/**
 	 * @author tqy
 	 * @date 2018年4月23日
 	 * 
 	 */
-	public Seatprice getById(int id);
+	public Seatprice getById(Long id);
 	
 	
 }

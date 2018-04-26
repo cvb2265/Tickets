@@ -42,14 +42,14 @@ public class GoodsServiceImpl implements GoodsService {
 	 */
 	@Transactional(readOnly=true)
 	@Override
-	public List<Goods> getGoodsByPlanid(int pageSize, int index, Page page, int planid) {
+	public List<Goods> getGoodsByPlanid(Long pageSize, Long index, Page page, Long planid) {
 		logger.info("getGoodsByPlanid方法 被调用");
 		/** 当前需要分页的总数据条数  */
 		Map<String,Object> params = new HashMap<>();
 		params.put("planid", planid);
-		int recordCount = goodsMapper.goodscount(params);
+		long recordCount = goodsMapper.goodscount(params);
 		page.setRecordCount(recordCount);
-		int pageCount = recordCount/pageSize;
+		long pageCount = recordCount/pageSize;
 		if(recordCount==0){
 			return null;
 		}else{
@@ -64,10 +64,10 @@ public class GoodsServiceImpl implements GoodsService {
 
 		Map<String,Object> params2 = new HashMap<>();
 
-		int offset=(index-1)*pageSize;
+		long offset=(index-1)*pageSize;
 		params2.put("offset", offset);
 		
-		int num=pageSize;
+		long num=pageSize;
 		if(index==pageCount){//最后一页
 			num=recordCount-(pageCount-1)*pageSize;
 		}

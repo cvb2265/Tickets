@@ -100,28 +100,28 @@ public class UserController {
 		
 
 		Page page = new Page();
-		List<Plan> list = planService.getPlans(6, 1, page, "",
+		List<Plan> list = planService.getPlans(6L, 1L, page, "",
 				"", "", "",  "false", "true", "",  "DESC");
 		mv.addObject("rcmplans", list);
-		List<Plan> list2 = planService.getPlans(6, 1, page, "",
+		List<Plan> list2 = planService.getPlans(6L, 1L, page, "",
 				"", "", "",  "false", "true", "流行",  "DESC");
 		mv.addObject("lxplans", list2);
-		List<Plan> list3 = planService.getPlans(6, 1, page, "",
+		List<Plan> list3 = planService.getPlans(6L, 1L, page, "",
 				"", "", "",  "false", "true", "古典",  "DESC");
 		mv.addObject("gdplans", list3);
-		List<Plan> list4 = planService.getPlans(6, 1, page, "",
+		List<Plan> list4 = planService.getPlans(6L, 1L, page, "",
 				"", "", "",  "false", "true", "摇滚",  "DESC");
 		mv.addObject("ygplans", list4);
-		List<Plan> list5 = planService.getPlans(6, 1, page, "",
+		List<Plan> list5 = planService.getPlans(6L, 1L, page, "",
 				"", "", "",  "false", "true", "名族",  "DESC");
 		mv.addObject("mzplans", list5);
-		List<Plan> list6 = planService.getPlans(6, 1, page, "",
+		List<Plan> list6 = planService.getPlans(6L, 1L, page, "",
 				"", "", "",  "false", "true", "乡村",  "DESC");
 		mv.addObject("xcplans", list6);
-		List<Plan> list7 = planService.getPlans(6, 1, page, "",
+		List<Plan> list7 = planService.getPlans(6L, 1L, page, "",
 				"", "", "",  "false", "true", "管弦乐",  "DESC");
 		mv.addObject("gxyplans", list7);
-		List<Plan> list8 = planService.getPlans(6, 1, page, "",
+		List<Plan> list8 = planService.getPlans(6L, 1L, page, "",
 				"", "", "",  "false", "true", "其它",  "DESC");
 		mv.addObject("qtplans", list8);
 		
@@ -204,7 +204,7 @@ public class UserController {
 	
 	@RequestMapping(value="/user/activation")
 	public ModelAndView activation(
-			 Integer uid,
+			 Long uid,
 			 ModelAndView mv,
 			 HttpServletRequest request,
 			 Model model) {
@@ -224,7 +224,7 @@ public class UserController {
 	@RequestMapping(value="/user/searchplans")
 	@ResponseBody
 	public Object searchplans(
-			int pageSize, int index, String keyword, 
+			Long pageSize, Long index, String keyword, 
 			String day1, String day2, String location, String overdue, 
 			String isrecommend, String type, String sort_strategy,
 			 HttpServletRequest request
@@ -264,7 +264,7 @@ public class UserController {
 	
 	@RequestMapping(value="/user/loadseat")
 	public ModelAndView loadseat(
-			 int planid,
+			 Long planid,
 			 ModelAndView mv,
 			 HttpServletRequest request){
 		logger.info("/user/loadseat接口 被调用，请求者的地址是"+request.getRemoteAddr());
@@ -299,7 +299,7 @@ public class UserController {
 	}	
 	@RequestMapping(value="/user/loadgoods")
 	public ModelAndView loadgoods(
-			 int planid,
+			Long planid,
 			 ModelAndView mv,
 			 HttpServletRequest request){
 		logger.info("/user/loadgoods接口 被调用，请求者的地址是"+request.getRemoteAddr());
@@ -311,8 +311,8 @@ public class UserController {
 	@RequestMapping(value="/user/searchgoods")
 	@ResponseBody
 	public Object searchgoods(
-			int pageSize, int index,
-			int planid,
+			Long pageSize, Long index,
+			Long planid,
 			 ModelAndView mv,
 			 HttpServletRequest request){
 		logger.info("/user/searchgoods接口 被调用，请求者的地址是"+request.getRemoteAddr());
@@ -354,7 +354,7 @@ public class UserController {
 	
 
 	//主页
-	@RequestMapping(value={"/user/", "/user/myordersV"})
+	/*@RequestMapping(value={"/user/", "/user/myordersV"})
 	public ModelAndView myordersV(
 			 String order_state,
 			 HttpSession session,
@@ -365,7 +365,7 @@ public class UserController {
 		mv.addObject("rcmplans", 1);
 		mv.setViewName("/user/myorders");
 		return mv;
-	}
+	}*/
 	
 	
 }

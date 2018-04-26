@@ -33,6 +33,6 @@ public interface GoodsMapper {
 	 * 
 	 */
 	@Select(value = "SELECT COUNT(id) FROM goods WHERE planid = #{planid}")
-	public Integer goodscount(Map<String, Object> params);
+	public Long goodscount(Map<String, Object> params);
 
 }
