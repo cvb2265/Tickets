@@ -397,7 +397,8 @@ img.cover2 {
   <div carousel-item="" class="cover1_div">
     <div th:each="plan: ${rcmplans}">
     	<span th:text="${plan.name}"></span>
-    	<img th:src="@{/cover/}+${plan.cover}"/>
+    	<a th:if="${session.user}" th:href="@{/user/loadseat}+'?planid='+${plan.id}"><img th:src="@{/cover/}+${plan.cover}"/></a>
+    	<a th:unless="${session.user}" th:href="@{/user/loginV}"><img th:src="@{/cover/}+${plan.cover}"/></a>
     </div>
   </div>
 </div>
