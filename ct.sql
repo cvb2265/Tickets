@@ -79,6 +79,14 @@ CREATE TABLE `notice`(
 INSERT INTO `notice` VALUES (1, 1, "2018-04-26 12:12:12", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
 INSERT INTO `notice` VALUES (2, 1, "2018-04-26 12:12:13", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
 INSERT INTO `notice` VALUES (3, 1, "2018-04-26 12:12:14", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
+INSERT INTO `notice` VALUES (4, 1, "2018-04-26 12:12:15", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
+INSERT INTO `notice` VALUES (5, 1, "2018-04-26 12:12:16", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
+INSERT INTO `notice` VALUES (6, 1, "2018-04-26 12:12:17", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
+INSERT INTO `notice` VALUES (7, 1, "2018-04-26 12:12:18", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
+INSERT INTO `notice` VALUES (8, 1, "2018-04-26 12:12:19", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
+INSERT INTO `notice` VALUES (9, 1, "2018-04-26 12:12:20", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
+INSERT INTO `notice` VALUES (10, 1, "2018-04-26 12:12:21", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
+INSERT INTO `notice` VALUES (11, 1, "2018-04-26 12:12:22", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
 
 
 

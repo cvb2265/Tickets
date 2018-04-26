@@ -25,6 +25,7 @@ import com.tickets.Tickets.entity.Seatprice;
 import com.tickets.Tickets.entity.User;
 import com.tickets.Tickets.entity.Venue;
 import com.tickets.Tickets.service.GoodsService;
+import com.tickets.Tickets.service.NoticeService;
 import com.tickets.Tickets.service.PlanService;
 import com.tickets.Tickets.service.SeatpriceService;
 import com.tickets.Tickets.service.UserService;
@@ -60,6 +61,9 @@ public class UserController {
 	@Autowired
 	@Qualifier("goodsService")
 	private GoodsService goodsService;
+	@Autowired
+	@Qualifier("noticeService")
+	private NoticeService noticeService;
 	
 	//打印日志
 	private static final Log logger = LogFactory.getLog(UserController.class);
@@ -353,8 +357,8 @@ public class UserController {
 	}
 	
 
-	//主页
-	/*@RequestMapping(value={"/user/", "/user/myordersV"})
+	//记得填坑坑坑坑坑坑坑坑坑坑坑坑坑坑坑坑坑坑坑坑坑
+	@RequestMapping(value="/user/myordersV")
 	public ModelAndView myordersV(
 			 String order_state,
 			 HttpSession session,
@@ -362,10 +366,10 @@ public class UserController {
 			 HttpServletRequest request){
 		logger.info("/user/myordersV接口 被调用，请求者的地址是"+request.getRemoteAddr());
 		User user = (User) session.getAttribute("user");
-		mv.addObject("rcmplans", 1);
+		mv.addObject("aa", "aa");
 		mv.setViewName("/user/myorders");
 		return mv;
-	}*/
+	}
 	
 	
 }

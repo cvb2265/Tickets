@@ -48,6 +48,21 @@ layui.use('element', function(){
 
 
 
+
+/*主体*/
+#tb {
+	background-color:#eeee00;
+	width:996px;
+}
+#left_div {
+	background-color:#ee0000;
+	width:300px;
+}
+#right_div {
+	background-color:#00ee00;
+	width:696px;
+}
+
 </style>
 </head>
 <body>
@@ -59,11 +74,10 @@ layui.use('element', function(){
   <li class="layui-nav-item" th:if="${session.user}">
     <a href="javascript:;">我的订单</a>
     <dl class="layui-nav-child">
-      <dd><a href="">全部订单</a></dd>
-      <dd><a href="">未支付</a></dd>
-      <dd><a href="">已支付</a></dd>
-      <dd><a href="">已完成</a></dd>
-      <dd><a href="">已取消</a></dd>
+      <dd><a th:href="@{/user/myordersV(order_state=all)}">全部订单</a></dd>
+      <dd><a th:href="@{/user/myordersV(order_state=unpaid)}">未支付</a></dd>
+      <dd><a th:href="@{/user/myordersV(order_state=paid)}">已支付</a></dd>
+      <dd><a th:href="@{/user/myordersV(order_state=finished)}">已完成</a></dd>
     </dl>
   </li>
 </ul>
@@ -92,9 +106,71 @@ layui.use('element', function(){
 <br/>
 <br/>
 
-哈哈哈
+<table id="tb">
+	<tr>
+		<td>
+<div id="left_div">
+
+<ul class="layui-nav layui-nav-tree layui-inline"  lay-filter="demo" style="margin-right: 10px;">
+  <li class="layui-nav-item layui-nav-itemed">
+    <a href="javascript:;">我的订单</a>
+    <dl class="layui-nav-child">
+      <dd><a href="javascript:;">全部订单</a></dd>
+      <dd><a href="javascript:;">未支付</a></dd>
+      <dd><a href="javascript:;">已支付</a></dd>
+      <dd><a href="javascript:;">已完成</a></dd>
+    </dl>
+  </li>
+  <li class="layui-nav-item layui-nav-itemed">
+    <a href="javascript:;">消息中心</a>
+    <dl class="layui-nav-child">
+      <dd><a href="javascript:;">全部消息</a></dd>
+      <dd><a href="javascript:;">未读消息</a></dd>
+      <dd><a href="javascript:;">已读消息</a></dd>
+    </dl>
+  </li>
+  <li class="layui-nav-item layui-nav-itemed">
+    <a href="javascript:;">账号中心</a>
+    <dl class="layui-nav-child">
+      <dd><a href="javascript:;">修改信息</a></dd>
+      <dd><a href="javascript:;">安全管理</a></dd>
+    </dl>
+  </li>
+  <li class="layui-nav-item"><a href="">充值</a></li>
+</ul>
 
 </div>
+		</td>
+		
+		
+		<td>
+<div id="right_div">
+	啊啊啊
+</div>
+		</td>
+		
+		
+	</tr>
+</table>
+
+</div>
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 
 
 </body>
