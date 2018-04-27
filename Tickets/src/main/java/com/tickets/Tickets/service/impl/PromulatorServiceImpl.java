@@ -5,6 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
 import com.tickets.Tickets.entity.Goods;
 import com.tickets.Tickets.entity.Plan;
 import com.tickets.Tickets.entity.Venue;
@@ -13,12 +16,14 @@ import com.tickets.Tickets.service.Promulgator;
 import com.tickets.Tickets.util.CheckLegal;
 
 public class PromulatorServiceImpl implements Promulgator {
-
+	@Autowired
+	@Qualifier("promulgatorMapper")
+	
 	private PromulgatorMapper promulatorMapper;
 	private CheckLegal util;
 	@Override
 	public boolean login(String email, String password) {
-		if(promulatorMapper.find(email, password)!=null)
+		if(promulatorMapper.findProID(email, password)!=null)
 			return true;
 		else
 			return false;
@@ -45,7 +50,7 @@ public class PromulatorServiceImpl implements Promulgator {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		if(util.IstimeLegal(startdate)&&util.IstimeLegal(enddate)) {
+		if(util.IstimeLegal(startdate,enddate)) {
 			promulatorMapper.WritePlan(plan);
 			return true;
 		}
@@ -89,7 +94,7 @@ public class PromulatorServiceImpl implements Promulgator {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		if(util.IstimeLegal(startdate)&&util.IstimeLegal(enddate)) {
+		if(util.IstimeLegal(startdate,enddate)) {
 			promulatorMapper.WritePlan(plan);
 			return true;
 		}
