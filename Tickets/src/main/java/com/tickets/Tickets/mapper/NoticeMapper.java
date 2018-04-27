@@ -31,7 +31,7 @@ public interface NoticeMapper {
             +"    AND read = #{read} "
             +"</if>"
             + "</where>"
-            + " ORDER BY time ASC "
+            + " ORDER BY time DESC "
             + "LIMIT #{offset} , #{num}"
             + "</script>")
 	public List<Notice> findNoticeByPage(Map<String, Object> params);

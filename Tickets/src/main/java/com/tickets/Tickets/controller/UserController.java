@@ -1,9 +1,7 @@
 package com.tickets.Tickets.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,19 +18,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tickets.Tickets.entity.Goods;
+import com.tickets.Tickets.entity.Order;
 import com.tickets.Tickets.entity.Plan;
 import com.tickets.Tickets.entity.Seatprice;
 import com.tickets.Tickets.entity.User;
 import com.tickets.Tickets.entity.Venue;
 import com.tickets.Tickets.service.GoodsService;
 import com.tickets.Tickets.service.NoticeService;
+import com.tickets.Tickets.service.OrderService;
 import com.tickets.Tickets.service.PlanService;
 import com.tickets.Tickets.service.SeatpriceService;
 import com.tickets.Tickets.service.UserService;
 import com.tickets.Tickets.service.VenueService;
 import com.tickets.Tickets.util.Page;
-import com.tickets.Tickets.util.PageAndGoodsList;
-import com.tickets.Tickets.util.PageAndPlanList;
+import com.tickets.Tickets.util.PageAndList;
 import com.tickets.Tickets.util.ResultMessage;
 
 /**
@@ -49,6 +48,9 @@ public class UserController {
 	@Autowired
 	@Qualifier("userService")
 	private UserService userService;
+	@Autowired
+	@Qualifier("orderService")
+	private OrderService orderService;
 	@Autowired
 	@Qualifier("planService")
 	private PlanService planService;
@@ -239,13 +241,13 @@ public class UserController {
 		List<Plan> list = planService.getPlans(pageSize, index, page, keyword,
 				day1, day2, location,  overdue, isrecommend, type,  sort_strategy);
 		
-		PageAndPlanList pageAndPlanList = new PageAndPlanList();
-		pageAndPlanList.setIndex(page.getIndex());
-		pageAndPlanList.setPageCount(page.getPageCount());
-		pageAndPlanList.setRecordCount(page.getRecordCount());
-		pageAndPlanList.setList(list);
+		PageAndList<Plan> pageAndList = new PageAndList<Plan>();
+		pageAndList.setIndex(page.getIndex());
+		pageAndList.setPageCount(page.getPageCount());
+		pageAndList.setRecordCount(page.getRecordCount());
+		pageAndList.setList(list);
 		
-		return pageAndPlanList;
+		return pageAndList;
 	}
 	
 
@@ -293,8 +295,6 @@ public class UserController {
 				x = sps.get(i).getX();
 			}
 		}
-		System.out.println(lists.size());
-		System.out.println(lists.get(5).size());
 		mv.addObject("plan", plan);
 		mv.addObject("venue", venue);
 		mv.addObject("lists", lists);
@@ -324,14 +324,13 @@ public class UserController {
 		Page page = new Page();
 		List<Goods> list = goodsService.getGoodsByPlanid(pageSize, index, page, planid);
 		
-		PageAndGoodsList pageAndGoodsList = new PageAndGoodsList();
-		pageAndGoodsList.setIndex(page.getIndex());
-		pageAndGoodsList.setPageCount(page.getPageCount());
-		pageAndGoodsList.setRecordCount(page.getRecordCount());
-		pageAndGoodsList.setList(list);
-		System.out.println(list.get(0).getPrice());
+		PageAndList<Goods> pageAndList = new PageAndList<Goods>();
+		pageAndList.setIndex(page.getIndex());
+		pageAndList.setPageCount(page.getPageCount());
+		pageAndList.setRecordCount(page.getRecordCount());
+		pageAndList.setList(list);
 		
-		return pageAndGoodsList;
+		return pageAndList;
 	}
 	
 	
@@ -357,18 +356,46 @@ public class UserController {
 	}
 	
 
-	//记得填坑坑坑坑坑坑坑坑坑坑坑坑坑坑坑坑坑坑坑坑坑
+	//
 	@RequestMapping(value="/user/myordersV")
 	public ModelAndView myordersV(
+			 String order_state,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/myordersV接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		if(!"unpaid".equals(order_state) && !"paid".equals(order_state) && !"finished".equals(order_state) ) {
+			order_state = "all";
+		}
+		mv.addObject("order_state", order_state);
+		mv.setViewName("/user/myorders");
+		return mv;
+	}
+
+	@RequestMapping(value="/user/searchorders")
+	@ResponseBody
+	public Object searchorders(
+			Long pageSize, Long index,
 			 String order_state,
 			 HttpSession session,
 			 ModelAndView mv,
 			 HttpServletRequest request){
-		logger.info("/user/myordersV接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		logger.info("/user/searchorders接口 被调用，请求者的地址是"+request.getRemoteAddr());
+
+		if(!"unpaid".equals(order_state) && !"paid".equals(order_state) && !"finished".equals(order_state) ) {
+			order_state = "";
+		}
+		
+		Page page = new Page();
 		User user = (User) session.getAttribute("user");
-		mv.addObject("aa", "aa");
-		mv.setViewName("/user/myorders");
-		return mv;
+		List<Order> list = orderService.getOrderByUserid(pageSize, index, page, user.getUserid(), order_state);
+		
+		PageAndList<Order> pageAndList = new PageAndList<Order>();
+		pageAndList.setIndex(page.getIndex());
+		pageAndList.setPageCount(page.getPageCount());
+		pageAndList.setRecordCount(page.getRecordCount());
+		pageAndList.setList(list);
+		
+		return pageAndList;
 	}
 	
 	

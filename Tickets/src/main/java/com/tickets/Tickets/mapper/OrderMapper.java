@@ -1,5 +1,8 @@
 package com.tickets.Tickets.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -24,5 +27,34 @@ public interface OrderMapper {
 	
 	@Select(value = "SELECT orderid FROM order_ WHERE userid = #{userid} AND time = #{time}")
 	public Long getOrderid(@Param("userid")Long userid, @Param("time")String time);
+
+	@Select("<script>"
+            +"SELECT * FROM order_ "
+            +"<where>"
+            +"<if test=\"userid != null\">"
+            +"    userid = #{userid} "
+            +"</if>"
+            +"<if test=\"state != null\">"
+            +"    AND state = #{state} "
+            +"</if>"
+            + "</where>"
+            + " ORDER BY time DESC "
+            + "LIMIT #{offset} , #{num}"
+            + "</script>")
+	public List<Order> findOrderByPage(Map<String, Object> params);
+	
+
+	@Select("<script>"
+            +"SELECT COUNT(orderid) FROM order_ "
+            +"<where>"
+            +"<if test=\"userid != null\">"
+            +"    userid = #{userid} "
+            +"</if>"
+            +"<if test=\"state != null\">"
+            +"    AND state = #{state} "
+            +"</if>"
+            + "</where>"
+            + "</script>")
+	public Long ordercount(Map<String, Object> params);
 
 }

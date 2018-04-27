@@ -1,6 +1,9 @@
 package com.tickets.Tickets.service;
 
-import com.tickets.Tickets.entity.User;
+import java.util.List;
+
+import com.tickets.Tickets.entity.Order;
+import com.tickets.Tickets.util.Page;
 
 /**
  * @author tqy
@@ -8,6 +11,12 @@ import com.tickets.Tickets.entity.User;
  * 
  */
 public interface OrderService {
-	
+
+	/**
+	 * @author tqy
+	 * @date 2018年4月21日
+	 * 
+	 */
+	public List<Order> getOrderByUserid(Long pageSize, Long index, Page page, Long userid, String state);
 	
 }

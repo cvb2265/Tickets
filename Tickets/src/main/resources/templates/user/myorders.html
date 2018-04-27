@@ -7,9 +7,24 @@
 <script th:inline="javascript">
 
 	$(function () {
+		$.ajax({
+			type : "POST",
+			url : [[ @{/user/searchorders} ]],
+			data : {
+				pageSize : 3,
+				index : 1,
+				order_state : $("#order_state").val()
+			},
+			dataType : "json",
+			success : func1
+		});
 	});
 
 	function func1(data){
+		var list = data.list;
+		$.each(list, function(){
+			alert(this.time);
+		});
 	}
 	
 </script>
@@ -171,7 +186,7 @@ layui.use('element', function(){
 <br/>
 <br/>
 <br/>
-
+<input id="order_state" type="hidden" name="order_state" th:value="${order_state}" />
 
 </body>
 </html>
