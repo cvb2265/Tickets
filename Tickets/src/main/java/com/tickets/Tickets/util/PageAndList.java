@@ -2,19 +2,18 @@ package com.tickets.Tickets.util;
 
 import java.util.List;
 
-import com.tickets.Tickets.entity.Goods;
-
 /**
+ * 泛型类，成员list可以装多个未知类型T的对象
  * @author tqy
- * @date 2018年4月25日
+ * @date 2018年4月17日
  * 
  */
-public class PageAndGoodsList {
+public class PageAndList<T> {
 	private Long recordCount;	//总记录数
 	private Long pageCount;	//总页数
 	private Long index;		//第几页
-	List<Goods> list;
-	public PageAndGoodsList(){
+	List<T> list;
+	public PageAndList(){
 		recordCount=0L;
 		pageCount=0L;
 		index=0L;
@@ -37,10 +36,10 @@ public class PageAndGoodsList {
 	public void setIndex(Long index) {
 		this.index = index;
 	}
-	public List<Goods> getList() {
+	public List<T> getList() {
 		return list;
 	}
-	public void setList(List<Goods> list) {
+	public void setList(List<T> list) {
 		this.list = list;
 	}
 	@Override
