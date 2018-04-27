@@ -5,8 +5,24 @@
 <title>Tickets</title>
 <script th:src="@{/js/jquery.js}" type="text/javascript"></script>
 <script th:inline="javascript">
-
+/*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
 	$(function () {
+		//先隐藏所有结果div
+		var rs_items = $("div.rs_item");
+		for(var k=0;k<3;k++) {
+			rs_items.eq(k).hide();
+		}
+
+		//第一次通过链接进入页面，马上搜索
+		search(1);
+	});
+	
+	function search(pageNum){
+		//先隐藏所有结果div
+		var rs_items = $("div.rs_item");
+		for(var k=0;k<3;k++) {
+			rs_items.eq(k).hide();
+		}
 		$.ajax({
 			type : "POST",
 			url : [[ @{/user/searchorders} ]],
@@ -18,15 +34,208 @@
 			dataType : "json",
 			success : func1
 		});
-	});
-
+	}
 	function func1(data){
+
+		var recordCount = data.recordCount;
+		var pageCount = data.pageCount;
+		var index = data.index;
+		
+		//设置底部分页
+		if(pageCount==0){//0页，即0个结果
+			$("#page_table").hide();
+			return;
+		}
+		$("#page_table").show();
+		$("#pageCount_input").val(pageCount);
+		
+		var n=13;//为了居中，按钮个数是奇数最好
+		var c=pageCount, p=index;
+		var page_tr = $("#page_table tr");
+		page_tr.empty();
+		if(c<=n){
+	        for(var i=1;i<=c;i++) {
+	        	var td = $("<td/>");
+	        	var div = $("<div/>");
+	        	if(i==p){
+	        		div.attr("class", "current_page").html(i);
+	        	}else{
+	        		div.attr("class", "normal_page").html(i);
+	        	}
+	        	td.appendTo(page_tr).append(div);
+	    	}
+		}else if(c==n+1){
+			if(1<=p&&p<=(n+1)/2) {
+		        for(var i=1;i<=n-2;i++) {
+		        	var td = $("<td/>");
+		        	var div = $("<div/>");
+		        	if(i==p){
+		        		div.attr("class", "current_page").html(i);
+		        	}else{
+		        		div.attr("class", "normal_page").html(i);
+		        	}
+		        	td.appendTo(page_tr).append(div);
+		    	}
+	        	var td2 = $("<td/>");
+	        	var div2 = $("<div/>");
+	        	div2.attr("class", "more_page").html("...");
+	        	td2.appendTo(page_tr).append(div2);
+	        	var td3 = $("<td/>");
+	        	var div3 = $("<div/>");
+	        	div3.attr("class", "normal_page").html(c);
+	        	td3.appendTo(page_tr).append(div3);
+			}else if(p> c-((n+1)/2)) {
+	        	var td2 = $("<td/>");
+	        	var div2 = $("<div/>");
+	        	div2.attr("class", "normal_page").html(1);
+	        	td2.appendTo(page_tr).append(div2);
+	        	var td3 = $("<td/>");
+	        	var div3 = $("<div/>");
+	        	div3.attr("class", "more_page").html("...");
+	        	td3.appendTo(page_tr).append(div3);
+		        for(var i=c-n+3;i<=c;i++) {
+		        	var td = $("<td/>");
+		        	var div = $("<div/>");
+		        	if(i==p){
+		        		div.attr("class", "current_page").html(i);
+		        	}else{
+		        		div.attr("class", "normal_page").html(i);
+		        	}
+		        	td.appendTo(page_tr).append(div);
+		    	}
+			}
+		}else if(c > n+1){
+			if(1<=p&&p<=(n+1)/2) {
+		        for(var i=1;i<=n-2;i++) {
+		        	var td = $("<td/>");
+		        	var div = $("<div/>");
+		        	if(i==p){
+		        		div.attr("class", "current_page").html(i);
+		        	}else{
+		        		div.attr("class", "normal_page").html(i);
+		        	}
+		        	td.appendTo(page_tr).append(div);
+		    	}
+	        	var td2 = $("<td/>");
+	        	var div2 = $("<div/>");
+	        	div2.attr("class", "more_page").html("...");
+	        	td2.appendTo(page_tr).append(div2);
+	        	var td3 = $("<td/>");
+	        	var div3 = $("<div/>");
+	        	div3.attr("class", "normal_page").html(c);
+	        	td3.appendTo(page_tr).append(div3);
+			}else if((n+1)/2 < p&&p <= c-((n+1)/2)) {
+	        	var td2 = $("<td/>");
+	        	var div2 = $("<div/>");
+	        	div2.attr("class", "normal_page").html(1);
+	        	td2.appendTo(page_tr).append(div2);
+	        	var td3 = $("<td/>");
+	        	var div3 = $("<div/>");
+	        	div3.attr("class", "more_page").html("...");
+	        	td3.appendTo(page_tr).append(div3);
+		        for(var i=p-((n+1)/2-2)+1;i<=p+((n+1)/2-2)-1;i++) {
+		        	var td = $("<td/>");
+		        	var div = $("<div/>");
+		        	if(i==p){
+		        		div.attr("class", "current_page").html(i);
+		        	}else{
+		        		div.attr("class", "normal_page").html(i);
+		        	}
+		        	td.appendTo(page_tr).append(div);
+		    	}
+	        	var td4 = $("<td/>");
+	        	var div4 = $("<div/>");
+	        	div4.attr("class", "more_page").html("...");
+	        	td4.appendTo(page_tr).append(div4);
+	        	var td5 = $("<td/>");
+	        	var div5 = $("<div/>");
+	        	div5.attr("class", "normal_page").html(c);
+	        	td5.appendTo(page_tr).append(div5);
+			}else if(p> c-((n+1)/2)) {
+	        	var td2 = $("<td/>");
+	        	var div2 = $("<div/>");
+	        	div2.attr("class", "normal_page").html(1);
+	        	td2.appendTo(page_tr).append(div2);
+	        	var td3 = $("<td/>");
+	        	var div3 = $("<div/>");
+	        	div3.attr("class", "more_page").html("...");
+	        	td3.appendTo(page_tr).append(div3);
+		        for(var i=c-n+3;i<=c;i++) {
+		        	var td = $("<td/>");
+		        	var div = $("<div/>");
+		        	if(i==p){
+		        		div.attr("class", "current_page").html(i);
+		        	}else{
+		        		div.attr("class", "normal_page").html(i);
+		        	}
+		        	td.appendTo(page_tr).append(div);
+		    	}
+			}
+		}
+		$(".normal_page").hover(function(){
+			$(this).attr("class","normal_page_hover");
+		},function(){
+			$(this).attr("class","normal_page");
+		});
+		$(".normal_page, .current_page").click(function(){
+			search(Number($(this).html()));
+		});
+    	var pageNum_td = $("<td/>");
+    	var pageNum_input = $("<input/>");
+    	pageNum_input.attr("type", "text").attr("class", "pageNum").val(1);
+    	pageNum_td.appendTo(page_tr).append(pageNum_input);
+    	var jmp_td = $("<td/>");
+    	var jmp_div = $("<div/>");
+    	jmp_div.attr("class", "jmp_btn").html("跳转");
+    	jmp_div.hover(function(){
+			$(this).attr("class","jmp_btn_hover");
+		},function(){
+			$(this).attr("class","jmp_btn");
+		});
+    	jmp_div.click(function(){
+    		var page_n = $("input.pageNum").val();
+    		if(!/^[0-9]+$/.test(page_n) || Number(page_n)==0) {//是否为正整数
+    			alert("请输入正整数！");
+    			$("input.pageNum").val(1);
+    			return;
+    		}
+    		if(Number(page_n)>Number($("#pageCount_input").val())) {//是否超出页数
+    			alert("超出页数！");
+    			$("input.pageNum").val(1);
+    			return;
+    		}
+			search(Number(page_n));
+    	});
+    	jmp_td.appendTo(page_tr).append(jmp_div);
+		//设置底部分页完
+		
+
+		var rs_items = $("div.rs_item");
+		var covers = $("img.cover");
+		var title_spans = $("span.title_span");
+		var introduction_spans = $(".introduction_span");
+		var price_spans = $("span.price_span");
+		var preoder_btns = $(".preoder_btn");
+        var i=0;
 		var list = data.list;
 		$.each(list, function(){
 			alert(this.time);
+			covers.eq(i).attr("src", [[ @{/goodpic/} ]] + this.pic);
+			title_spans.eq(i).html(this.goodsname);
+			introduction_spans.eq(i).html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+this.introduction);
+			price_spans.eq(i).html("￥"+this.price);
+			
+			var url= [[ @{/user/aaw} ]]+"?goodsid="+this.id;
+           	preoder_btns.eq(i).click(function(){
+               	window.location.href=url;
+       		});
+			
+			rs_items.eq(i).show();
+            i++;
 		});
+		
 	}
-	
+/*]]>*/
 </script>
 
 <!-- layui相关 -->
@@ -77,6 +286,79 @@ layui.use('element', function(){
 	background-color:#00ee00;
 	width:696px;
 }
+
+
+/*底部分页样式*/
+#page_div{
+	width:998px;
+}
+#page_table{
+	margin:0 auto;
+	display: none; /*隐藏*/
+}
+.current_page, .normal_page, .more_page{
+	width:30px;
+	height:30px;
+	text-align: center; /*里面的元素水平居中*/
+	line-height:30px;
+}
+.current_page {
+	border:#ff5722 solid; 
+	border-width:1px;
+	background-color:#ff5722;
+	color:#ffffff;
+}
+.normal_page, .more_page{
+	border:#cccccc solid; 
+	border-width:1px;
+	background-color:#ffffff;
+	color:#000000;
+}
+.normal_page_hover{
+	width:30px;
+	height:30px;
+	text-align: center; /*里面的元素水平居中*/
+	line-height:30px;
+	border:#ff5722 solid; 
+	border-width:1px;
+	background-color:#ff5722;
+	color:#ffffff;
+}
+.current_page, .normal_page, .normal_page_hover {
+	cursor:pointer;
+}
+.pageNum {
+	background-color:#eeeeee;
+	font-size:12px;
+	width:30px;
+	padding:5px 0px 5px 0px;/*设置上、右、下、左内边距*/
+	margin:0px 3px 0px 10px;/*设置上、右、下、左外边距*/
+	
+	border:none;/*没有边框*/
+}
+.jmp_btn {
+	width:50px;
+	height:30px;
+	text-align: center; /*里面的元素水平居中*/
+	line-height:30px;
+	border:#cccccc solid; 
+	border-width:1px;
+	background-color:#ffffff;
+	color:#000000;
+	cursor:pointer;
+}
+.jmp_btn_hover {
+	width:50px;
+	height:30px;
+	text-align: center; /*里面的元素水平居中*/
+	line-height:30px;
+	border:#ff5722 solid; 
+	border-width:1px;
+	background-color:#ff5722;
+	color:#ffffff;
+	cursor:pointer;
+}
+/*底部分页样式完*/
 
 </style>
 </head>
@@ -160,7 +442,42 @@ layui.use('element', function(){
 		
 		<td>
 <div id="right_div">
-	啊啊啊
+
+
+	<div class="rs_item">
+	<table>
+	<tr>
+	<td>
+		<img class="cover"/>
+	</td>
+	<td>
+	<div>
+		<span class="title_span"></span>
+		<br/>
+		<p class="introduction_span"></p>
+		<br/>
+		<span class="pricelabel">价格：</span><span class="price_span"></span>
+		<br/>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+	</div>
+	</td>
+	</tr>
+	</table>
+	<br/>
+	<img th:src="@{/images/border.png}"/>
+	</div>
+	
+	
+		
+	<br/>
+	
+<input id="pageCount_input" type="hidden" name="pageCount"/>
+<div id="page_div"><table id="page_table"><tr></tr></table></div>
+
+	<br/>
+	<br/>
+
+
 </div>
 		</td>
 		

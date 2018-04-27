@@ -19,26 +19,6 @@ import org.springframework.stereotype.Repository;
 @Repository("promulgatorMapper")
 public interface PromulgatorMapper {
 	
-	@Select(value = "SElECT id FROM Promulgator WHERE email = #{email} AND password = #{password}")
-	public String findProID(@Param("email")String email,@Param("password")String password);
-	
-	@Select(value = "SELECT * FROM Promulgator WHERE proId = #{proId}")
-    public Promulgator proById(@Param("proId")int proId);
-	
-	@Select(value = "SELECT * FROM Promulgator WHERE name = #{name}")
-    public Promulgator proByName(@Param("name")String name);
-	
-	@Select(value = "SELECT * FROM Plan WHERE id = #{id} LIMIT #{offset} , #{num}")
-    public ArrayList<Plan> allPlan(@Param("id")int id);
-	
-	@Select(value = "SELECT * FROM Plan WHERE id = #{id}")
-    public Plan findPlanByID(@Param("id")int id);
-	
-	@Insert(value = "INSERT INTO Plan(name, starttime, endtime, introduction, cover, location, venueid, overdue, isrecommend,type,scheme)\n" + 
-			"VALUES (#{name}, #{starttime}, #{endtime}, #{introduction}, #{cover}, #{location}, #{venueid}, #{overdue}, #{isrecommend},#{type},#{scheme})")
-    public void WritePlan(Plan plan);
-	
-	@Insert(value = "INSERT INTO Goods(planid, goodsname, introduction, pic, price, orderid)\n" + 
-			"VALUES (#{planid}, #{goodsname}, #{introduction}, #{pic}, #{price}, #{orderid})")
-    public void WriteGoods(ArrayList<Goods> goods);
+	@Select(value = "SElECT id FROM promulgator WHERE email = #{email} AND password = #{password}")
+	public Long findProID(@Param("email")String email,@Param("password")String password);
 }
