@@ -12,7 +12,11 @@
 		for(var k=0;k<3;k++) {
 			rs_items.eq(k).hide();
 		}
-
+		
+		if($("#order_state").val()=="all"){
+			alert(48);
+			$("#order_dd").click();
+		}
 		//第一次通过链接进入页面，马上搜索
 		search(1);
 	});
@@ -40,6 +44,8 @@
 		var recordCount = data.recordCount;
 		var pageCount = data.pageCount;
 		var index = data.index;
+
+		$("#num_span").html(recordCount);
 		
 		//设置底部分页
 		if(pageCount==0){//0页，即0个结果
@@ -51,6 +57,7 @@
 		
 		var n=13;//为了居中，按钮个数是奇数最好
 		var c=pageCount, p=index;
+		c=88;
 		var page_tr = $("#page_table tr");
 		page_tr.empty();
 		if(c<=n){
@@ -275,22 +282,42 @@ layui.use('element', function(){
 
 /*主体*/
 #tb {
+	/*
 	background-color:#eeee00;
+	*/
 	width:996px;
 }
 #left_div {
+	/*
 	background-color:#ee0000;
+	*/
 	width:300px;
+	margin-top:0px;
+	display:block; /*将tr设置为块体元素*/
 }
 #right_div {
+	/*
 	background-color:#00ee00;
+	*/
 	width:696px;
+	margin-top:0px;
+	
+	border:#cccccc solid; 
+	border-width:1px;
+}
+.rs_item {
+	margin-top:0px;
+}
+
+.border {
+	margin-top:0px;
+	width:690px;
 }
 
 
 /*底部分页样式*/
 #page_div{
-	width:998px;
+	width:696px;
 }
 #page_table{
 	margin:0 auto;
@@ -387,7 +414,7 @@ layui.use('element', function(){
     <a href="">系统消息<span class="layui-badge">9</span></a>
   </li>
   <li class="layui-nav-item" lay-unselect="" style="margin-right: 20px;">
-    <a href="javascript:;"><img th:src="@{/faces/default.jpg}" class="layui-nav-img"/><font th:text="${session.user.nickname}"></font></a>
+    <a href="javascript:;"><img th:src="@{/faces/}+${session.user.face}" class="layui-nav-img"/><font th:text="${session.user.nickname}"></font></a>
     <dl class="layui-nav-child">
       <dd><a href="javascript:;">修改信息</a></dd>
       <dd><a href="javascript:;">安全管理</a></dd>
@@ -405,14 +432,14 @@ layui.use('element', function(){
 
 <table id="tb">
 	<tr>
-		<td>
+		<td valign="top">
 <div id="left_div">
 
 <ul class="layui-nav layui-nav-tree layui-inline"  lay-filter="demo" style="margin-right: 10px;">
   <li class="layui-nav-item layui-nav-itemed">
     <a href="javascript:;">我的订单</a>
     <dl class="layui-nav-child">
-      <dd><a href="javascript:;">全部订单</a></dd>
+      <dd id="order_dd"><a href="javascript:;">全部订单</a></dd>
       <dd><a href="javascript:;">未支付</a></dd>
       <dd><a href="javascript:;">已支付</a></dd>
       <dd><a href="javascript:;">已完成</a></dd>
@@ -440,10 +467,10 @@ layui.use('element', function(){
 		</td>
 		
 		
-		<td>
+		<td valign="top">
 <div id="right_div">
 
-
+共<span id="num_span" style="color:#f00a75;"></span>个结果
 	<div class="rs_item">
 	<table>
 	<tr>
@@ -464,7 +491,7 @@ layui.use('element', function(){
 	</tr>
 	</table>
 	<br/>
-	<img th:src="@{/images/border.png}"/>
+	<img class="border" th:src="@{/images/border.png}"/>
 	</div>
 	
 	

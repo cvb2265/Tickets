@@ -562,7 +562,7 @@ white-space: nowrap;
     <a href="">系统消息<span class="layui-badge">9</span></a>
   </li>
   <li class="layui-nav-item" lay-unselect="" style="margin-right: 20px;">
-    <a href="javascript:;"><img th:src="@{/faces/default.jpg}" class="layui-nav-img"/><font th:text="${session.user.nickname}"></font></a>
+    <a href="javascript:;"><img th:src="@{/faces/}+${session.user.face}" class="layui-nav-img"/><font th:text="${session.user.nickname}"></font></a>
     <dl class="layui-nav-child">
       <dd><a href="javascript:;">修改信息</a></dd>
       <dd><a href="javascript:;">安全管理</a></dd>
