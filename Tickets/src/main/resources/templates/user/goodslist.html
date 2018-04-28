@@ -288,7 +288,7 @@
 			introduction_spans.eq(i).html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+this.introduction);
 			price_spans.eq(i).html("￥"+this.price);
 			
-			var url= [[ @{/user/aaw} ]]+"?goodsid="+this.id;
+			var url= [[ @{/user/preordergoods} ]]+"?goodsid="+this.id;
            	preoder_btns.eq(i).click(function(){
                	window.location.href=url;
        		});

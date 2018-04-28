@@ -1,8 +1,12 @@
 package com.tickets.Tickets.service.impl;
 
+import com.tickets.Tickets.entity.Goods;
+import com.tickets.Tickets.entity.Level;
 import com.tickets.Tickets.entity.Order;
 import com.tickets.Tickets.entity.Seatprice;
 import com.tickets.Tickets.entity.User;
+import com.tickets.Tickets.mapper.GoodsMapper;
+import com.tickets.Tickets.mapper.LevelMapper;
 import com.tickets.Tickets.mapper.OrderMapper;
 import com.tickets.Tickets.mapper.SeatpriceMapper;
 import com.tickets.Tickets.mapper.UserMapper;
@@ -56,6 +60,12 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	@Qualifier("seatpriceMapper")
 	private SeatpriceMapper seatpriceMapper;
+	@Autowired
+	@Qualifier("goodsMapper")
+	private GoodsMapper goodsMapper;
+	@Autowired
+	@Qualifier("levelMapper")
+	private LevelMapper levelMapper;
 
 	
 	//打印日志
@@ -67,6 +77,13 @@ public class UserServiceImpl implements UserService {
 	public User login(String email, String password) {
 		logger.info("login方法 被调用，用户邮箱是"+email);
 		return userMapper.find(email, password);
+	}
+	
+	@Transactional(readOnly=true)
+	@Override
+	public User getById(Long userid) {
+		logger.info("getById方法 被调用，用户id是"+userid);
+		return userMapper.findById(userid);
 	}
 	
 	/**
@@ -179,11 +196,14 @@ public class UserServiceImpl implements UserService {
 		return true;
 	}
 
+
 	@Override
-	public synchronized ResultMessage createOrder(Long userid, String spids, Integer points_cost) {
-		logger.info("createOrder方法 被调用");
+	public synchronized ResultMessage createSeatpriceOrder(Long userid, String spids, Integer points_cost) {
+		logger.info("createSeatpriceOrder方法 被调用");
 		ResultMessage rm = new ResultMessage();
 		double money = 0.0;
+
+		//先检查座位是否已经被预订
 		List<Seatprice> ls = new ArrayList<Seatprice>();
 		String[] ss = spids.split("-");
 		for(int i=0;i<ss.length;i++) {
@@ -196,10 +216,19 @@ public class UserServiceImpl implements UserService {
 			money += sp.getPrice();
 			ls.add(sp);
 		}
+		
+		//一场音乐会每人最多买两张票，检查之前有没有预定过票
+		long spcount = seatpriceMapper.getSPCountByPlanidAndUserid(ls.get(0).getPlanid(), userid);
+		if(spcount + ss.length > 2) {
+			rm.setResult(false);
+			rm.setMessage("一场音乐会每人最多买两张票，票数超出限制！");
+			return rm;
+		}
+		
 
 		//更新user表，扣除积分
+		User u = userMapper.findById(userid);
 		if(points_cost!=0) {
-			User u = userMapper.findById(userid);
 			if(u.getPoints()<points_cost) {//积分不够，失败
 				rm.setResult(false);
 				rm.setMessage("积分不足，预订失败！");
@@ -219,13 +248,24 @@ public class UserServiceImpl implements UserService {
 		order.setTime(time);
 		order.setMoney(money);
 		order.setPoints_cost(points_cost);
-		double perc=0.0;
-		perc=1.0-(points_cost/10000);
+		Level level = levelMapper.findByLevel_num(u.getLevel());
+		System.out.println(level.getDiscount());
+		double perc=level.getDiscount();
+		if(points_cost==100) {
+			double d = 0.01; perc-=d;
+		}else if(points_cost==200) {
+			double d = 0.02; perc-=d;
+		}else if(points_cost==300) {
+			double d = 0.03; perc-=d;
+		}else if(points_cost==400) {
+			double d = 0.04; perc-=d;
+		}else if(points_cost==500) {
+			double d = 0.05; perc-=d;
+		}
 		order.setPerc(perc);
 		order.setRmoney(money*perc);
 		order.setState("unpaid");
 		orderMapper.save(order);
-
 		
 		
 		//更新seatprice表
@@ -235,6 +275,66 @@ public class UserServiceImpl implements UserService {
 			ls.get(i).setOrderid(orderid);
 			seatpriceMapper.update(ls.get(i));
 		}
+		
+
+		rm.setResult(true);
+		return rm;
+	}
+	
+	
+	@Override
+	public synchronized ResultMessage createGoodsOrder(Long userid, Long goodsid) {
+		logger.info("createGoodsOrder方法 被调用");
+		ResultMessage rm = new ResultMessage();
+
+		//先检查goods是否已经被预订
+		Goods goods = goodsMapper.findById(goodsid);
+		if(goods==null) {
+			rm.setResult(false);
+			rm.setMessage("没有这个周边产品！");
+			return rm;
+		}
+		if(goods.getOrderid()!=null) {
+			rm.setResult(false);
+			rm.setMessage("周边产品已经被预订！");
+			return rm;
+		}
+		
+		//一场音乐会每人最多买一个周边产品，检查之前有没有预定过周边产品
+		long  goodscount = goodsMapper.getGoodsCountByPlanidAndUserid(goods.getPlanid(), userid);
+		if(goodscount > 0) {
+			rm.setResult(false);
+			rm.setMessage("一场音乐会每人最多买一个周边产品，不可再购买！");
+			return rm;
+		}
+		
+
+		//更新user表，扣除积分
+		User u = userMapper.findById(userid);
+		
+		
+		//增加order记录
+		Order order = new Order();
+		order.setUserid(userid);
+	    Date dt = new Date();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");     
+	    String time = sdf.format(dt);
+		order.setTime(time);
+		order.setMoney(goods.getPrice());
+		order.setPoints_cost(0);
+		Level level = levelMapper.findByLevel_num(u.getLevel());
+		System.out.println(level.getDiscount());
+		double perc=level.getDiscount();
+		order.setPerc(perc);
+		order.setRmoney(goods.getPrice()*perc);
+		order.setState("unpaid");
+		orderMapper.save(order);
+		
+		
+		//更新goods表
+		long orderid = orderMapper.getOrderid(userid, time);
+		goods.setOrderid(orderid);
+		goodsMapper.update(goods);
 		
 
 		rm.setResult(true);

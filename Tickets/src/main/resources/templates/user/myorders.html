@@ -13,10 +13,20 @@
 			rs_items.eq(k).hide();
 		}
 		
-		if($("#order_state").val()=="all"){
-			alert(48);
-			$("#order_dd").click();
+		if($("#order_state").val()=="unpaid"){
+			$("#order_dd").next().children("a").css({"background-color":"#009688", "color":"#ffffff"});
+		}else if($("#order_state").val()=="paid"){
+			$("#order_dd").next().next().children("a").css({"background-color":"#009688", "color":"#ffffff"});
+		}else if($("#order_state").val()=="finished"){
+			$("#order_dd").next().next().next().children("a").css({"background-color":"#009688", "color":"#ffffff"});
+		}else{//是all
+			$("#order_dd a").css({"background-color":"#009688", "color":"#ffffff"});
 		}
+
+	    $("h5.head").click(function(){
+	    	$(this).next().slideToggle();
+		});
+		
 		//第一次通过链接进入页面，马上搜索
 		search(1);
 	});
@@ -57,7 +67,6 @@
 		
 		var n=13;//为了居中，按钮个数是奇数最好
 		var c=pageCount, p=index;
-		c=88;
 		var page_tr = $("#page_table tr");
 		page_tr.empty();
 		if(c<=n){
@@ -216,26 +225,39 @@
     	jmp_td.appendTo(page_tr).append(jmp_div);
 		//设置底部分页完
 		
-
 		var rs_items = $("div.rs_item");
-		var covers = $("img.cover");
-		var title_spans = $("span.title_span");
-		var introduction_spans = $(".introduction_span");
-		var price_spans = $("span.price_span");
-		var preoder_btns = $(".preoder_btn");
+		var time_spans = $(".time_span");
+		var money_spans = $(".money_span");
+		var perc_spans = $(".perc_span");
+		var rmoney_spans = $(".rmoney_span");
+		var points_cost_spans = $(".points_cost_span");
+		var state_spans = $(".state_span");
+		//var preoder_btns = $(".preoder_btn");//kkkkkkkkkk
         var i=0;
 		var list = data.list;
 		$.each(list, function(){
-			alert(this.time);
-			covers.eq(i).attr("src", [[ @{/goodpic/} ]] + this.pic);
-			title_spans.eq(i).html(this.goodsname);
-			introduction_spans.eq(i).html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+this.introduction);
-			price_spans.eq(i).html("￥"+this.price);
+			time_spans.eq(i).html(this.time.substring(0,19));
+			money_spans.eq(i).html("￥"+this.money);
+			if(0.995<Number(this.perc) && Number(this.perc)<1.005 ){
+				perc_spans.eq(i).html("原价");
+			}else{
+				perc_spans.eq(i).html((Number(this.perc)*100)+"折");
+			}
+			rmoney_spans.eq(i).html("￥"+this.rmoney);
+			points_cost_spans.eq(i).html(this.points_cost);
+			if(this.state=="unpaid"){
+				state_spans.eq(i).html("未支付");
+			}else if(this.state=="paid"){
+				state_spans.eq(i).html("已支付");
+			}else if(this.state=="finished"){
+				state_spans.eq(i).html("已完成");
+			}
 			
-			var url= [[ @{/user/aaw} ]]+"?goodsid="+this.id;
+			
+			/*var url= [[ @{/user/aaw} ]]+"?goodsid="+this.id;
            	preoder_btns.eq(i).click(function(){
                	window.location.href=url;
-       		});
+       		});*/
 			
 			rs_items.eq(i).show();
             i++;
@@ -308,10 +330,59 @@ layui.use('element', function(){
 .rs_item {
 	margin-top:0px;
 }
+.rs_item_top {
+	background-color:#eff3ff;
+	height: 25px;
+}
+
 
 .border {
 	margin-top:0px;
 	width:690px;
+}
+
+.money_span, .perc_span, .rmoney_span {
+	color:#ee0000;
+}
+input[type="button"]{
+	width: 70px;
+	height: 25px;
+	
+	background:#7dc3f3;/*背景色*/
+	border: none;/*去掉边界*/
+	border-radius:15px;/*圆角矩形样式*/
+	transition-duration: 0.4s;/*变化时间*/
+	color: white;/*字体颜色*/
+}
+input[type="button"]:hover {
+	background-color: #99ff33;/*新背景色，Green*/
+    color: black;/*字体颜色*/
+    cursor:pointer;
+}
+
+
+.head {
+	margin-top:6px;
+	margin-left:7px;
+	width:680px;
+height:24px;
+line-height:24px;
+text-indent:10px;
+background: #96E555;
+cursor: pointer;
+
+	border:#cccccc solid; 
+	border-width:1px;
+}
+.content {
+	margin-left:7px;
+
+	width:682px;
+height:80px;
+
+background: #eeeeee;
+
+	display: none; /*隐藏*/
 }
 
 
@@ -439,10 +510,10 @@ layui.use('element', function(){
   <li class="layui-nav-item layui-nav-itemed">
     <a href="javascript:;">我的订单</a>
     <dl class="layui-nav-child">
-      <dd id="order_dd"><a href="javascript:;">全部订单</a></dd>
-      <dd><a href="javascript:;">未支付</a></dd>
-      <dd><a href="javascript:;">已支付</a></dd>
-      <dd><a href="javascript:;">已完成</a></dd>
+      <dd id="order_dd"><a th:href="@{/user/myordersV(order_state=all)}">全部订单</a></dd>
+      <dd><a th:href="@{/user/myordersV(order_state=unpaid)}">未支付</a></dd>
+      <dd><a th:href="@{/user/myordersV(order_state=paid)}">已支付</a></dd>
+      <dd><a th:href="@{/user/myordersV(order_state=finished)}">已完成</a></dd>
     </dl>
   </li>
   <li class="layui-nav-item layui-nav-itemed">
@@ -471,27 +542,52 @@ layui.use('element', function(){
 <div id="right_div">
 
 共<span id="num_span" style="color:#f00a75;"></span>个结果
-	<div class="rs_item">
-	<table>
-	<tr>
-	<td>
-		<img class="cover"/>
-	</td>
-	<td>
-	<div>
-		<span class="title_span"></span>
-		<br/>
-		<p class="introduction_span"></p>
-		<br/>
-		<span class="pricelabel">价格：</span><span class="price_span"></span>
-		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
-	</div>
-	</td>
-	</tr>
-	</table>
 	<br/>
 	<img class="border" th:src="@{/images/border.png}"/>
+	
+	
+	
+	
+	<div class="rs_item">
+		<span class="time_label">创建时间：</span><span class="time_span"></span>
+		<br/>
+		<span class="money_label">原价：</span><span class="money_span"></span>
+		<br/>
+		<span class="perc_label">折扣：</span><span class="perc_span"></span>
+		<br/>
+		<span class="rmoney_label">实付：</span><span class="rmoney_span"></span>
+		<br/>
+		<span class="points_cost_label">花费的积分：</span><span class="points_cost_span"></span>
+		<br/>
+		<span class="state_label">订单状态：</span><span class="state_span"></span>
+		<input type="button" class="btn1" value="返回"/><input type="button" class="btn2" value="返回"/>
+		<br/>
+		<h5 class="head">(+)查看详情</h5>
+		<div class="content">
+			思路和编写程序的方式。
+		</div>
+		<br/>
+		<img class="border" th:src="@{/images/border.png}"/>
+	</div>	
+	
+	
+	
+	<div class="rs_item">
+		<div class="rs_item_top">
+			<span class="time_label">订单号：</span><span class="time_span"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="time_label">|<span class="time_span"></span>|</span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="rmoney_label"></span><span class="rmoney_span"></span>
+		</div>
+		<span class="money_label">原价：</span><span class="money_span"></span>
+		<br/>
+		<span class="perc_label">折扣：</span><span class="perc_span"></span>
+		<br/>
+		<span class="points_cost_label">花费的积分：</span><span class="points_cost_span"></span>
+		<br/>
+		<span class="state_label">订单状态：</span><span class="state_span"></span>
+		<input type="button" class="btn1" value="返回"/><input type="button" class="btn2" value="返回"/>
+		<br/>
+		<img class="border" th:src="@{/images/border.png}"/>
 	</div>
 	
 	

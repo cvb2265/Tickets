@@ -100,6 +100,7 @@ public interface PlanMapper {
 	 * 
 	 */
 	@Select(value = "SELECT * FROM plan WHERE id = #{planid}")
-	public Plan findById(@Param("planid")Long planid);
+	public Plan findById(@Param("planid")Long planid);	
+	
 
 }

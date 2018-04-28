@@ -12,6 +12,8 @@ public interface UserService {
 	
 	//登录
 	public User login(String email, String password);
+
+	public User getById(Long userid);
 	
 
 	public boolean checkEmail(String email);
@@ -22,6 +24,9 @@ public interface UserService {
 	public boolean activationAccount(Long userid);
 	
 	//预订座位，需要同步synchronized
-	public ResultMessage createOrder(Long userid, String spids, Integer points_cost);
+	public ResultMessage createSeatpriceOrder(Long userid, String spids, Integer points_cost);
+	
+	//预订周边产品，需要同步synchronized
+	public ResultMessage createGoodsOrder(Long userid, Long goodsid);
 	
 }

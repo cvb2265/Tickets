@@ -8,6 +8,11 @@
         from  level
         WHERE id =#{id}
     </select>
+    <select id="findByLevel_num" parameterType="Integer" resultType="Level">
+        SELECT	id,	level_num ,	maxexp, 	discount
+        from  level
+        WHERE level_num =#{level_num}
+    </select>
 
     <insert id="addLevel" parameterType="Level">
         insert into LEVEL

@@ -336,22 +336,49 @@ public class UserController {
 	
 	
 	
-	@RequestMapping(value="/user/preorder", method=RequestMethod.POST)
-	public ModelAndView preorder(
+	@RequestMapping(value="/user/preordersp", method=RequestMethod.POST)
+	public ModelAndView preordersp(
 			 String spids,
 			 Integer points_cost,
 			 ModelAndView mv,
 			 HttpSession session,
 			 HttpServletRequest request){
-		logger.info("/user/preorder接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		logger.info("/user/preordersp接口 被调用，请求者的地址是"+request.getRemoteAddr());
 		User user = (User) session.getAttribute("user");
-		ResultMessage rs = userService.createOrder(user.getUserid(), spids, points_cost);
+		ResultMessage rs = userService.createSeatpriceOrder(user.getUserid(), spids, points_cost);
 		if(!rs.isResult()) {
 			mv.addObject("emsg", rs.getMessage());
 			mv.setViewName("user/errorpage");
 			return mv;
 		}
-		mv.setViewName("user/orders_all");
+		//更新user信息
+		User u = userService.getById(user.getUserid());
+		session.setAttribute("user", u);
+		mv.addObject("order_state", "unpaid");
+		mv.setViewName("/user/myorders");
+		return mv;
+	}	
+	@RequestMapping(value="/user/preordergoods")
+	public ModelAndView preordergoods(
+			Long goodsid,
+			 ModelAndView mv,
+			 HttpSession session,
+			 HttpServletRequest request){
+		logger.info("/user/preordergoods接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		if(goodsid==null) {
+			mv.addObject("emsg", "参数无效！");
+			mv.setViewName("user/errorpage");
+			return mv;
+		}
+		User user = (User) session.getAttribute("user");
+		ResultMessage rs = userService.createGoodsOrder(user.getUserid(), goodsid);
+		if(!rs.isResult()) {
+			mv.addObject("emsg", rs.getMessage());
+			mv.setViewName("user/errorpage");
+			return mv;
+		}
+		mv.addObject("order_state", "unpaid");
+		mv.setViewName("/user/myorders");
 		return mv;
 	}
 	

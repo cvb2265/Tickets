@@ -195,6 +195,15 @@ layui.use('element', function(){
 	height: 40px;
 }
 
+a#preog, a#preog:link{/*超链接平常的状态*/
+	color:#0000ff;
+	text-decoration:none;/*去掉下划线*/
+}
+a#preog:hover, a#preog:active{/*鼠标放到超链接上的时候；超链接被按下的时候 */
+	color:#ff0000;
+	text-decoration : underline;/*加下划线*/
+}
+
 
 #seat_div {
 	width: 996px;
@@ -381,7 +390,7 @@ div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat
 <br/>
 <span class="typelabel">场馆地址：</span><span class="type_span" th:text="${venue.address}"></span>
 <br/>
-<a th:href="@{/user/loadgoods}+'?planid='+${plan.id}">预订周边产品</a>
+<a id="preog" th:href="@{/user/loadgoods}+'?planid='+${plan.id}">预订周边产品&gt;&gt;</a>
 <br/>
 <span class="typelabel">座位详情：</span>
 <br/>
@@ -400,20 +409,26 @@ div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat
 
 
 <span id="total_price" class="seat_price">￥0</span>
-<form th:action="@{/user/preorder}" onsubmit="return validate1(this)" method="post">
+<form th:action="@{/user/preordersp}" onsubmit="return validate1(this)" method="post">
 <br/>
-<div class="layui-collapse" lay-accordion="">
-  <div class="layui-colla-item">
-    <h2 class="layui-colla-title">使用优惠券</h2>
-    <div class="layui-colla-content">
+    <h2>使用优惠券(可选)</h2>
+    <div class="aaaaaaaaaaaa">
     	<div class="quan_div">
     		<span class="quan_name">5%折扣优惠券</span>
 			<br/>
     		<span class="points_cost">-500积分</span>
     	</div>
+    	<div class="quan_div">
+    		<span class="quan_name">4%折扣优惠券</span>
+			<br/>
+    		<span class="points_cost">-400积分</span>
+    	</div>
+    	<div class="quan_div">
+    		<span class="quan_name">3%折扣优惠券</span>
+			<br/>
+    		<span class="points_cost">-300积分</span>
+    	</div>
     </div>
-  </div>
-</div>
 <input id="selected_spids" type="hidden" name="spids"/>
 <input id="points_cost_input" type="hidden" name="points_cost"/>
 <button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>

@@ -9,6 +9,7 @@ import java.util.List;
 @Mapper
 public interface LevelMapper {
     Level getLevelDetails(int id);
+    Level findByLevel_num(Integer level_num);
     void addLevel(Level level);
     boolean delLevel(int id);
     void updateLevel(Level level);

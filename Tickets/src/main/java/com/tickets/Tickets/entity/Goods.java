@@ -14,7 +14,7 @@ public class Goods implements Serializable {
 	private String introduction;
 	private String pic;
 	private double price;
-	private Long orederid;
+	private Long orderid;
 	public Long getId() {
 		return id;
 	}
@@ -33,11 +33,11 @@ public class Goods implements Serializable {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public Long getOrederid() {
-		return orederid;
+	public Long getOrderid() {
+		return orderid;
 	}
-	public void setOrederid(Long orederid) {
-		this.orederid = orederid;
+	public void setOrderid(Long orderid) {
+		this.orderid = orderid;
 	}
 	public String getGoodsname() {
 		return goodsname;

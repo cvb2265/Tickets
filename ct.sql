@@ -26,12 +26,8 @@ CREATE TABLE order_(
    state			VARCHAR(14)		NOT NULL	#unpaid,paid,finished，分别可取消、可退订、不可操作
 ) ;
 INSERT INTO `user` (`userid`, `email`, `password`, `nickname`, `interest`, `face`, `level`, `exp`, `points`, `money`) VALUES
-(1, '123@qq.com', '123', 'jack', '流行-古典', '1.jpg', 1, 0, 0, 9999),
-(2, '124@qq.com', '124', 'bob', '流行-古典-摇滚', '2.jpg', 2, 0, 0, 9999);
-
-INSERT INTO `order_` VALUES
-(1, 1, "2018-04-26 12:12:21", 100, 0, 1, 100, "paid"),
-(2, 1, "2018-04-26 12:12:22", 100, 0, 1, 100, "paid");
+(1, '123@qq.com', '123', 'jack', '流行-古典', '1.jpg', 2, 0, 5000, 9999),
+(2, '124@qq.com', '124', 'bob', '流行-古典-摇滚', '2.jpg', 1, 0, 5000, 9999);
 
 
 #chenfei

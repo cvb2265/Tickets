@@ -47,4 +47,15 @@ public interface SeatpriceMapper {
 			"		WHERE planid = #{planid} AND seatid = #{seatid}")
 	public void update(Seatprice Seatprice);
 	
+	
+	/**
+	 * 查询某一用户在某一音乐会上共预订了几个座位
+	 * @author tqy
+	 * @date 2018年4月28日
+	 * 
+	 */
+	@Select(value = "SELECT COUNT(id) FROM seatprice WHERE planid=#{planid} "
+			+ "AND orderid IN (SELECT orderid FROM order_ WHERE userid = #{userid});")
+	public Long getSPCountByPlanidAndUserid(@Param("planid")Long planid, @Param("userid")Long userid);
+	
 }
