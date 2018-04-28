@@ -26,8 +26,8 @@ CREATE TABLE order_(
    state			VARCHAR(14)		NOT NULL	#unpaid,paid,finished，分别可取消、可退订、不可操作
 ) ;
 INSERT INTO `user` (`userid`, `email`, `password`, `nickname`, `interest`, `face`, `level`, `exp`, `points`, `money`) VALUES
-(1, '123@qq.com', '123', 'jack', '流行-古典', '1.jpg', 2, 0, 5000, 9999),
-(2, '124@qq.com', '124', 'bob', '流行-古典-摇滚', '2.jpg', 1, 0, 5000, 9999);
+(1, '123@qq.com', '123', 'jack', '流行-古典', '1.jpg', 2, 0, 700, 9999),
+(2, '124@qq.com', '124', 'bob', '流行-古典-摇滚', '2.jpg', 1, 0, 700, 9999);
 
 
 #chenfei
@@ -139,7 +139,8 @@ CREATE TABLE IF NOT EXISTS `goods` (
   `introduction` varchar(400) NOT NULL,
   `pic` varchar(30) NOT NULL,
   `price` double NOT NULL,
-  `orderid` bigint DEFAULT NULL
+  `orderid` bigint DEFAULT NULL,
+  `avail` tinyint(1) NOT NULL DEFAULT '1'
 );
 
 

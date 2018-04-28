@@ -15,6 +15,13 @@ public class Goods implements Serializable {
 	private String pic;
 	private double price;
 	private Long orderid;
+	private boolean avail;
+	public boolean isAvail() {
+		return avail;
+	}
+	public void setAvail(boolean avail) {
+		this.avail = avail;
+	}
 	public Long getId() {
 		return id;
 	}

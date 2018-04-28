@@ -65,7 +65,7 @@ public interface GoodsMapper {
 	 * 
 	 */
 	@Update(value = "UPDATE goods SET goodsname=#{goodsname}, introduction=#{introduction}, \n" + 
-			"			pic=#{pic}, price=#{price}, orderid=#{orderid}\n" + 
+			"			pic=#{pic}, price=#{price}, orderid=#{orderid}, avail=#{avail}\n" + 
 			"		WHERE id = #{id} AND planid = #{planid}")
 	public void update(Goods goods);
 

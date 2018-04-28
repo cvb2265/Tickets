@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tickets.Tickets.entity.Goods;
+import com.tickets.Tickets.entity.Level;
 import com.tickets.Tickets.entity.Order;
 import com.tickets.Tickets.entity.Plan;
 import com.tickets.Tickets.entity.Seatprice;
 import com.tickets.Tickets.entity.User;
 import com.tickets.Tickets.entity.Venue;
 import com.tickets.Tickets.service.GoodsService;
+import com.tickets.Tickets.service.LevelService;
 import com.tickets.Tickets.service.NoticeService;
 import com.tickets.Tickets.service.OrderService;
 import com.tickets.Tickets.service.PlanService;
@@ -66,6 +68,9 @@ public class UserController {
 	@Autowired
 	@Qualifier("noticeService")
 	private NoticeService noticeService;
+	@Autowired
+	@Qualifier("levelService")
+	private LevelService levelService;
 	
 	//打印日志
 	private static final Log logger = LogFactory.getLog(UserController.class);
@@ -268,10 +273,12 @@ public class UserController {
 		return mv;
 	}
 	
+
 	@RequestMapping(value="/user/loadseat")
 	public ModelAndView loadseat(
 			 Long planid,
 			 ModelAndView mv,
+			 HttpSession session,
 			 HttpServletRequest request){
 		logger.info("/user/loadseat接口 被调用，请求者的地址是"+request.getRemoteAddr());
 		Plan plan = planService.getById(planid);
@@ -298,6 +305,10 @@ public class UserController {
 		mv.addObject("plan", plan);
 		mv.addObject("venue", venue);
 		mv.addObject("lists", lists);
+		
+		User user = (User) session.getAttribute("user");
+		Level le = levelService.getByLevel_num(user.getLevel());
+		mv.addObject("lperc", le.getDiscount());
 		mv.setViewName("/user/plandetail");
 		return mv;
 	}	

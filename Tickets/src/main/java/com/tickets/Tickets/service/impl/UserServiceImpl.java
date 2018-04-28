@@ -294,7 +294,7 @@ public class UserServiceImpl implements UserService {
 			rm.setMessage("没有这个周边产品！");
 			return rm;
 		}
-		if(goods.getOrderid()!=null) {
+		if(!goods.isAvail()) {
 			rm.setResult(false);
 			rm.setMessage("周边产品已经被预订！");
 			return rm;
@@ -334,6 +334,7 @@ public class UserServiceImpl implements UserService {
 		//更新goods表
 		long orderid = orderMapper.getOrderid(userid, time);
 		goods.setOrderid(orderid);
+		goods.setAvail(false);
 		goodsMapper.update(goods);
 		
 

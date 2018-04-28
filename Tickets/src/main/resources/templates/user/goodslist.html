@@ -7,6 +7,13 @@
 <script th:inline="javascript">
 /*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
 	$(function () {
+
+        var url= [[@{/user/loadseat}]]+"?planid="+$("#planid_input_h").val();
+		$("#ret").click(function(){
+			window.location.href=url;
+		});
+		
+		
 		//先隐藏所有结果div
 		var rs_items = $("div.rs_item");
 		for(var k=0;k<10;k++) {
@@ -280,6 +287,7 @@
 		var introduction_spans = $(".introduction_span");
 		var price_spans = $("span.price_span");
 		var preoder_btns = $(".preoder_btn");
+		var ovds = $("span.ovd");
         var i=0;
 		var list = data.list;
 		$.each(list, function(){
@@ -288,10 +296,17 @@
 			introduction_spans.eq(i).html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+this.introduction);
 			price_spans.eq(i).html("￥"+this.price);
 			
-			var url= [[ @{/user/preordergoods} ]]+"?goodsid="+this.id;
-           	preoder_btns.eq(i).click(function(){
-               	window.location.href=url;
-       		});
+            if(this.avail==0){
+            	preoder_btns.eq(i).hide();
+            	ovds.eq(i).show();
+            }else{
+            	ovds.eq(i).hide();
+            	preoder_btns.eq(i).show();
+    			var url= [[ @{/user/preordergoods} ]]+"?goodsid="+this.id;
+               	preoder_btns.eq(i).click(function(){
+                   	window.location.href=url;
+           		});
+            }
 			
 			rs_items.eq(i).show();
             i++;
@@ -380,6 +395,23 @@ a.ctype_selected{/*超链接平常的状态*/
 }
 
 
+input[type="button"]{
+	width: 70px;
+	height: 25px;
+	
+	background:#7dc3f3;/*背景色*/
+	border: none;/*去掉边界*/
+	border-radius:15px;/*圆角矩形样式*/
+	transition-duration: 0.4s;/*变化时间*/
+	color: white;/*字体颜色*/
+}
+input[type="button"]:hover {
+	background-color: #99ff33;/*新背景色，Green*/
+    color: black;/*字体颜色*/
+    cursor:pointer;
+}
+
+
 /*搜索结果集div*/
 .rs {
 	border:#cccccc solid; 
@@ -436,9 +468,12 @@ white-space: nowrap;
 */
 }
 
-.title_span ,.pricelabel ,.preoder_btn {
+.title_span ,.pricelabel ,.preoder_btn ,.ovd {
 	
     margin-left:20px;/*左外边距*/
+}
+.ovd {
+	color:#999999;
 }
 .price_span {
 	color:#ee0000;
@@ -578,7 +613,7 @@ white-space: nowrap;
 <br/>
 <br/>
 
-
+<input type="button" id="ret" value="返回"/>
 <div class="rs">
 
 
@@ -596,7 +631,7 @@ white-space: nowrap;
 		<br/>
 		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已售罄]</span>
 	</div>
 	</td>
 	</tr>
@@ -619,7 +654,7 @@ white-space: nowrap;
 		<br/>
 		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已售罄]</span>
 	</div>
 	</td>
 	</tr>
@@ -642,7 +677,7 @@ white-space: nowrap;
 		<br/>
 		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已售罄]</span>
 	</div>
 	</td>
 	</tr>
@@ -665,7 +700,7 @@ white-space: nowrap;
 		<br/>
 		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已售罄]</span>
 	</div>
 	</td>
 	</tr>
@@ -688,7 +723,7 @@ white-space: nowrap;
 		<br/>
 		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已售罄]</span>
 	</div>
 	</td>
 	</tr>
@@ -711,7 +746,7 @@ white-space: nowrap;
 		<br/>
 		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已售罄]</span>
 	</div>
 	</td>
 	</tr>
@@ -734,7 +769,7 @@ white-space: nowrap;
 		<br/>
 		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已售罄]</span>
 	</div>
 	</td>
 	</tr>
@@ -757,7 +792,7 @@ white-space: nowrap;
 		<br/>
 		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已售罄]</span>
 	</div>
 	</td>
 	</tr>
@@ -780,7 +815,7 @@ white-space: nowrap;
 		<br/>
 		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已售罄]</span>
 	</div>
 	</td>
 	</tr>
@@ -803,7 +838,7 @@ white-space: nowrap;
 		<br/>
 		<span class="pricelabel">价格：</span><span class="price_span"></span>
 		<br/>
-		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
+		<button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button><span class="ovd">[已售罄]</span>
 	</div>
 	</td>
 	</tr>

@@ -7,6 +7,40 @@
 <script th:inline="javascript">
 /*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
 	$(function () {
+		var starttime = [[${plan.starttime}]];
+		var endtime = [[${plan.endtime}]];
+		$("span.starttime_span").html(starttime.substring(0,19));
+		$("span.endtime_span").html(endtime.substring(0,19));
+		
+		if(0.995<Number($("#lperc").val()) && Number($("#lperc").val())<1.005 ){
+			$("#total_perc").html("100%");
+		}else{
+			$("#total_perc").html((Number($("#lperc").val())*100)+"%");
+		}
+		$("#points_cost_input").val(0);
+		
+		$(".quan_span").click(function(){
+			if($(this).children("img").is(":visible")) {//已经显示了
+				$(this).children("img").hide();//取消显示
+				if(0.995<Number($("#lperc").val()) && Number($("#lperc").val())<1.005 ){
+					$("#total_perc").html("100%");
+				}else{
+					$("#total_perc").html((Number($("#lperc").val())*100)+"%");
+				}
+				$("#points_cost_input").val(0);
+			}else {//没有显示
+				//先隐藏其他
+				$("img.simg").hide();
+			
+				$(this).children("img").show();
+				var point_str = $(this).children("span.quan_name").html().substring(0,1);
+				var p = Number($("#lperc").val())*100.0 - Number(point_str) ;
+				$("#total_perc").html(p+"%");
+				$("#points_cost_input").val(Number(point_str) * 100);
+			}
+		});
+		
+		
 		var seat_table = $("#seat_table");
 		var lists = [[${lists}]];
 		$.each(lists, function(){
@@ -138,7 +172,10 @@
         	alert("请选票！");
             return false;
 		}
-		$("#points_cost_input").val(500);
+        if(Number($("#mypoints").html()) < Number($("#points_cost_input").val())){
+        	alert("积分不足，不能使用该优惠券！");
+            return false;
+		}
         return true;
 	}
 /*]]>*/
@@ -263,13 +300,25 @@ div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat
 
 
 
-.info_table{ 
+.info_table{
+    width:100%;
+    font-size:14px;
+    color:#333333;/*前景色，即表格里的字的颜色*/
+    table-layout:fixed;
+    empty-cells:show;
+    border-collapse: collapse;/*边框会合并为一个单一的边框*/
+    margin:0 auto;
+    border:1px solid #cad9ea;
 }
 .info_table td:nth-child(even) {
-	background: #d8ebfa;
+	background: #ffffff;
+	border:1px solid #999999;/*表格内部的边界线*/
+	padding: 7px;
 } 
 .info_table td:nth-child(odd) {
-	background: White;
+	background: #e5e5e5;
+	border:1px solid #999999;/*表格内部的边界线*/
+	padding: 7px;
 }
 
 
@@ -281,9 +330,12 @@ div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat
 
 
 
-.quan_div {
+.quan_span {
+	margin:7px 20px 7px 20px;/*设置上、右、下、左外边距*/
 	width: 244px;
 	height: 110px;
+	display:block; /*设置为块体元素*/
+	cursor:pointer;
 	background:url(  [[@{/images/quan-bg.png}]]  ) center;
 }
 .quan_name {
@@ -294,6 +346,12 @@ div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat
 	margin-left:80px;
 	color: White;
 }
+.quan_span img {
+	margin-left: 210px;
+	margin-top: 40px;
+	display:none;
+}
+
 
 </style>
 </head>
@@ -354,24 +412,18 @@ div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat
     
     
 <table class="info_table">
- 	<tbody>
-		<tr>
-			<td width="90" class="bg">演出时间</td><td>2018.04.25-04.26</td>
-			<td width="90" class="bg">演出场馆</td><td width="200">隆福剧场</td>
-		</tr>
-		<tr>
-			<td width="90" class="bg">演出时间</td><td>2018.04.25-04.26</td>
-			<td width="90" class="bg">演出场馆</td><td width="200">隆福剧场</td>
-		</tr>
-		<tr>
-			<td width="90" class="bg">演出时间</td><td>2018.04.25-04.26</td>
-			<td width="90" class="bg">演出场馆</td><td width="200">隆福剧场</td>
-		</tr>
-		<tr>
-			<td width="90" class="bg">演出时间</td><td>2018.04.25-04.26</td>
-			<td width="90" class="bg">演出场馆</td><td width="200">隆福剧场</td>
-		</tr>
-	</tbody>
+	<tr>
+		<td valign="top">演出时间</td><td valign="top">  <span class="starttime_span"></span>&nbsp;&nbsp;~<br/><span class="endtime_span"></span>  </td>
+		<td valign="top">演出城市</td><td valign="top">  <span class="location_span" th:text="${plan.location}"></span>  </td>
+	</tr>
+	<tr>
+		<td valign="top">演出场馆</td><td valign="top">  <span class="type_span" th:text="${venue.name}"></span>  </td>
+		<td valign="top">场馆地址</td><td valign="top">  <span class="type_span" th:text="${venue.address}"></span>  </td>
+	</tr>
+	<tr>
+		<td valign="top">演出类型</td><td valign="top">  <span class="type_span" th:text="${plan.type}"></span>  </td>
+		<td valign="top"></td><td valign="top"></td>
+	</tr>
 </table>
     
     
@@ -379,21 +431,15 @@ div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat
 </fieldset>
 
 
-
-<span class="timelabel">时间：</span><span class="starttime_span" th:text="${plan.starttime}"></span>&nbsp;&nbsp;~&nbsp;&nbsp;<span class="endtime_span" th:text="${plan.endtime}"></span>
-<br/>
-<span class="citylabel">城市：</span><span class="location_span" th:text="${plan.location}"></span>
-<br/>
-<span class="typelabel">类型：</span><span class="type_span" th:text="${plan.type}"></span>
-<br/>
-<span class="typelabel">场馆名：</span><span class="type_span" th:text="${venue.name}"></span>
-<br/>
-<span class="typelabel">场馆地址：</span><span class="type_span" th:text="${venue.address}"></span>
-<br/>
+或许你想
 <a id="preog" th:href="@{/user/loadgoods}+'?planid='+${plan.id}">预订周边产品&gt;&gt;</a>
+
 <br/>
-<span class="typelabel">座位详情：</span>
 <br/>
+<fieldset class="layui-elem-field">
+  <legend>在线选座</legend>
+  <div class="layui-field-box">
+  
 <br/>
 <div id="price_level_div">
 <span class="price_level_span"><img th:src="@{/images/seat_level_1.png}"/><span class="seat_price">￥0~￥250</span></span>
@@ -408,27 +454,68 @@ div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat
 </div>
 
 
-<span id="total_price" class="seat_price">￥0</span>
-<form th:action="@{/user/preordersp}" onsubmit="return validate1(this)" method="post">
+  </div>
+</fieldset>
+
+<fieldset class="layui-elem-field">
+  <legend>使用优惠券(可选)</legend>
+  <div class="layui-field-box">
+  	提示:您的积分值为<span class="seat_price" id="mypoints" th:text="${session.user.points}"></span>
+  	<table>
+		<tr>
+			<td>
+			    <span class="quan_span">
+			   		<span class="quan_name">5%折扣优惠券</span>
+					<br/>
+			   		<span class="points_cost">-500积分</span>
+			   		<br/><img class="simg" th:src="@{/images/pass.png}"/>
+			    </span>
+			</td>
+			<td>
+			    <span class="quan_span">
+			   		<span class="quan_name">4%折扣优惠券</span>
+					<br/>
+			   		<span class="points_cost">-400积分</span>
+			   		<br/><img class="simg" th:src="@{/images/pass.png}"/>
+			    </span>
+			</td>
+			<td>
+			    <span class="quan_span">
+			   		<span class="quan_name">3%折扣优惠券</span>
+					<br/>
+			   		<span class="points_cost">-300积分</span>
+			   		<br/><img class="simg" th:src="@{/images/pass.png}"/>
+			    </span>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			    <span class="quan_span">
+			   		<span class="quan_name">2%折扣优惠券</span>
+					<br/>
+			   		<span class="points_cost">-200积分</span>
+			   		<br/><img class="simg" th:src="@{/images/pass.png}"/>
+			    </span>
+			</td>
+			<td>
+			    <span class="quan_span">
+			   		<span class="quan_name">1%折扣优惠券</span>
+					<br/>
+			   		<span class="points_cost">-100积分</span>
+			   		<br/><img class="simg" th:src="@{/images/pass.png}"/>
+			    </span>
+			</td>
+			<td>
+			</td>
+		</tr>
+	</table>
+  </div>
+</fieldset>
+
+原价<span id="total_price" class="seat_price">￥0</span>，根据您的等级和选择的优惠券，您获得
+<span id="total_perc" class="seat_price"></span>的折扣。
 <br/>
-    <h2>使用优惠券(可选)</h2>
-    <div class="aaaaaaaaaaaa">
-    	<div class="quan_div">
-    		<span class="quan_name">5%折扣优惠券</span>
-			<br/>
-    		<span class="points_cost">-500积分</span>
-    	</div>
-    	<div class="quan_div">
-    		<span class="quan_name">4%折扣优惠券</span>
-			<br/>
-    		<span class="points_cost">-400积分</span>
-    	</div>
-    	<div class="quan_div">
-    		<span class="quan_name">3%折扣优惠券</span>
-			<br/>
-    		<span class="points_cost">-300积分</span>
-    	</div>
-    </div>
+<form th:action="@{/user/preordersp}" onsubmit="return validate1(this)" method="post">
 <input id="selected_spids" type="hidden" name="spids"/>
 <input id="points_cost_input" type="hidden" name="points_cost"/>
 <button class="layui-btn layui-btn-normal layui-btn-radius preoder_btn">预订</button>
@@ -439,6 +526,7 @@ div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat
 <br/>
 </div>
 
+<input id="lperc" type="hidden" name="lperc" th:value="${lperc}"/>
 
 </body>
 </html>
