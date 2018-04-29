@@ -339,7 +339,7 @@ public class InsertMain {
 			pstmt.setInt(2, planid);
 			pstmt.setString(3, "玉石挂坠");
 			pstmt.setString(4, "古人讲佩玉为美，黄金有价玉无价。玉埋藏地下几千年或是上亿年，玉中含有大量矿物元素，所以人们常说人养玉玉养人，如果人的身体好长期佩玉可以滋润玉，玉的水头也就是折光度会越来越好，越来越亮。");
-			pstmt.setString(5, "1.jpg");
+			pstmt.setString(5, (start_goodsid)+".jpg");
 			pstmt.setDouble(6, 237.0);
 			pstmt.executeUpdate();
 			
@@ -348,7 +348,7 @@ public class InsertMain {
 			pstmt.setInt(2, planid);
 			pstmt.setString(3, "印花T恤");
 			pstmt.setString(4, "印上特殊图案的T恤，非常有纪念意义。");
-			pstmt.setString(5, "2.jpg");
+			pstmt.setString(5, (start_goodsid+1)+".jpg");
 			pstmt.setDouble(6,76.0);
 			pstmt.executeUpdate();
 			
@@ -357,7 +357,7 @@ public class InsertMain {
 			pstmt.setInt(2, planid);
 			pstmt.setString(3, "木屋模型");
 			pstmt.setString(4, "小巧精致的木屋模型，看到它心情就会好很多。");
-			pstmt.setString(5, "3.jpg");
+			pstmt.setString(5, (start_goodsid+2)+".jpg");
 			pstmt.setDouble(6, 89.0);
 			pstmt.executeUpdate();
 
