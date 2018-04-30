@@ -715,9 +715,40 @@ white-space: nowrap;
 <td>
 	<select id="one" onchange="changecity(this.value)">
         <option value="0">不限</option>
-        <option value="1">江苏</option>
-        <option value="2">广东</option>
-        <option value="3">福建</option>
+        <option value="1">河北</option>
+        <option value="2">山西</option>
+        <option value="3">内蒙古</option>
+        <option value="4">辽宁</option>
+        <option value="5">吉林</option>
+        <option value="6">黑龙江</option>
+        <option value="7">江苏</option>
+        <option value="8">浙江</option>
+        <option value="9">安徽</option>
+        <option value="10">福建</option>
+        <option value="11">江西</option>
+        <option value="12">山东</option>
+        <option value="13">河南</option>
+        <option value="14">湖北</option>
+        <option value="15">湖南</option>
+        <option value="16">广东</option>
+        <option value="17">广西</option>
+        <option value="18">四川</option>
+        <option value="19">贵州</option>
+        <option value="20">云南</option>
+        <option value="21">西藏</option>
+        <option value="22">陕西</option>
+        <option value="23">甘肃</option>
+        <option value="24">青海</option>
+        <option value="25">宁夏</option>
+        <option value="26">新疆</option>
+        <option value="27">海南</option>
+        <option value="28">北京</option>
+        <option value="29">天津</option>
+        <option value="30">上海</option>
+        <option value="31">重庆</option>
+        <option value="32">台湾</option>
+        <option value="33">香港</option>
+        <option value="34">澳门</option>
     </select>
     <select id="two" onchange="search(1);">
         <option value="不限">不限</option>
@@ -729,11 +760,42 @@ white-space: nowrap;
         two.empty();
         var city = [];
         switch(Number(m)){
-        case 0:city = ['不限'];break;
-        case 1:city = ['南京'];break;
-        case 2:city = ['广州','揭阳'];break;
-        case 3:city = ['厦门'];break;
-        default:break;
+        case 0:city = ["不限"];break;
+        case 1:city = ['石家庄','唐山','秦皇岛','邯郸','邢台','保定','张家口','承德','沧州','廊坊','衡水'];break;
+        case 2:city = ["太原","大同","阳泉","长治","晋城","朔州","晋中","运城","忻州","临汾","吕梁"];break;
+        case 3:city = ["呼和浩特","包头","乌海","赤峰","通辽","鄂尔多斯","呼伦贝尔","巴彦淖尔","乌兰察布","锡林浩特","乌兰浩特"];break;
+        case 4:city = ["沈阳","大连","鞍山","抚顺","本溪","丹东","锦州","营口","阜新","辽阳","盘锦","铁岭","朝阳","葫芦岛"];break;
+        case 5:city = ["长春","吉林","四平","辽源","通化","白山","松原","白城","延边朝鲜族自治州"];break;
+        case 6:city = ["哈尔滨","齐齐哈尔","牡丹江","佳木斯","大庆","鸡西","双鸭山","伊春","七台河","鹤岗","黑河","绥化","大兴安岭地区"];break;
+        case 7:city = ["南京","无锡","徐州","常州","苏州","南通","连云港","淮安","盐城","扬州","镇江","泰州","宿迁"];break;
+        case 8:city = ["杭州","宁波","温州","嘉兴","湖州","绍兴","金华","衢州","舟山","台州","丽水"];break;
+        case 9:city = ["合肥","亳州","淮北","宿州","阜阳","蚌埠","淮南","滁州","六安","巢湖","芜湖","马鞍山","安庆","池州","铜陵","宣城","黄山"];break;
+        case 10:city = ["福州","厦门","莆田","三明","泉州","漳州","南平","龙岩","宁德"];break;
+        case 11:city = ["南昌","景德镇","萍乡","九江","新余","鹰潭","赣州","吉安","宜春","抚州","上饶"];break;
+        case 12:city = ["济南","青岛","淄博","枣庄","东营","烟台","潍坊","济宁","泰安","威海","日照","莱芜","临沂","德州","聊城","滨州","菏泽"];break;
+        case 13:city = ["郑州","开封","洛阳","平顶山","安阳","焦作","鹤壁","新乡","濮阳","许昌","漯河","三门峡","南阳","商丘","信阳","周口","驻马店"];break;
+        case 14:city = ["武汉","黄石","襄樊","荆州","宜昌","十堰","孝感","荆门","鄂州","黄冈","咸宁","随州","恩施土家族苗族自治州"];break;
+        case 15:city = ["长沙","株洲","湘潭","衡阳","邵阳","岳阳","常德","张家界","益阳","郴州","永州","怀化","娄底","湘西土家族苗族自治州"];break;
+        case 16:city = ["广州","深圳","珠海","汕头","佛山","韶关","河源","梅州","惠州","汕尾","东莞","中山","江门","阳江","湛江","茂名","肇庆","清远","潮州","揭阳","云浮"];break;
+        case 17:city = ["南宁","桂林","梧州","北海","防城港","钦州","贵港","玉林","百色","贺州","河池","宜州","来宾","崇左"];break;
+        case 18:city = ["成都","自贡","攀枝花","泸州","德阳","绵阳","广元","遂宁","内江","乐山","南充","宜宾","广安","达州","巴中","雅安","眉山","资阳","阿坝藏族羌族自治州","甘孜藏族自治州","凉山彝族自治州"];break;
+        case 19:city = ["贵阳","六盘水","遵义","安顺","铜仁","毕节","黔西南布依族苗族自治州","黔东南苗族侗族自治州","黔南布依族苗族自治州"];break;
+        case 20:city = ["昆明","丽江","曲靖","玉溪","昭通","保山","临沧","思茅","楚雄彝族自治州","红河哈尼族彝族自治州","文山壮族苗族自治州","西双版纳傣族自治州","大理白族自治州","德宏傣族景颇族自治州","怒江傈僳族自治州","迪庆藏族自治州"];break;
+        case 21:city = ["拉萨","日喀地区","山南地区","林芝地区","昌都地区","那曲地区","阿里地区"];break;
+        case 22:city = ["西安","宝鸡","咸阳","铜川","渭南","延安","榆林","汉中","安康","商洛"];break;
+        case 23:city = ["兰州","嘉峪关","金昌","白银","天水","武威","张掖","酒泉","平凉","庆阳","定西","陇南","临夏回族自治州","甘南藏族自治州"];break;
+        case 24:city = ["西宁","海东地区","海北藏族自治州","海南藏族自治州","海西蒙古族藏族自治州","黄南藏族自治州","玉树藏族自治州","果洛藏族自治州"];break;
+        case 25:city = ["银川","石嘴山","吴忠","固原","中卫"];break;
+        case 26:city = ["乌鲁木齐","克拉玛依","克孜勒苏柯尔克孜自治州","巴音郭楞蒙古自治州","昌吉回族自治州","博尔塔拉蒙古自治州","伊犁哈萨克自治州","塔城地区","阿勒泰地区","吐鲁番地区","哈密地区","和田地区","阿克苏地区","喀什地区"];break;
+        case 27:city = ["海口","三亚","三沙"];break;
+        case 28:city = ["北京"];break;
+        case 29:city = ["天津"];break;
+        case 30:city = ["上海"];break;
+        case 31:city = ["重庆"];break;
+        case 32:city = ["台北","新北","桃园","台中","台南","高雄"];break;
+        case 33:city = ["香港"];break;
+        case 34:city = ["澳门"];break;
+        defau3lt:break;
         }
         for (var i = 0; i < city.length; i++) {
 			var option = $("<option/>");//创建一个<option/>元素
