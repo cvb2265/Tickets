@@ -14,11 +14,11 @@ public class CopyMain {
 			}
 		}
 		//复制49个cover图片，复制11次
-//		for(int i=0; i<11*49; i+=49) {
-//			for(int k=1; k<50; k++) {
-//				copy("D:\\ab\\"+k+".jpg", "D:\\ab\\outputs\\"+(i+k)+".jpg");
-//			}
-//		}
+		for(int i=1; i<=529; i+=11) {
+			for(int k=0; k<11; k++) {
+				copy("D:\\ab\\"+i+".jpg", "D:\\ab\\outputs\\"+(i+k)+".jpg");
+			}
+		}
 	}
 	
 	private static void copy(String url1, String url2) throws Exception {

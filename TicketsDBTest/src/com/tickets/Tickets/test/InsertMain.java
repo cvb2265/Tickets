@@ -130,7 +130,7 @@ public class InsertMain {
 //					f2(conn,planid,musician[i]+"音乐会"+citys[k]+"站", day_cur+" 19:00:00", day_cur+" 23:00:00", introductions[i],
 //							   planid+".jpg", citys[k], k+1, false, true, types[i/7], "aaa");
 					f2(conn,planid,musician[i]+"音乐会"+citys[k]+"站", day_cur+" 19:00:00", day_cur+" 23:00:00", introductions[i],
-							   "14.jpg", citys[k], k+1, false, true, types[i/7], "aaa");
+							planid+".jpg", citys[k], k+1, false, true, types[i/7], "aaa");
 					
 
 					//插入本场音乐会相关的seatprice，k+1就是venueid
