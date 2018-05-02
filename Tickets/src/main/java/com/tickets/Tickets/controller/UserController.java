@@ -465,6 +465,8 @@ public class UserController {
 		Page page = new Page();
 		User user = (User) session.getAttribute("user");
 		List<Order> list = orderService.getOrderByUserid(pageSize, index, page, user.getUserid(), order_state);
+		System.out.println(list.size());
+		System.out.println(list.get(0).getOrderid());
 		
 		PageAndList<Order> pageAndList = new PageAndList<Order>();
 		pageAndList.setIndex(page.getIndex());

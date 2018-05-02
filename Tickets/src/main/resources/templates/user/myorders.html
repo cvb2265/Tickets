@@ -56,7 +56,7 @@
 			url : [[ @{/user/searchorders} ]],
 			data : {
 				pageSize : 3,
-				index : 1,
+				index : pageNum,
 				order_state : $("#order_state").val()
 			},
 			dataType : "json",
@@ -240,12 +240,14 @@
 		//设置底部分页完
 		
 		var rs_items = $("div.rs_item");
+		var orderid_spans = $(".orderid_span");
 		var time_spans = $(".time_span");
 		var money_spans = $(".money_span");
 		var perc_spans = $(".perc_span");
 		var rmoney_spans = $(".rmoney_span");
 		var points_cost_spans = $(".points_cost_span");
 		var state_spans = $(".state_span");
+		var rtime_label_spans = $(".rtime_label");
 		var rtime_spans = $(".rtime");
 		var btn1s = $(".btn1");
 		var btn2s = $(".btn2");
@@ -253,6 +255,7 @@
         var i=0;
 		var list = data.list;
 		$.each(list, function(){
+			orderid_spans.eq(i).html(this.orderid);
 			time_spans.eq(i).html(this.time.substring(0,19));
 			money_spans.eq(i).html("￥"+this.money);
 			if(0.995<Number(this.perc) && Number(this.perc)<1.005 ){
@@ -263,27 +266,41 @@
 			rmoney_spans.eq(i).html("￥"+this.rmoney);
 			points_cost_spans.eq(i).html(this.points_cost);
 			if(this.state=="unpaid"){
-				btn1s.eq(i).show();
-				btn2s.eq(i).show();
-				btn3s.eq(i).hide();
-				var url1 = [[ @{/user/payorder} ]]+"?orderid="+this.orderid;
-				btn1s.eq(i).click(function(){ window.location.href=url1; });
-				var url2 = [[ @{/user/cancelorder} ]]+"?orderid="+this.orderid;
-				btn2s.eq(i).click(function(){ window.location.href=url2; });
-				state_spans.eq(i).html("未支付");
-				var sppp = rtime_spans.eq(i);
-				var starttime = new Date(this.time);
-				var interval = setInterval(function () {
-					var nowtime = new Date();
-					var time = starttime-nowtime + 900000;//毫秒
-					if(time < -1){
-						clearInterval(interval);
-					}
-					var minute = parseInt(time / 1000 / 60 % 60);
-					var seconds = parseInt(time / 1000 % 60);
-					sppp.html(minute + ":" + seconds);
-				}, 1000);
+				var st = new Date(this.time);
+				var nt = new Date();
+				if(nt-st <= 900000){//如果没有超过15分钟
+					rtime_label_spans.eq(i).show();
+					btn1s.eq(i).show();
+					btn2s.eq(i).show();
+					btn3s.eq(i).hide();
+					var url1 = [[ @{/user/payorder} ]]+"?orderid="+this.orderid;
+					btn1s.eq(i).click(function(){ window.location.href=url1; });
+					var url2 = [[ @{/user/cancelorder} ]]+"?orderid="+this.orderid;
+					btn2s.eq(i).click(function(){ window.location.href=url2; });
+					state_spans.eq(i).html("未支付");
+					var sppp = rtime_spans.eq(i);
+					var starttime = new Date(this.time);
+					var interval = setInterval(function () {
+						var nowtime = new Date();
+						var time = starttime-nowtime + 900000;//毫秒
+						if(time < -1){
+							clearInterval(interval);
+						}
+						var minute = parseInt(time / 1000 / 60 % 60);
+						var seconds = parseInt(time / 1000 % 60);
+						sppp.html(minute + ":" + seconds);
+					}, 1000);
+				}else {//超过了15分钟
+					rtime_label_spans.eq(i).hide();
+					btn1s.eq(i).hide();
+					btn2s.eq(i).show();
+					btn3s.eq(i).hide();
+					var url2 = [[ @{/user/cancelorder} ]]+"?orderid="+this.orderid;
+					btn2s.eq(i).click(function(){ window.location.href=url2; });
+					state_spans.eq(i).html("已超时");
+				}
 			}else if(this.state=="paid"){
+				rtime_label_spans.eq(i).hide();
 				btn1s.eq(i).hide();
 				btn2s.eq(i).hide();
 				btn3s.eq(i).show();
@@ -291,17 +308,13 @@
 				btn3s.eq(i).click(function(){ window.location.href=url3; });
 				state_spans.eq(i).html("已支付");
 			}else if(this.state=="finished"){
+				rtime_label_spans.eq(i).hide();
 				btn1s.eq(i).hide();
 				btn2s.eq(i).hide();
 				btn3s.eq(i).hide();
 				state_spans.eq(i).html("已完成");
 			}
 			
-			
-			/*var url= [[ @{/user/aaw} ]]+"?goodsid="+this.id;
-           	preoder_btns.eq(i).click(function(){
-               	window.location.href=url;
-       		});*/
 			
 			rs_items.eq(i).show();
             i++;
@@ -427,6 +440,14 @@ height:80px;
 background: #eeeeee;
 
 	display: none; /*隐藏*/
+}
+a.od_a, a.od_a:link{/*超链接平常的状态*/
+	color:#0000ff;
+	text-decoration:none;/*去掉下划线*/
+}
+a.od_a:hover, a.od_a:active{/*鼠标放到超链接上的时候；超链接被按下的时候 */
+	color:#ff0000;
+	text-decoration : underline;/*加下划线*/
 }
 
 
@@ -593,9 +614,9 @@ background: #eeeeee;
 	
 	<div class="rs_item">
 		<div class="rs_item_top">
-			<span class="time_label">订单号：</span><span class="time_span"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-			<span class="time_label">|<span class="time_span"></span>|</span>&nbsp;&nbsp;&nbsp;&nbsp;
-			<span class="rtime_label">剩余支付时间：<span class="rtime"></span></span>
+			<span class="orderid_label">订单号：</span><span class="orderid_span"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="aaaaaa">|<span class="time_span"></span>|</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="rtime_label" style="display: none;">剩余支付时间：<span class="rtime"></span></span>
 		</div>
 		<span class="money_label">原价：</span><span class="money_span"></span>
 		<br/>
@@ -606,12 +627,59 @@ background: #eeeeee;
 		<span class="rmoney_label">实付：</span><span class="rmoney_span"></span>
 		<br/>
 		<span class="state_label">订单状态：</span><span class="state_span"></span>
+		<a class="od_a" style="margin-left: 350px;" th:href="@{/user/loadgoods}+'?planid=1'">详情</a>&nbsp;&nbsp;
 		<input type="button" class="btn1" value="支付" style="display: none;"/>
 		<input type="button" class="btn2" value="取消" style="display: none;"/>
 		<input type="button" class="btn3" value="退订" style="display: none;"/>
 		<br/>
 		<img class="border" th:src="@{/images/border.png}"/>
-	</div>
+	</div>	
+	
+	<div class="rs_item">
+		<div class="rs_item_top">
+			<span class="orderid_label">订单号：</span><span class="orderid_span"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="aaaaaa">|<span class="time_span"></span>|</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="rtime_label" style="display: none;">剩余支付时间：<span class="rtime"></span></span>
+		</div>
+		<span class="money_label">原价：</span><span class="money_span"></span>
+		<br/>
+		<span class="perc_label">折扣：</span><span class="perc_span"></span>
+		<br/>
+		<span class="points_cost_label">花费的积分：</span><span class="points_cost_span"></span>
+		<br/>
+		<span class="rmoney_label">实付：</span><span class="rmoney_span"></span>
+		<br/>
+		<span class="state_label">订单状态：</span><span class="state_span"></span>
+		<a class="od_a" style="margin-left: 350px;" th:href="@{/user/loadgoods}+'?planid=1'">详情</a>&nbsp;&nbsp;
+		<input type="button" class="btn1" value="支付" style="display: none;"/>
+		<input type="button" class="btn2" value="取消" style="display: none;"/>
+		<input type="button" class="btn3" value="退订" style="display: none;"/>
+		<br/>
+		<img class="border" th:src="@{/images/border.png}"/>
+	</div>	
+	
+	<div class="rs_item">
+		<div class="rs_item_top">
+			<span class="orderid_label">订单号：</span><span class="orderid_span"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="aaaaaa">|<span class="time_span"></span>|</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span class="rtime_label" style="display: none;">剩余支付时间：<span class="rtime"></span></span>
+		</div>
+		<span class="money_label">原价：</span><span class="money_span"></span>
+		<br/>
+		<span class="perc_label">折扣：</span><span class="perc_span"></span>
+		<br/>
+		<span class="points_cost_label">花费的积分：</span><span class="points_cost_span"></span>
+		<br/>
+		<span class="rmoney_label">实付：</span><span class="rmoney_span"></span>
+		<br/>
+		<span class="state_label">订单状态：</span><span class="state_span"></span>
+		<a class="od_a" style="margin-left: 350px;" th:href="@{/user/loadgoods}+'?planid=1'">详情</a>&nbsp;&nbsp;
+		<input type="button" class="btn1" value="支付" style="display: none;"/>
+		<input type="button" class="btn2" value="取消" style="display: none;"/>
+		<input type="button" class="btn3" value="退订" style="display: none;"/>
+		<br/>
+		<img class="border" th:src="@{/images/border.png}"/>
+	</div>	
 	
 	
 		
@@ -619,6 +687,23 @@ background: #eeeeee;
 	
 <input id="pageCount_input" type="hidden" name="pageCount"/>
 <div id="page_div"><table id="page_table"><tr></tr></table></div>
+
+
+		<br/>
+		<img class="border" th:src="@{/images/border.png}"/>
+注意事项：
+<br/>
+1.未支付的订单需要在15分钟内支付，超时之后不可支付（订单状态会显示“已超时”），您可以手动取消订单，也可以等待系统自动取消订单。
+<br/>
+2.预订时会直接消耗您的积分，不会消耗您的余额，支付订单时才消耗您的余额。
+<br/>
+3.取消和退订订单会将积分的100%退还给您。但是在退订订单时，您所支付的金额要按照一定比例退给您，具体规则如下：
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;距离演出开始大于5天时退还100%；
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;距离演出开始小于等于5天且大于4天时退还90%；
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;距离演出开始小于等于4天且大于3天时退还80%；
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;距离演出开始小于等于3天且大于2天时退还70%；
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;距离演出开始小于等于2天且大于1天时退还60%；
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;距离演出开始小于等于1天时不能退订。
 
 	<br/>
 	<br/>
