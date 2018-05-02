@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tickets.Tickets.entity.Goods;
 import com.tickets.Tickets.entity.Level;
+import com.tickets.Tickets.entity.Notice;
 import com.tickets.Tickets.entity.Order;
 import com.tickets.Tickets.entity.Plan;
 import com.tickets.Tickets.entity.Seatprice;
@@ -92,6 +93,30 @@ public class UserController {
 			 HttpServletRequest request){
 		logger.info("/user/regV接口 被调用，请求者的地址是"+request.getRemoteAddr());
 		mv.setViewName("/user/reg");
+		return mv;
+	}
+	@RequestMapping(value="/user/rechargeV")
+	public ModelAndView rechargeV(
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/rechargeV接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		mv.setViewName("/user/recharge");
+		return mv;
+	}
+	@RequestMapping(value="/user/userinfoV")
+	public ModelAndView userinfoV(
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/userinfoV接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		mv.setViewName("/user/userinfo");
+		return mv;
+	}
+	@RequestMapping(value="/user/securitymngV")
+	public ModelAndView securitymngV(
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/securitymngV接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		mv.setViewName("/user/securitymng");
 		return mv;
 	}
 	
@@ -409,6 +434,20 @@ public class UserController {
 		return mv;
 	}
 
+	@RequestMapping(value="/user/mynoticesV")
+	public ModelAndView mynoticesV(
+			 String read_state,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/mynoticesV接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		if(!"false".equals(read_state) && !"true".equals(read_state) ) {
+			read_state = "all";
+		}
+		mv.addObject("read_state", read_state);
+		mv.setViewName("/user/mynotices");
+		return mv;
+	}
+
 	@RequestMapping(value="/user/searchorders")
 	@ResponseBody
 	public Object searchorders(
@@ -434,6 +473,52 @@ public class UserController {
 		pageAndList.setList(list);
 		
 		return pageAndList;
+	}
+	@RequestMapping(value="/user/searchnotices")
+	@ResponseBody
+	public Object searchnotices(
+			Long pageSize, Long index,
+			 String read_state,
+			 HttpSession session,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/searchnotices接口 被调用，请求者的地址是"+request.getRemoteAddr());
+
+		if(!"false".equals(read_state) && !"true".equals(read_state) ) {
+			read_state = "";
+		}
+		
+		Page page = new Page();
+		User user = (User) session.getAttribute("user");
+		List<Notice> list = noticeService.getNoticeByUserid(pageSize, index, page, user.getUserid(), read_state);
+		
+		PageAndList<Notice> pageAndList = new PageAndList<Notice>();
+		pageAndList.setIndex(page.getIndex());
+		pageAndList.setPageCount(page.getPageCount());
+		pageAndList.setRecordCount(page.getRecordCount());
+		pageAndList.setList(list);
+		
+		return pageAndList;
+	}
+	
+	@RequestMapping(value="/user/noticescount")
+	@ResponseBody
+	public Object noticescount(
+			 String read_state,
+			 HttpSession session,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/noticescount接口 被调用，请求者的地址是"+request.getRemoteAddr());
+
+		if(!"false".equals(read_state) && !"true".equals(read_state) ) {
+			read_state = "";
+		}
+		
+		User user = (User) session.getAttribute("user");
+		Long c = noticeService.getNoticeCountByUserid(user.getUserid(), read_state);
+
+		
+		return c;
 	}
 	
 	

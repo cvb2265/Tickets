@@ -23,18 +23,16 @@
 		
 		//先隐藏所有结果div
 		var rs_items = $("div.rs_item");
-		for(var k=0;k<3;k++) {
+		for(var k=0;k<10;k++) {
 			rs_items.eq(k).hide();
 		}
 		
-		if($("#order_state").val()=="unpaid"){
-			$("#order_dd").next().children("a").css({"background-color":"#009688", "color":"#ffffff"});
-		}else if($("#order_state").val()=="paid"){
-			$("#order_dd").next().next().children("a").css({"background-color":"#009688", "color":"#ffffff"});
-		}else if($("#order_state").val()=="finished"){
-			$("#order_dd").next().next().next().children("a").css({"background-color":"#009688", "color":"#ffffff"});
+		if($("#read_state").val()=="false"){
+			$("#notice_dd").next().children("a").css({"background-color":"#009688", "color":"#ffffff"});
+		}else if($("#read_state").val()=="true"){
+			$("#notice_dd").next().next().children("a").css({"background-color":"#009688", "color":"#ffffff"});
 		}else{//是all
-			$("#order_dd a").css({"background-color":"#009688", "color":"#ffffff"});
+			$("#notice_dd a").css({"background-color":"#009688", "color":"#ffffff"});
 		}
 		
 		//第一次通过链接进入页面，马上搜索
@@ -44,16 +42,16 @@
 	function search(pageNum){
 		//先隐藏所有结果div
 		var rs_items = $("div.rs_item");
-		for(var k=0;k<3;k++) {
+		for(var k=0;k<10;k++) {
 			rs_items.eq(k).hide();
 		}
 		$.ajax({
 			type : "POST",
-			url : [[ @{/user/searchorders} ]],
+			url : [[ @{/user/searchnotices} ]],
 			data : {
-				pageSize : 3,
+				pageSize : 10,
 				index : 1,
-				order_state : $("#order_state").val()
+				read_state : $("#read_state").val()
 			},
 			dataType : "json",
 			success : func1
@@ -246,6 +244,7 @@
         var i=0;
 		var list = data.list;
 		$.each(list, function(){
+			alert(this.content);
 			time_spans.eq(i).html(this.time.substring(0,19));
 			money_spans.eq(i).html("￥"+this.money);
 			if(0.995<Number(this.perc) && Number(this.perc)<1.005 ){
@@ -582,25 +581,6 @@ background: #eeeeee;
 	
 	
 	
-	<div class="rs_item">
-		<div class="rs_item_top">
-			<span class="time_label">订单号：</span><span class="time_span"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-			<span class="time_label">|<span class="time_span"></span>|</span>&nbsp;&nbsp;&nbsp;&nbsp;
-			<span class="rmoney_label"></span><span class="rmoney_span"></span>
-		</div>
-		<span class="money_label">原价：</span><span class="money_span"></span>
-		<br/>
-		<span class="perc_label">折扣：</span><span class="perc_span"></span>
-		<br/>
-		<span class="points_cost_label">花费的积分：</span><span class="points_cost_span"></span>
-		<br/>
-		<span class="state_label">订单状态：</span><span class="state_span"></span>
-		<input type="button" class="btn1" value="返回"/><input type="button" class="btn2" value="返回"/>
-		<br/>
-		<img class="border" th:src="@{/images/border.png}"/>
-	</div>
-	
-	
 		
 	<br/>
 	
@@ -636,7 +616,7 @@ background: #eeeeee;
 <br/>
 <br/>
 <br/>
-<input id="order_state" type="hidden" name="order_state" th:value="${order_state}" />
+<input id="read_state" type="hidden" name="read_state" th:value="${read_state}" />
 
 </body>
 </html>

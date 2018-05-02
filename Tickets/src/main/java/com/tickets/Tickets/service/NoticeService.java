@@ -15,6 +15,14 @@ public interface NoticeService {
 	 */
 	public List<Notice> getNoticeByUserid(Long pageSize, Long index, Page page, Long userid, String read);
 
+	
+	/**
+	 * @author tqy
+	 * @date 2018年5月2日
+	 * 
+	 */
+	public Long getNoticeCountByUserid(Long userid, String read);
+
 
 	
 	

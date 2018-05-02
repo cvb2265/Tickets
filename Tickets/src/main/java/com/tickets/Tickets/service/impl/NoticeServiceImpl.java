@@ -40,13 +40,21 @@ public class NoticeServiceImpl implements NoticeService {
 	@Transactional(readOnly=true)
 	@Override
 	public List<Notice> getNoticeByUserid(Long pageSize, Long index, Page page, Long userid, String read) {
-		logger.info("getGoodsByPlanid方法 被调用");
+		logger.info("getNoticeByUserid方法 被调用");
 		/** 当前需要分页的总数据条数  */
 		Map<String,Object> params = new HashMap<>();
 		Map<String,Object> params2 = new HashMap<>();
 		params.put("userid", userid);
 		params2.put("userid", userid);
-		if(read!=null&&!"".equals(read)) {params.put("read", read);params2.put("read", read);}
+		if(read!=null&&!"".equals(read)) {
+			if(read.equals("true")) {
+				params.put("read", true);
+				params2.put("read", true);
+			}else {
+				params.put("read", false);
+				params2.put("read", false);
+			}
+		}
 		long recordCount = noticeMapper.noticecount(params);
 		page.setRecordCount(recordCount);
 		long pageCount = recordCount/pageSize;
@@ -79,6 +87,32 @@ public class NoticeServiceImpl implements NoticeService {
 		page.setIndex(index);
 		page.setPageCount(pageCount);
 		return list;
+	}
+
+
+
+
+	/**
+	 * @author tqy
+	 * @date 2018年5月2日
+	 * 
+	 */
+	@Transactional(readOnly=true)
+	@Override
+	public Long getNoticeCountByUserid(Long userid, String read) {
+		logger.info("getNoticeCountByUserid方法 被调用");
+		/** 当前需要分页的总数据条数  */
+		Map<String,Object> params = new HashMap<>();
+		params.put("userid", userid);
+		if(read!=null&&!"".equals(read)) {
+			if(read.equals("true")) {
+				params.put("read", true);
+			}else {
+				params.put("read", false);
+			}
+		}
+		long recordCount = noticeMapper.noticecount(params);
+		return recordCount;
 	}
 	
 	

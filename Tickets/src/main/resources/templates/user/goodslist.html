@@ -7,6 +7,20 @@
 <script th:inline="javascript">
 /*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
 	$(function () {
+		//显示未读消息数
+		$.ajax({
+			type : "POST",
+			url : [[ @{/user/noticescount} ]],
+			data : {
+				read_state : "false"
+			},
+			dataType : "json",
+			success : function(data){
+				$("span.layui-badge").html(data);
+			}
+		});
+		
+		
 
         var url= [[@{/user/loadseat}]]+"?planid="+$("#planid_input_h").val();
 		$("#ret").click(function(){
@@ -580,11 +594,10 @@ white-space: nowrap;
   <li class="layui-nav-item" th:if="${session.user}">
     <a href="javascript:;">我的订单</a>
     <dl class="layui-nav-child">
-      <dd><a href="">全部订单</a></dd>
-      <dd><a href="">未支付</a></dd>
-      <dd><a href="">已支付</a></dd>
-      <dd><a href="">已完成</a></dd>
-      <dd><a href="">已取消</a></dd>
+      <dd><a th:href="@{/user/myordersV(order_state=all)}">全部订单</a></dd>
+      <dd><a th:href="@{/user/myordersV(order_state=unpaid)}">未支付</a></dd>
+      <dd><a th:href="@{/user/myordersV(order_state=paid)}">已支付</a></dd>
+      <dd><a th:href="@{/user/myordersV(order_state=finished)}">已完成</a></dd>
     </dl>
   </li>
 </ul>
@@ -594,14 +607,14 @@ white-space: nowrap;
 </ul>
 <ul class="layui-nav layui-layout-right" th:if="${session.user}">
    <li class="layui-nav-item">
-    <a href="">系统消息<span class="layui-badge">9</span></a>
+    <a th:href="@{/user/mynoticesV(read_state=all)}">系统消息<span class="layui-badge"></span></a>
   </li>
   <li class="layui-nav-item" lay-unselect="" style="margin-right: 20px;">
     <a href="javascript:;"><img th:src="@{/faces/}+${session.user.face}" class="layui-nav-img"/><font th:text="${session.user.nickname}"></font></a>
     <dl class="layui-nav-child">
-      <dd><a href="javascript:;">修改信息</a></dd>
-      <dd><a href="javascript:;">安全管理</a></dd>
-      <dd><a href="javascript:;">充值</a></dd>
+      <dd><a th:href="@{/user/userinfoV}">修改信息</a></dd>
+      <dd><a th:href="@{/user/securitymngV}">安全管理</a></dd>
+      <dd><a th:href="@{/user/rechargeV}">充值</a></dd>
       <dd><a th:href="@{/user/logout}">退了</a></dd>
     </dl>
   </li>

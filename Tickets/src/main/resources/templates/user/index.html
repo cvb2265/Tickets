@@ -7,6 +7,20 @@
 <script th:inline="javascript">
 /*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
 	$(function () {
+		//显示未读消息数
+		$.ajax({
+			type : "POST",
+			url : [[ @{/user/noticescount} ]],
+			data : {
+				read_state : "false"
+			},
+			dataType : "json",
+			success : function(data){
+				$("span.layui-badge").html(data);
+			}
+		});
+		
+		
 		var lxplans = [[${lxplans}]];
 		var i=1;
 		$.each(lxplans, function(){
@@ -346,14 +360,14 @@ img.cover2 {
 </ul>
 <ul class="layui-nav layui-layout-right" th:if="${session.user}">
    <li class="layui-nav-item">
-    <a href="">系统消息<span class="layui-badge">9</span></a>
+    <a th:href="@{/user/mynoticesV(read_state=all)}">系统消息<span class="layui-badge"></span></a>
   </li>
   <li class="layui-nav-item" lay-unselect="" style="margin-right: 20px;">
     <a href="javascript:;"><img th:src="@{/faces/}+${session.user.face}" class="layui-nav-img"/><font th:text="${session.user.nickname}"></font></a>
     <dl class="layui-nav-child">
-      <dd><a href="javascript:;">修改信息</a></dd>
-      <dd><a href="javascript:;">安全管理</a></dd>
-      <dd><a href="javascript:;">充值</a></dd>
+      <dd><a th:href="@{/user/userinfoV}">修改信息</a></dd>
+      <dd><a th:href="@{/user/securitymngV}">安全管理</a></dd>
+      <dd><a th:href="@{/user/rechargeV}">充值</a></dd>
       <dd><a th:href="@{/user/logout}">退了</a></dd>
     </dl>
   </li>

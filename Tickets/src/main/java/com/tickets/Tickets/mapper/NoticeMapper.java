@@ -28,7 +28,7 @@ public interface NoticeMapper {
             +"    userid = #{userid} "
             +"</if>"
             +"<if test=\"read != null\">"
-            +"    AND read = #{read} "
+            +"    AND `read` = #{read} "
             +"</if>"
             + "</where>"
             + " ORDER BY time DESC "
@@ -50,7 +50,7 @@ public interface NoticeMapper {
             +"    userid = #{userid} "
             +"</if>"
             +"<if test=\"read != null\">"
-            +"    AND read = #{read} "
+            +"    AND `read` = #{read} "
             +"</if>"
             + "</where>"
             + "</script>")
