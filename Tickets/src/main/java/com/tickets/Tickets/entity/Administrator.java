@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Administrator implements Serializable {
     private static final long serialVersionUID = 4878032331962414748L;
-    private Integer id;
+    private Long id;
     private String name;
     private String password;
     private String head;
@@ -12,7 +12,7 @@ public class Administrator implements Serializable {
     public Administrator() {
     }
 
-    public Administrator(int id, String name, String password, String head) {
+    public Administrator(Long id, String name, String password, String head) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -29,11 +29,11 @@ public class Administrator implements Serializable {
         return serialVersionUID;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

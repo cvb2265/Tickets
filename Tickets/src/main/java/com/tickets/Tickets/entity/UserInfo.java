@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class UserInfo implements Serializable {
     private static final long serialVersionUID = -2894758874014197704L;
-    private Integer id;
-    private Integer user_id;
+    private Long id;
+    private Long user_id;
     private String truename; //真实姓名
     private String sex;//性别
     private String birthdate;// 生日___________________________________________________//暂时用String
@@ -22,7 +22,7 @@ public class UserInfo implements Serializable {
     public UserInfo() {
     }
 
-    public UserInfo(int id, int user_id, String truename, String sex, String birthdate, String marital_status, String education, String job, String address, int idnumber) {
+    public UserInfo(Long id, Long user_id, String truename, String sex, String birthdate, String marital_status, String education, String job, String address, int idnumber) {
         this.id = id;
         this.user_id = user_id;
         this.truename = truename;
@@ -35,7 +35,7 @@ public class UserInfo implements Serializable {
         this.idnumber = idnumber;
     }
 
-    public UserInfo(int user_id, String truename, String sex, String birthdate, String marital_status, String education, String job, String address, int idnumber) {
+    public UserInfo(Long user_id, String truename, String sex, String birthdate, String marital_status, String education, String job, String address, int idnumber) {
         this.user_id = user_id;
         this.truename = truename;
         this.sex = sex;
@@ -47,19 +47,19 @@ public class UserInfo implements Serializable {
         this.idnumber = idnumber;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getUser_id() {
+    public Long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 
