@@ -3,11 +3,13 @@ package com.tickets.Tickets.service.impl;
 import com.tickets.Tickets.entity.Goods;
 import com.tickets.Tickets.entity.Level;
 import com.tickets.Tickets.entity.Order;
+import com.tickets.Tickets.entity.Plan;
 import com.tickets.Tickets.entity.Seatprice;
 import com.tickets.Tickets.entity.User;
 import com.tickets.Tickets.mapper.GoodsMapper;
 import com.tickets.Tickets.mapper.LevelMapper;
 import com.tickets.Tickets.mapper.OrderMapper;
+import com.tickets.Tickets.mapper.PlanMapper;
 import com.tickets.Tickets.mapper.SeatpriceMapper;
 import com.tickets.Tickets.mapper.UserMapper;
 import com.tickets.Tickets.service.UserService;
@@ -66,6 +68,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	@Qualifier("levelMapper")
 	private LevelMapper levelMapper;
+	@Autowired
+	@Qualifier("planMapper")
+	private PlanMapper planMapper;
 
 	
 	//打印日志
@@ -203,11 +208,19 @@ public class UserServiceImpl implements UserService {
 		ResultMessage rm = new ResultMessage();
 		double money = 0.0;
 
-		//先检查座位是否已经被预订
+		//先检查座位是否已经被预订，以及plan是否过期
 		List<Seatprice> ls = new ArrayList<Seatprice>();
 		String[] ss = spids.split("-");
 		for(int i=0;i<ss.length;i++) {
 			Seatprice sp = seatpriceMapper.findById(Long.parseLong(ss[i]));
+			if(i==0) {
+				Plan plan = planMapper.findById(sp.getPlanid());
+				if(plan.isOverdue()) {//如果过期了
+					rm.setResult(false);
+					rm.setMessage("音乐会已经过期！");
+					return rm;
+				}
+			}
 			if(!sp.isAvail()) {
 				rm.setResult(false);
 				rm.setMessage("座位已经被预订，请重新预订！");
@@ -287,7 +300,7 @@ public class UserServiceImpl implements UserService {
 		logger.info("createGoodsOrder方法 被调用");
 		ResultMessage rm = new ResultMessage();
 
-		//先检查goods是否已经被预订
+		//先检查goods是否已经被预订，以及plan是否过期
 		Goods goods = goodsMapper.findById(goodsid);
 		if(goods==null) {
 			rm.setResult(false);
@@ -299,6 +312,13 @@ public class UserServiceImpl implements UserService {
 			rm.setMessage("周边产品已经被预订！");
 			return rm;
 		}
+		Plan plan = planMapper.findById(goods.getPlanid());
+		if(plan.isOverdue()) {//如果过期了
+			rm.setResult(false);
+			rm.setMessage("音乐会已经过期！");
+			return rm;
+		}
+		
 		
 		//一场音乐会每人最多买一个周边产品，检查之前有没有预定过周边产品
 		long  goodscount = goodsMapper.getGoodsCountByPlanidAndUserid(goods.getPlanid(), userid);
