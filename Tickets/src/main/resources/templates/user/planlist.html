@@ -16,7 +16,9 @@
 			},
 			dataType : "json",
 			success : function(data){
-				$("span.layui-badge").html(data);
+				if(Number(data)!=0){
+					$("span.layui-badge").html(data).show();
+				}
 			}
 		});
 		
@@ -681,7 +683,7 @@ white-space: nowrap;
 </ul>
 <ul class="layui-nav layui-layout-right" th:if="${session.user}">
    <li class="layui-nav-item">
-    <a th:href="@{/user/mynoticesV(read_state=all)}">系统消息<span class="layui-badge"></span></a>
+    <a th:href="@{/user/mynoticesV(read_state=all)}">系统消息<span class="layui-badge" style="display: none;"></span></a>
   </li>
   <li class="layui-nav-item" lay-unselect="" style="margin-right: 20px;">
     <a href="javascript:;"><img th:src="@{/faces/}+${session.user.face}" class="layui-nav-img"/><font th:text="${session.user.nickname}"></font></a>

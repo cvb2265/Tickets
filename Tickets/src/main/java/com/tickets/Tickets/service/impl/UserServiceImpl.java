@@ -2,12 +2,14 @@ package com.tickets.Tickets.service.impl;
 
 import com.tickets.Tickets.entity.Goods;
 import com.tickets.Tickets.entity.Level;
+import com.tickets.Tickets.entity.Notice;
 import com.tickets.Tickets.entity.Order;
 import com.tickets.Tickets.entity.Plan;
 import com.tickets.Tickets.entity.Seatprice;
 import com.tickets.Tickets.entity.User;
 import com.tickets.Tickets.mapper.GoodsMapper;
 import com.tickets.Tickets.mapper.LevelMapper;
+import com.tickets.Tickets.mapper.NoticeMapper;
 import com.tickets.Tickets.mapper.OrderMapper;
 import com.tickets.Tickets.mapper.PlanMapper;
 import com.tickets.Tickets.mapper.SeatpriceMapper;
@@ -71,6 +73,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	@Qualifier("planMapper")
 	private PlanMapper planMapper;
+	@Autowired
+	@Qualifier("noticeMapper")
+	private NoticeMapper noticeMapper;
 
 	
 	//打印日志
@@ -198,6 +203,18 @@ public class UserServiceImpl implements UserService {
 		}
 		user.setLevel(1);//激活
 		userMapper.update(user);
+		
+		//发送系统消息
+		Notice notice = new Notice();
+		notice.setUserid(userid);
+	    Date dt = new Date();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");     
+	    String time = sdf.format(dt);
+		notice.setTime(time);
+		notice.setTitle("欢迎注册Tickets账户");
+		notice.setContent("这里一定会有你喜欢的音乐会哦！");
+		notice.setRead(false);
+		noticeMapper.save(notice);
 		return true;
 	}
 

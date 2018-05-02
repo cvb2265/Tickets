@@ -3,6 +3,7 @@ package com.tickets.Tickets.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -55,5 +56,15 @@ public interface NoticeMapper {
             + "</where>"
             + "</script>")
 	public Long noticecount(Map<String, Object> params);
+	
+	/**
+	 * 
+	 * @author tqy
+	 * @date 2018年5月2日
+	 * 
+	 */
+	@Insert(value = "INSERT INTO notice(`userid`,`time`,`title`,`content`,`read`)\n" + 
+			"VALUES (#{userid}, #{time}, #{title}, #{content}, #{read})")
+	public Integer save(Notice notice);
 
 }
