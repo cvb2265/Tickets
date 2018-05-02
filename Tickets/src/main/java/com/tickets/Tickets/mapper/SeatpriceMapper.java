@@ -57,5 +57,8 @@ public interface SeatpriceMapper {
 	@Select(value = "SELECT COUNT(id) FROM seatprice WHERE planid=#{planid} "
 			+ "AND orderid IN (SELECT orderid FROM order_ WHERE userid = #{userid});")
 	public Long getSPCountByPlanidAndUserid(@Param("planid")Long planid, @Param("userid")Long userid);
+
+	@Select(value = "SELECT * FROM seatprice WHERE orderid = #{orderid}")
+	public List<Seatprice> findByOrderid(@Param("orderid")Long orderid);
 	
 }

@@ -17,6 +17,7 @@ import com.tickets.Tickets.mapper.UserMapper;
 import com.tickets.Tickets.service.UserService;
 import com.tickets.Tickets.util.ResultMessage;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -376,6 +377,234 @@ public class UserServiceImpl implements UserService {
 		
 
 		rm.setResult(true);
+		return rm;
+	}
+
+	
+	@Override
+	public ResultMessage payOrder(Long userid, Long orderid) {
+		logger.info("payOrder方法 被调用");
+		ResultMessage rm = new ResultMessage();
+		
+		Order o = orderMapper.findByOrderid(orderid);
+		if(!o.getUserid().equals(userid)) {
+			rm.setResult(false);
+			rm.setMessage("非本人操作，操作失败！");
+			return rm;
+		}
+
+		//先验证订单是否超过15分钟
+		Date dt = new Date();
+		dt.setTime(dt.getTime() - 15*60*1000);
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    Date dt2 = null;
+		try {
+			dt2 = sdf.parse(o.getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		if(dt.after(dt2)) {
+			//删除order
+			orderMapper.deleteByOrderid(o.getOrderid());
+			
+			
+			//更新seatprice或者goods表，看订单是买了seatprice还是goods
+			List<Seatprice> sps = seatpriceMapper.findByOrderid(o.getOrderid());
+			if(sps.size()!=0) {//证明买的是seatprice
+				for(int i=0;i<sps.size();i++) {
+					sps.get(i).setAvail(true);
+					sps.get(i).setOrderid(null);
+					seatpriceMapper.update(sps.get(i));
+				}
+			}else {
+				Goods goods = goodsMapper.findByOrderid(o.getOrderid());
+				goods.setAvail(true);
+				goods.setOrderid(null);
+				goodsMapper.update(goods);
+			}
+			
+			//更新user表，返还积分
+			User user = userMapper.findById(o.getUserid());
+			int p = user.getPoints();
+			user.setPoints( p + o.getPoints_cost() );
+			userMapper.update(user);
+			
+			rm.setResult(false);
+			rm.setMessage("未在15分钟内支付，订单自动取消！");
+			return rm;
+		}
+		
+		
+		//再验证钱是否足够
+		User user = userMapper.findById(userid);
+		if(user.getMoney()<o.getRmoney()) {
+			rm.setResult(false);
+			rm.setMessage("余额不足，请充值！");
+			return rm;
+		}
+		
+		//修改order
+		o.setState("paid");
+		orderMapper.update(o);
+		
+		
+		//更新user，扣除余额
+		double m = user.getMoney();
+		user.setMoney( m - o.getRmoney() );
+		userMapper.update(user);
+		
+		
+		rm.setResult(true);
+		return rm;
+	}
+
+	@Override
+	public ResultMessage cancelOrder(Long userid, Long orderid) {
+		logger.info("cancelOrder方法 被调用");
+		ResultMessage rm = new ResultMessage();
+		
+		Order o = orderMapper.findByOrderid(orderid);
+		if(!o.getUserid().equals(userid)) {
+			rm.setResult(false);
+			rm.setMessage("非本人操作，操作失败！");
+			return rm;
+		}
+		
+		//删除order
+		orderMapper.deleteByOrderid(o.getOrderid());
+		
+		
+		//更新seatprice或者goods表，看订单是买了seatprice还是goods
+		List<Seatprice> sps = seatpriceMapper.findByOrderid(o.getOrderid());
+		if(sps.size()!=0) {//证明买的是seatprice
+			for(int i=0;i<sps.size();i++) {
+				sps.get(i).setAvail(true);
+				sps.get(i).setOrderid(null);
+				seatpriceMapper.update(sps.get(i));
+			}
+		}else {
+			Goods goods = goodsMapper.findByOrderid(o.getOrderid());
+			goods.setAvail(true);
+			goods.setOrderid(null);
+			goodsMapper.update(goods);
+		}
+		
+		//更新user表，返还积分
+		User user = userMapper.findById(o.getUserid());
+		int p = user.getPoints();
+		user.setPoints( p + o.getPoints_cost() );
+		userMapper.update(user);
+		
+		rm.setResult(true);
+		return rm;
+	}
+
+	@Override
+	public ResultMessage unsubscribeOrder(Long userid, Long orderid) {
+		logger.info("unsubscribeOrder方法 被调用");
+		ResultMessage rm = new ResultMessage();
+		
+		Order o = orderMapper.findByOrderid(orderid);
+		if(!o.getUserid().equals(userid)) {
+			rm.setResult(false);
+			rm.setMessage("非本人操作，操作失败！");
+			return rm;
+		}
+
+		List<Seatprice> sps = seatpriceMapper.findByOrderid(orderid);
+		Goods goods = null;
+		Long pid = null;
+		if(sps.size()!=0) {//证明买的是seatprice
+			pid = sps.get(0).getPlanid();
+		}else {
+			goods = goodsMapper.findByOrderid(o.getOrderid());
+			pid = goods.getPlanid();
+		}
+		
+		Plan plan = planMapper.findById(pid);
+		//计算距离演出开始的时间
+		Date now = new Date();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date d2 = null;
+		try {
+			d2 = sdf.parse(plan.getStarttime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		int f = 6;
+		double perc = 1.0;
+		long diff = d2.getTime() - now.getTime();//相差的毫秒数
+		if(diff<=86400000) {//小于等于1天，订单强制设为完成
+			//handleOverduePlan();
+			rm.setResult(false);
+			rm.setMessage("距离演出开始不足1天，不可退票！");
+			return rm;
+		}else if(86400000<diff && diff <=2*86400000) {//小于等于2天且大于1天
+			f=2;
+			perc = 0.6;
+		}else if(2*86400000<diff && diff <=3*86400000) {//小于等于3天且大于2天
+			f=3;
+			perc = 0.7;
+		}else if(3*86400000<diff && diff <=4*86400000) {//小于等于4天且大于3天
+			f=4;
+			perc = 0.8;
+		}else if(4*86400000<diff && diff <=5*86400000) {//小于等于5天且大于4天
+			f=5;
+			perc = 0.9;
+		}else if(5*86400000<diff) {//大于5天
+			f=6;
+			perc = 1.0;
+		}
+		
+		
+		
+		//删除order
+		orderMapper.deleteByOrderid(orderid);
+		
+
+		//更新seatprice或者goods表，看订单是买了seatprice还是goods
+		if(sps.size()!=0) {//证明买的是seatprice
+			for(int i=0;i<sps.size();i++) {
+				sps.get(i).setAvail(true);
+				sps.get(i).setOrderid(null);
+				seatpriceMapper.update(sps.get(i));
+			}
+		}else {
+			goods.setAvail(true);
+			goods.setOrderid(null);
+			goodsMapper.update(goods);
+		}
+		
+		
+		//更新user表，返还积分和金额
+		User user = userMapper.findById(o.getUserid());
+		int p = user.getPoints();
+		user.setPoints( p + o.getPoints_cost() );
+		double mon = user.getMoney();
+		user.setMoney( mon + o.getRmoney()*perc );
+		userMapper.update(user);
+		
+
+		//经理获得收益
+//		if(f!=6) {
+//			Manager manager = managerMapper.findById(1);
+//			manager.setMoney(manager.getMoney()+o.getRmoney()*(1.0-perc));
+//			managerMapper.updateMoney(manager);
+//		}
+		
+
+		rm.setResult(true);
+		if(f==2) {
+			rm.setMessage("根据距离演出的时间，退还60%的金额给您！");
+		}else if(f==3) {
+			rm.setMessage("根据距离演出的时间，退还70%的金额给您！");
+		}else if(f==4) {
+			rm.setMessage("根据距离演出的时间，退还80%的金额给您！");
+		}else if(f==5) {
+			rm.setMessage("根据距离演出的时间，退还90%的金额给您！");
+		}else if(f==6) {
+			rm.setMessage("根据距离演出的时间，退还100%的金额给您！");
+		}
 		return rm;
 	}
 

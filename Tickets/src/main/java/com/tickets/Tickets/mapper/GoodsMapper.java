@@ -45,6 +45,15 @@ public interface GoodsMapper {
 	@Select(value = "SELECT * FROM goods WHERE id = #{id}")
 	public Goods findById(@Param("id")Long id);
 	
+	/**
+	 * 
+	 * @author tqy
+	 * @date 2018年5月2日
+	 * 
+	 */
+	@Select(value = "SELECT * FROM goods WHERE orderid = #{orderid}")
+	public Goods findByOrderid(@Param("orderid")Long orderid);
+	
 
 	/**
 	 * 查询某一用户在某一音乐会上共预订了几个周边产品

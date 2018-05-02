@@ -8,19 +8,21 @@
 /*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
 	$(function () {
 		//显示未读消息数
-		$.ajax({
-			type : "POST",
-			url : [[ @{/user/noticescount} ]],
-			data : {
-				read_state : "false"
-			},
-			dataType : "json",
-			success : function(data){
-				if(Number(data)!=0){
-					$("span.layui-badge").html(data).show();
+		if([[${session.user}]]!=null){//如果登录了
+			$.ajax({
+				type : "POST",
+				url : [[ @{/user/noticescount} ]],
+				data : {
+					read_state : "false"
+				},
+				dataType : "json",
+				success : function(data){
+					if(Number(data)!=0){
+						$("span.layui-badge").html(data).show();
+					}
 				}
-			}
-		});
+			});
+		}
 		
 		
 		$("#smng").css({"background-color":"#009688", "color":"#ffffff"});

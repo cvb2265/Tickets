@@ -3,6 +3,7 @@ package com.tickets.Tickets.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -56,5 +57,17 @@ public interface OrderMapper {
             + "</where>"
             + "</script>")
 	public Long ordercount(Map<String, Object> params);
+	
+	
+	
+	@Select(value = "SELECT * FROM order_ WHERE orderid = #{orderid}")
+	public Order findByOrderid(@Param("orderid")Long orderid);
+
+	@Delete(value = "DELETE FROM order_ WHERE orderid = #{orderid}")
+	public void deleteByOrderid(@Param("orderid")Long orderid);
+
+	@Update(value = "UPDATE order_ SET state=#{state}\n" + 
+			"		WHERE orderid = #{orderid}")
+	public void update(Order order);
 
 }

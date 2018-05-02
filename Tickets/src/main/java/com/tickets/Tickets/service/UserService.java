@@ -28,5 +28,12 @@ public interface UserService {
 	
 	//预订周边产品，需要同步synchronized
 	public ResultMessage createGoodsOrder(Long userid, Long goodsid);
+
+	//支付订单
+	public ResultMessage payOrder(Long userid, Long orderid);
+	//取消订单
+	public ResultMessage cancelOrder(Long userid, Long orderid);
+	//退订订单
+	public ResultMessage unsubscribeOrder(Long userid, Long orderid);
 	
 }

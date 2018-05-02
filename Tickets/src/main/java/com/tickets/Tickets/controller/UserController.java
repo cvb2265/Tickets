@@ -522,4 +522,65 @@ public class UserController {
 	}
 	
 	
+	
+	@RequestMapping(value="/user/payorder")
+	public ModelAndView payorder(
+			 Long orderid,
+			 HttpSession session,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/payorder接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		User user = (User) session.getAttribute("user");
+		ResultMessage rs = userService.payOrder(user.getUserid(), orderid);
+		if(!rs.isResult()) {
+			mv.addObject("emsg", rs.getMessage());
+			mv.setViewName("user/errorpage");
+			return mv;
+		}
+		//更新user信息
+		User u = userService.getById(user.getUserid());
+		session.setAttribute("user", u);
+		mv.addObject("order_state", "paid");
+		mv.setViewName("/user/myorders");
+		return mv;
+	}	
+	@RequestMapping(value="/user/cancelorder")
+	public ModelAndView cancelorder(
+			 Long orderid,
+			 HttpSession session,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/cancelorder接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		User user = (User) session.getAttribute("user");
+		ResultMessage rs = userService.cancelOrder(user.getUserid(), orderid);
+		if(!rs.isResult()) {
+			mv.addObject("emsg", rs.getMessage());
+			mv.setViewName("user/errorpage");
+			return mv;
+		}
+		//更新user信息
+		User u = userService.getById(user.getUserid());
+		session.setAttribute("user", u);
+		mv.addObject("order_state", "all");
+		mv.setViewName("/user/myorders");
+		return mv;
+	}	
+	@RequestMapping(value="/user/unsubscribeorder")
+	public ModelAndView unsubscribeorder(
+			 Long orderid,
+			 HttpSession session,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/unsubscribeorder接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		User user = (User) session.getAttribute("user");
+		ResultMessage rs = userService.unsubscribeOrder(user.getUserid(), orderid);
+		//更新user信息
+		User u = userService.getById(user.getUserid());
+		session.setAttribute("user", u);
+		mv.addObject("emsg", rs.getMessage());
+		mv.setViewName("user/errorpage");
+		return mv;
+	}
+	
+	
 }
