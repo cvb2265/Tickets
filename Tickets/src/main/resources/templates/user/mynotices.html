@@ -39,11 +39,41 @@
 			$("#notice_dd a").css({"background-color":"#009688", "color":"#ffffff"});
 		}
 		
+
+		$(".nid").attr("checked",false);
+		$(".selectall").attr("checked",false);
+		var url1 = [[ @{/user/delnotice} ]]+"?noticeids=";
+		$(".btn1").click(function(){
+			var noticeids = "";
+			var nid_inputs = $(".nid");
+	        for(var i=0;i<Number($("#notice_num").val());i++) {
+	        	if(nid_inputs.eq(i).prop("checked")) {
+	        		noticeids += nid_inputs.eq(i).val()+"-";
+	        	}
+	        }
+	        if(noticeids==""){
+	        	alert("没有选择消息！");
+	        	return;
+	        }
+			window.location.href=url1+noticeids;
+		});
+	    $(".selectall").click(function(){
+			var nid_inputs = $(".nid");
+        	if($(".selectall").prop("checked")) {
+        		nid_inputs.attr("checked",true);
+        	}else {
+        		nid_inputs.attr("checked",false);
+        	}
+		});
+		
 		//第一次通过链接进入页面，马上搜索
 		search(1);
 	});
 	
 	function search(pageNum){
+		$(".nid").attr("checked",false);
+		$(".selectall").attr("checked",false);
+		
 		//先隐藏所有结果div
 		var rs_items = $("div.rs_item");
 		for(var k=0;k<10;k++) {
@@ -238,43 +268,30 @@
 		//设置底部分页完
 		
 		var rs_items = $("div.rs_item");
+		var nid_inputs = $(".nid");
+		var notice_imgs = $(".notice_img");
+		var title_as = $(".title_a");
 		var time_spans = $(".time_span");
-		var money_spans = $(".money_span");
-		var perc_spans = $(".perc_span");
-		var rmoney_spans = $(".rmoney_span");
-		var points_cost_spans = $(".points_cost_span");
-		var state_spans = $(".state_span");
-		//var preoder_btns = $(".preoder_btn");//kkkkkkkkkk
         var i=0;
 		var list = data.list;
 		$.each(list, function(){
-			alert(this.content);
+			nid_inputs.eq(i).val(this.id);
+			var url6 = [[ @{/user/noticedetailV} ]]+"?noticeid="+this.id;
+			if(this.read) {
+				notice_imgs.eq(i).attr("src", [[@{/images/read.png}]]);
+				//这里易错，class应该有两个属性才可以！
+				title_as.eq(i).html(this.title).attr("class", "title_a_dec title_a").attr("href", url6);
+			}else {
+				notice_imgs.eq(i).attr("src", [[@{/images/unread.png}]]);
+				//这里易错，class应该有两个属性才可以！
+				title_as.eq(i).html(this.title).attr("class", "unread_title_a_dec title_a").attr("href", url6);
+			}
 			time_spans.eq(i).html(this.time.substring(0,19));
-			money_spans.eq(i).html("￥"+this.money);
-			if(0.995<Number(this.perc) && Number(this.perc)<1.005 ){
-				perc_spans.eq(i).html("原价");
-			}else{
-				perc_spans.eq(i).html((Number(this.perc)*100)+"折");
-			}
-			rmoney_spans.eq(i).html("￥"+this.rmoney);
-			points_cost_spans.eq(i).html(this.points_cost);
-			if(this.state=="unpaid"){
-				state_spans.eq(i).html("未支付");
-			}else if(this.state=="paid"){
-				state_spans.eq(i).html("已支付");
-			}else if(this.state=="finished"){
-				state_spans.eq(i).html("已完成");
-			}
-			
-			
-			/*var url= [[ @{/user/aaw} ]]+"?goodsid="+this.id;
-           	preoder_btns.eq(i).click(function(){
-               	window.location.href=url;
-       		});*/
 			
 			rs_items.eq(i).show();
             i++;
 		});
+		$("#notice_num").val(i);
 		
 	}
 /*]]>*/
@@ -368,7 +385,7 @@ input[type="button"]{
 	color: white;/*字体颜色*/
 }
 input[type="button"]:hover {
-	background-color: #99ff33;/*新背景色，Green*/
+	background-color: #ff0000;/*新背景色*/
     color: black;/*字体颜色*/
     cursor:pointer;
 }
@@ -396,6 +413,33 @@ height:80px;
 background: #eeeeee;
 
 	display: none; /*隐藏*/
+}
+
+
+.nid, .selectall {
+	margin-left:7px;
+}
+a.title_a_dec, a.title_a_dec:link{/*超链接平常的状态*/
+	color:#333333;
+	text-decoration:none;/*去掉下划线*/
+}
+a.title_a_dec:hover, a.title_a_dec:active{/*鼠标放到超链接上的时候；超链接被按下的时候 */
+	color:#333333;
+	text-decoration : underline;/*加下划线*/
+}
+a.unread_title_a_dec, a.unread_title_a_dec:link{/*超链接平常的状态*/
+	color:#111111;
+	font-weight:bold;
+	text-decoration:none;/*去掉下划线*/
+}
+a.unread_title_a_dec:hover, a.unread_title_a_dec:active{/*鼠标放到超链接上的时候；超链接被按下的时候 */
+	color:#111111;
+	font-weight:bold;
+	text-decoration : underline;/*加下划线*/
+}
+.time_span {
+	float:right;
+	margin-right:7px;
 }
 
 
@@ -554,34 +598,89 @@ background: #eeeeee;
 		<td valign="top">
 <div id="right_div">
 
-共<span id="num_span" style="color:#f00a75;"></span>个结果
+共<span id="num_span" style="color:#f00a75;"></span>条通知
 	<br/>
 	<img class="border" th:src="@{/images/border.png}"/>
-	
-	
+	<br/>
+	<input class="selectall" type="checkbox" name="nid" value=""/>
+	<input id="notice_num" type="hidden" name="notice_num"/>
+	&nbsp;&nbsp;&nbsp;
+	<input type="button" class="btn1" value="删除"/>
+	<br/>
+	<img class="border" th:src="@{/images/border.png}"/>
+	<br/>
 	
 	
 	<div class="rs_item">
-		<span class="time_label">创建时间：</span><span class="time_span"></span>
-		<br/>
-		<span class="money_label">原价：</span><span class="money_span"></span>
-		<br/>
-		<span class="perc_label">折扣：</span><span class="perc_span"></span>
-		<br/>
-		<span class="rmoney_label">实付：</span><span class="rmoney_span"></span>
-		<br/>
-		<span class="points_cost_label">花费的积分：</span><span class="points_cost_span"></span>
-		<br/>
-		<span class="state_label">订单状态：</span><span class="state_span"></span>
-		<input type="button" class="btn1" value="返回"/><input type="button" class="btn2" value="返回"/>
-		<br/>
-		<h5 class="head">(+)查看详情</h5>
-		<div class="content">
-			思路和编写程序的方式。
-		</div>
-		<br/>
+		<input class="nid" type="checkbox" name="nid" value=""/>
+		<img class="notice_img"/>
+		<a class="title_a"></a>
+		<span class="time_span"></span>
 		<img class="border" th:src="@{/images/border.png}"/>
-	</div>	
+	</div>
+	<div class="rs_item">
+		<input class="nid" type="checkbox" name="nid" value=""/>
+		<img class="notice_img"/>
+		<a class="title_a"></a>
+		<span class="time_span"></span>
+		<img class="border" th:src="@{/images/border.png}"/>
+	</div>
+	<div class="rs_item">
+		<input class="nid" type="checkbox" name="nid" value=""/>
+		<img class="notice_img"/>
+		<a class="title_a"></a>
+		<span class="time_span"></span>
+		<img class="border" th:src="@{/images/border.png}"/>
+	</div>
+	<div class="rs_item">
+		<input class="nid" type="checkbox" name="nid" value=""/>
+		<img class="notice_img"/>
+		<a class="title_a"></a>
+		<span class="time_span"></span>
+		<img class="border" th:src="@{/images/border.png}"/>
+	</div>
+	<div class="rs_item">
+		<input class="nid" type="checkbox" name="nid" value=""/>
+		<img class="notice_img"/>
+		<a class="title_a"></a>
+		<span class="time_span"></span>
+		<img class="border" th:src="@{/images/border.png}"/>
+	</div>
+	<div class="rs_item">
+		<input class="nid" type="checkbox" name="nid" value=""/>
+		<img class="notice_img"/>
+		<a class="title_a"></a>
+		<span class="time_span"></span>
+		<img class="border" th:src="@{/images/border.png}"/>
+	</div>
+	<div class="rs_item">
+		<input class="nid" type="checkbox" name="nid" value=""/>
+		<img class="notice_img"/>
+		<a class="title_a"></a>
+		<span class="time_span"></span>
+		<img class="border" th:src="@{/images/border.png}"/>
+	</div>
+	<div class="rs_item">
+		<input class="nid" type="checkbox" name="nid" value=""/>
+		<img class="notice_img"/>
+		<a class="title_a"></a>
+		<span class="time_span"></span>
+		<img class="border" th:src="@{/images/border.png}"/>
+	</div>
+	<div class="rs_item">
+		<input class="nid" type="checkbox" name="nid" value=""/>
+		<img class="notice_img"/>
+		<a class="title_a"></a>
+		<span class="time_span"></span>
+		<img class="border" th:src="@{/images/border.png}"/>
+	</div>
+	<div class="rs_item">
+		<input class="nid" type="checkbox" name="nid" value=""/>
+		<img class="notice_img"/>
+		<a class="title_a"></a>
+		<span class="time_span"></span>
+		<img class="border" th:src="@{/images/border.png}"/>
+	</div>
 	
 	
 	

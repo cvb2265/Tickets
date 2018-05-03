@@ -76,17 +76,28 @@ CREATE TABLE `notice`(
    `content`		varchar(900)		NOT NULL,
    `read`		boolean			NOT NULL	#是否已读
 ) ;
-INSERT INTO `notice` VALUES (1, 1, "2018-04-26 12:12:12", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
-INSERT INTO `notice` VALUES (2, 1, "2018-04-26 12:12:13", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
-INSERT INTO `notice` VALUES (3, 1, "2018-04-26 12:12:14", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
-INSERT INTO `notice` VALUES (4, 1, "2018-04-26 12:12:15", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
-INSERT INTO `notice` VALUES (5, 1, "2018-04-26 12:12:16", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
-INSERT INTO `notice` VALUES (6, 1, "2018-04-26 12:12:17", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
-INSERT INTO `notice` VALUES (7, 1, "2018-04-26 12:12:18", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
-INSERT INTO `notice` VALUES (8, 1, "2018-04-26 12:12:19", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
-INSERT INTO `notice` VALUES (9, 1, "2018-04-26 12:12:20", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
-INSERT INTO `notice` VALUES (10, 1, "2018-04-26 12:12:21", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
-INSERT INTO `notice` VALUES (11, 1, "2018-04-26 12:12:22", "欢迎注册Tickets账号", "Tickets欢迎您！", false) ;
+INSERT INTO `notice` VALUES (1, 1, "2018-04-26 12:12:12", "欢迎注册Tickets账号", "Tickets欢迎您加入！Tickets是一家音乐会在线售票网站。在这里，每天都会发布音乐会信息，为您提供全国近期演出信息，包括演唱会、音乐会、歌舞会等众多演出活动，并且提供24小时票务网上在线预订！多逛逛Tickets心情就会好很多！", false) ;
+INSERT INTO `notice` VALUES (2, 1, "2018-04-26 12:12:13", "6月3号周杰伦将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (3, 1, "2018-04-26 12:12:14", "6月4号林俊杰将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (4, 1, "2018-04-26 12:12:15", "6月5号五月天将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (5, 1, "2018-04-26 12:12:16", "6月6号庄心妍将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (6, 1, "2018-04-26 12:12:17", "6月15号筷子兄弟将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (7, 1, "2018-04-26 12:12:18", "6月17号邓紫棋将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (8, 1, "2018-04-26 12:12:19", "6月23号张学友将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (9, 1, "2018-04-26 12:12:20", "6月26号王力宏将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (10, 1, "2018-04-26 12:12:21", "6月29号刀郎将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+
+INSERT INTO `notice` VALUES (11, 2, "2018-04-26 12:12:12", "欢迎注册Tickets账号", "Tickets欢迎您加入！Tickets是一家音乐会在线售票网站。在这里，每天都会发布音乐会信息，为您提供全国近期演出信息，包括演唱会、音乐会、歌舞会等众多演出活动，并且提供24小时票务网上在线预订！多逛逛Tickets心情就会好很多！", false) ;
+INSERT INTO `notice` VALUES (12, 2, "2018-04-26 12:12:13", "6月3号周杰伦将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (13, 2, "2018-04-26 12:12:14", "6月4号林俊杰将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (14, 2, "2018-04-26 12:12:15", "6月5号五月天将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (15, 2, "2018-04-26 12:12:16", "6月6号庄心妍将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (16, 2, "2018-04-26 12:12:17", "6月15号筷子兄弟将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (17, 2, "2018-04-26 12:12:18", "6月17号邓紫棋将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (18, 2, "2018-04-26 12:12:19", "6月23号张学友将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (19, 2, "2018-04-26 12:12:20", "6月26号王力宏将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+INSERT INTO `notice` VALUES (20, 2, "2018-04-26 12:12:21", "6月29号刀郎将在南京举办音乐会", "Tickets欢迎您订票！", false) ;
+
 
 
 

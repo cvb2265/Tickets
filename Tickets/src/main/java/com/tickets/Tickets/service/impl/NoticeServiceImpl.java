@@ -1,5 +1,6 @@
 package com.tickets.Tickets.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,6 +114,46 @@ public class NoticeServiceImpl implements NoticeService {
 		}
 		long recordCount = noticeMapper.noticecount(params);
 		return recordCount;
+	}
+
+
+
+
+	/**
+	 * 获取notice，并且设为已读
+	 * @author tqy
+	 * @date 2018年5月3日
+	 * 
+	 */
+	@Override
+	public Notice getAndReadNoticeById(Long noticeid) {
+		logger.info("getById方法 被调用");
+		Notice notice = noticeMapper.findById(noticeid);
+		if(!notice.isRead()) {
+			notice.setRead(true);
+			noticeMapper.update(notice);
+		}
+		return notice;
+	}
+
+
+
+
+	/**
+	 * 批量删除notice
+	 * @author tqy
+	 * @date 2018年5月3日
+	 * 
+	 */
+	@Override
+	public void del(Long userid, String noticeids) {
+		logger.info("del方法 被调用");
+		List<Long> noticeidlist = new ArrayList<Long>();
+		String[] ss = noticeids.split("-");
+		for(int i=0;i<ss.length;i++) {
+			noticeidlist.add(Long.parseLong(ss[i]));
+		}
+		noticeMapper.del(userid, noticeidlist);
 	}
 	
 	

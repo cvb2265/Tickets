@@ -212,8 +212,8 @@ public class UserServiceImpl implements UserService {
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");     
 	    String time = sdf.format(dt);
 		notice.setTime(time);
-		notice.setTitle("欢迎注册Tickets账户");
-		notice.setContent("这里一定会有你喜欢的音乐会哦！");
+		notice.setTitle("欢迎注册Tickets账号");
+		notice.setContent("Tickets欢迎您加入！Tickets是一家音乐会在线售票网站。在这里，每天都会发布音乐会信息，为您提供全国近期演出信息，包括演唱会、音乐会、歌舞会等众多演出活动，并且提供24小时票务网上在线预订！多逛逛Tickets心情就会好很多！");
 		notice.setRead(false);
 		noticeMapper.save(notice);
 		return true;
@@ -429,6 +429,17 @@ public class UserServiceImpl implements UserService {
 			user.setPoints( p + o.getPoints_cost() );
 			userMapper.update(user);
 			
+			//发送系统消息
+			Notice notice = new Notice();
+			notice.setUserid(userid);
+		    Date dt_n = new Date(); 
+		    String time_n = sdf.format(dt_n);
+			notice.setTime(time_n);
+			notice.setTitle("您的订单已经取消");
+			notice.setContent("您于"+o.getTime().substring(0, 19)+"下的订单已经取消！");
+			notice.setRead(false);
+			noticeMapper.save(notice);
+			
 			rm.setResult(false);
 			rm.setMessage("未在15分钟内支付，订单自动取消！");
 			return rm;
@@ -494,6 +505,18 @@ public class UserServiceImpl implements UserService {
 		int p = user.getPoints();
 		user.setPoints( p + o.getPoints_cost() );
 		userMapper.update(user);
+		
+		//发送系统消息
+		Notice notice = new Notice();
+		notice.setUserid(userid);
+	    Date dt_n = new Date();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");     
+	    String time_n = sdf.format(dt_n);
+		notice.setTime(time_n);
+		notice.setTitle("您的订单已经取消");
+		notice.setContent("您于"+o.getTime().substring(0, 19)+"下的订单已经取消！");
+		notice.setRead(false);
+		noticeMapper.save(notice);
 		
 		rm.setResult(true);
 		return rm;

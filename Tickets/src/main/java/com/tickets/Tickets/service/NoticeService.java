@@ -23,6 +23,23 @@ public interface NoticeService {
 	 */
 	public Long getNoticeCountByUserid(Long userid, String read);
 
+	/**
+	 * 获取notice，并且设为已读
+	 * @author tqy
+	 * @date 2018年5月3日
+	 * 
+	 */
+	public Notice getAndReadNoticeById(Long noticeid);
+	
+	
+	/**
+	 * 批量删除notice
+	 * @author tqy
+	 * @date 2018年5月3日
+	 * 
+	 */
+	public void del(Long userid, String noticeids);
+
 
 	
 	

@@ -614,5 +614,34 @@ public class UserController {
 		return mv;
 	}
 	
+	@RequestMapping(value="/user/noticedetailV")
+	public ModelAndView noticedetailV(
+			 Long noticeid,
+			 HttpSession session,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/noticedetailV接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		Notice notice = noticeService.getAndReadNoticeById(noticeid);
+		mv.addObject("notice", notice);
+		
+		mv.setViewName("/user/noticedetail");
+		return mv;
+	}
+	
+	@RequestMapping(value="/user/delnotice")
+	public ModelAndView delnotice(
+			 String noticeids,
+			 HttpSession session,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/delnotice接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		User user = (User) session.getAttribute("user");
+		noticeService.del(user.getUserid(), noticeids);
+		
+		mv.addObject("read_state", "all");
+		mv.setViewName("/user/mynotices");
+		return mv;
+	}
+	
 	
 }
