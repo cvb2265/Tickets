@@ -6,6 +6,12 @@
 <script th:src="@{/js/jquery.js}" type="text/javascript"></script>
 <script th:inline="javascript">
 /*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
+	
+	//3个全局定时器
+	var timer1;
+	var timer2;
+	var timer3;
+	
 	$(function () {
 		//显示未读消息数
 		if([[${session.user}]]!=null){//如果登录了
@@ -51,6 +57,14 @@
 		for(var k=0;k<3;k++) {
 			rs_items.eq(k).hide();
 		}
+		//清定时器
+		clearInterval(timer1);
+		clearInterval(timer2);
+		clearInterval(timer3);
+		$(".rtime").html("0:0");
+		
+		
+		
 		$.ajax({
 			type : "POST",
 			url : [[ @{/user/searchorders} ]],
@@ -239,6 +253,7 @@
     	jmp_td.appendTo(page_tr).append(jmp_div);
 		//设置底部分页完
 		
+		
 		var rs_items = $("div.rs_item");
 		var orderid_spans = $(".orderid_span");
 		var time_spans = $(".time_span");
@@ -252,6 +267,7 @@
 		var btn1s = $(".btn1");
 		var btn2s = $(".btn2");
 		var btn3s = $(".btn3");
+		var od_as = $(".od_a");
         var i=0;
 		var list = data.list;
 		$.each(list, function(){
@@ -265,6 +281,10 @@
 			}
 			rmoney_spans.eq(i).html("￥"+this.rmoney);
 			points_cost_spans.eq(i).html(this.points_cost);
+
+			var url6 = [[ @{/user/orderdetailV} ]]+"?orderid="+this.orderid;
+			od_as.eq(i).attr("href", url6);
+			
 			if(this.state=="unpaid"){
 				var st = new Date(this.time);
 				var nt = new Date();
@@ -280,16 +300,40 @@
 					state_spans.eq(i).html("未支付");
 					var sppp = rtime_spans.eq(i);
 					var starttime = new Date(this.time);
-					var interval = setInterval(function () {
-						var nowtime = new Date();
-						var time = starttime-nowtime + 900000;//毫秒
-						if(time < -1){
-							clearInterval(interval);
-						}
-						var minute = parseInt(time / 1000 / 60 % 60);
-						var seconds = parseInt(time / 1000 % 60);
-						sppp.html(minute + ":" + seconds);
-					}, 1000);
+					if(i==0) {
+						timer1 = setInterval(function () {
+							var nowtime = new Date();
+							var time = starttime-nowtime + 900000;//毫秒
+							if(time < -1){
+								clearInterval(timer1);
+							}
+							var minute = parseInt(time / 1000 / 60 % 60);
+							var seconds = parseInt(time / 1000 % 60);
+							sppp.html(minute + ":" + seconds);
+						}, 1000);
+					}else if(i==1) {
+						timer2 = setInterval(function () {
+							var nowtime = new Date();
+							var time = starttime-nowtime + 900000;//毫秒
+							if(time < -1){
+								clearInterval(timer2);
+							}
+							var minute = parseInt(time / 1000 / 60 % 60);
+							var seconds = parseInt(time / 1000 % 60);
+							sppp.html(minute + ":" + seconds);
+						}, 1000);
+					}else if(i==2) {
+						timer3 = setInterval(function () {
+							var nowtime = new Date();
+							var time = starttime-nowtime + 900000;//毫秒
+							if(time < -1){
+								clearInterval(timer3);
+							}
+							var minute = parseInt(time / 1000 / 60 % 60);
+							var seconds = parseInt(time / 1000 % 60);
+							sppp.html(minute + ":" + seconds);
+						}, 1000);
+					}
 				}else {//超过了15分钟
 					rtime_label_spans.eq(i).hide();
 					btn1s.eq(i).hide();
@@ -606,7 +650,7 @@ a.od_a:hover, a.od_a:active{/*鼠标放到超链接上的时候；超链接被�
 		<td valign="top">
 <div id="right_div">
 
-共<span id="num_span" style="color:#f00a75;"></span>个结果
+共<span id="num_span" style="color:#f00a75;"></span>个订单
 	<br/>
 	<img class="border" th:src="@{/images/border.png}"/>
 	
@@ -627,7 +671,7 @@ a.od_a:hover, a.od_a:active{/*鼠标放到超链接上的时候；超链接被�
 		<span class="rmoney_label">实付：</span><span class="rmoney_span"></span>
 		<br/>
 		<span class="state_label">订单状态：</span><span class="state_span"></span>
-		<a class="od_a" style="margin-left: 350px;" th:href="@{/user/loadgoods}+'?planid=1'">详情</a>&nbsp;&nbsp;
+		<a class="od_a" style="margin-left: 350px;">详情</a>&nbsp;&nbsp;
 		<input type="button" class="btn1" value="支付" style="display: none;"/>
 		<input type="button" class="btn2" value="取消" style="display: none;"/>
 		<input type="button" class="btn3" value="退订" style="display: none;"/>
@@ -650,7 +694,7 @@ a.od_a:hover, a.od_a:active{/*鼠标放到超链接上的时候；超链接被�
 		<span class="rmoney_label">实付：</span><span class="rmoney_span"></span>
 		<br/>
 		<span class="state_label">订单状态：</span><span class="state_span"></span>
-		<a class="od_a" style="margin-left: 350px;" th:href="@{/user/loadgoods}+'?planid=1'">详情</a>&nbsp;&nbsp;
+		<a class="od_a" style="margin-left: 350px;">详情</a>&nbsp;&nbsp;
 		<input type="button" class="btn1" value="支付" style="display: none;"/>
 		<input type="button" class="btn2" value="取消" style="display: none;"/>
 		<input type="button" class="btn3" value="退订" style="display: none;"/>
@@ -673,7 +717,7 @@ a.od_a:hover, a.od_a:active{/*鼠标放到超链接上的时候；超链接被�
 		<span class="rmoney_label">实付：</span><span class="rmoney_span"></span>
 		<br/>
 		<span class="state_label">订单状态：</span><span class="state_span"></span>
-		<a class="od_a" style="margin-left: 350px;" th:href="@{/user/loadgoods}+'?planid=1'">详情</a>&nbsp;&nbsp;
+		<a class="od_a" style="margin-left: 350px;">详情</a>&nbsp;&nbsp;
 		<input type="button" class="btn1" value="支付" style="display: none;"/>
 		<input type="button" class="btn2" value="取消" style="display: none;"/>
 		<input type="button" class="btn3" value="退订" style="display: none;"/>

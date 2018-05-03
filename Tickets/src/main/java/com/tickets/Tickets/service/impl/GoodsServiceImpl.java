@@ -81,6 +81,21 @@ public class GoodsServiceImpl implements GoodsService {
 		page.setPageCount(pageCount);
 		return list;
 	}
+
+
+
+
+	/**
+	 * @author tqy
+	 * @date 2018年5月3日
+	 * 
+	 */
+	@Transactional(readOnly=true)
+	@Override
+	public Goods getByOrderid(Long orderid) {
+		logger.info("getByOrderid方法 被调用");
+		return goodsMapper.findByOrderid(orderid);
+	}
 	
 	
 	

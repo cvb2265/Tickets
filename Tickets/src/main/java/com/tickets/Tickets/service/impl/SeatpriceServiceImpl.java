@@ -26,7 +26,7 @@ public class SeatpriceServiceImpl implements SeatpriceService {
 	
 	//打印日志
 	private static final Log logger = LogFactory.getLog(SeatpriceServiceImpl.class);
-	
+
 	
 	
 	
@@ -41,6 +41,20 @@ public class SeatpriceServiceImpl implements SeatpriceService {
 	public List<Seatprice> getByPlanid(Long planid) {
 		logger.info("getByPlanid方法 被调用");
 		return seatpriceMapper.findByPlanid(planid);
+	}
+	
+	
+
+	/**
+	 * @author tqy
+	 * @date 2018年5月3日
+	 * 
+	 */
+	@Transactional(readOnly=true)
+	@Override
+	public List<Seatprice> getByOrderid(Long orderid) {
+		logger.info("getByOrderid方法 被调用");
+		return seatpriceMapper.findByOrderid(orderid);
 	}
 
 

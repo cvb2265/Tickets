@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Tickets</title>
+<script th:src="@{/js/jquery.js}" type="text/javascript"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
+	$(function () {
+		//显示未读消息数
+		if([[${session.user}]]!=null){//如果登录了
+			$.ajax({
+				type : "POST",
+				url : [[ @{/user/noticescount} ]],
+				data : {
+					read_state : "false"
+				},
+				dataType : "json",
+				success : function(data){
+					if(Number(data)!=0){
+						$("span.layui-badge").html(data).show();
+					}
+				}
+			});
+		}
+		
+		$("#ret").click(function(){
+			window.location.href= [[@{/user/myordersV(order_state=all)}]];
+		});
+		
+		var starttime = [[${plan.starttime}]];
+		var endtime = [[${plan.endtime}]];
+		var cotime = [[${order.time}]];
+		$("span.starttime_span").html(starttime.substring(0,19));
+		$("span.endtime_span").html(endtime.substring(0,19));
+		$("span.cotime_span").html(cotime.substring(0,19));
+		
+
+		$("span.money_span").html("￥"+[[${order.money}]]);
+		if(0.995<Number([[${order.perc}]]) && Number([[${order.perc}]])<1.005 ){
+			$("span.perc_span").html("原价");
+		}else{
+			$("span.perc_span").html((Number([[${order.perc}]])*100)+"折");
+		}
+		$("span.rmoney_span").html("￥"+[[${order.rmoney}]]);
+		
+		if([[${order.state}]]=="unpaid") {
+			var st = new Date([[${order.time}]]);
+			var nt = new Date();
+			if(nt-st <= 900000){//如果没有超过15分钟
+				$(".btn1").show();
+				$(".btn2").show();
+				$(".btn3").hide();
+				var url1 = [[ @{/user/payorder} ]]+"?orderid="+[[${order.orderid}]];
+				$(".btn1").click(function(){ window.location.href=url1; });
+				var url2 = [[ @{/user/cancelorder} ]]+"?orderid="+[[${order.orderid}]];
+				$(".btn2").click(function(){ window.location.href=url2; });
+				$("span.state_span").html("未支付");
+				var sppp = $("span.rtime_span");
+				var starttime = new Date([[${order.time}]]);
+				var timer1 = setInterval(function () {
+					var nowtime = new Date();
+					var time = starttime-nowtime + 900000;//毫秒
+					if(time < -1){
+						clearInterval(timer1);
+					}
+					var minute = parseInt(time / 1000 / 60 % 60);
+					var seconds = parseInt(time / 1000 % 60);
+					sppp.html(minute + ":" + seconds);
+				}, 1000);
+			}else {//超过了15分钟
+				$("span.rtime_span").html("0:0");
+				$(".btn1").hide();
+				$(".btn2").show();
+				$(".btn3").hide();
+				var url2 = [[ @{/user/cancelorder} ]]+"?orderid="+[[${order.orderid}]];
+				$(".btn2").click(function(){ window.location.href=url2; });
+				$("span.state_span").html("已超时");
+			}
+		}else if([[${order.state}]]=="paid") {
+			$("span.rtime_span").html("--:--");
+			$(".btn1").hide();
+			$(".btn2").hide();
+			$(".btn3").show();
+			var url3 = [[ @{/user/unsubscribeorder} ]]+"?orderid="+[[${order.orderid}]];
+			$(".btn3").click(function(){ window.location.href=url3; });
+			$("span.state_span").html("已支付");
+		}else if([[${order.state}]]=="finished") {
+			$("span.rtime_span").html("--:--");
+			$(".btn1").hide();
+			$(".btn2").hide();
+			$(".btn3").hide();
+			$("span.state_span").html("已完成");
+		}
+		
+		var sps_list=[[${sps}]];
+		if(sps_list[0]!=null){//如果买的是座位
+			$.each([[${sps}]], function(){
+				var tr = $("<tr/>");
+				$("<td/>").html(this.x+"排"+this.y+"列").appendTo(tr);
+				$("<td/>").html("￥"+this.price).attr("class", "gp_price").appendTo(tr);
+				tr.appendTo($(".sps_table"));
+			});
+			$(".sps_table").show();
+		}else {
+			var tr = $("<tr/>");
+			$("<td/>").html([[${goods.goodsname}]]).appendTo(tr);
+			$("<td/>").html("￥"+[[${goods.price}]]).attr("class", "gp_price").appendTo(tr);
+			tr.appendTo($(".goods_table"));
+			$(".goods_table").show();
+		}
+		
+	});
+
+/*]]>*/
+</script>
+
+<!-- layui相关 -->
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all"/>
+<script th:src="@{/layui/layui.js}" type="text/javascript"></script>
+<script>
+layui.use('element', function(){
+  var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+  
+  //监听导航点击
+  element.on('nav(demo)', function(elem){
+    //console.log(elem)
+    layer.msg(elem.text());
+  });
+});
+
+</script>
+
+<style type="text/css" th:inline="text">
+#t1 {
+	margin:0 auto;
+	background-color:#393D49;
+}
+/*t2在水平上居中，且有宽度1000px*/
+#t2 {
+	width:1000px;
+	margin:0 auto;/*t2在水平上居中*/
+	position:relative;
+}
+#t3 {
+	width:1000px;
+	margin:0 auto;
+}
+
+
+.cover {
+	width: 778px;
+	height: 440px;
+	margin-left:111px;
+}
+
+#price_level_div {
+	width: 996px;
+	height: 60px;
+}
+.price_level_span {
+	margin-left: 70px;
+}
+.price_level_span img {
+	width: 42px;
+	height: 40px;
+}
+
+a#preog, a#preog:link{/*超链接平常的状态*/
+	color:#0000ff;
+	text-decoration:none;/*去掉下划线*/
+}
+a#preog:hover, a#preog:active{/*鼠标放到超链接上的时候；超链接被按下的时候 */
+	color:#ff0000;
+	text-decoration : underline;/*加下划线*/
+}
+
+
+#seat_div {
+	width: 996px;
+	height: 400px;
+	text-align:center;
+	background-color:#eeeeee;
+	overflow: scroll;/*里面的元素超出大小就会显示滚动条*/
+}
+#seat_table {
+	margin:0 auto;/*居中*/
+}
+/*座位价格类型、是否可用、是否已经被选择*/
+div.seat_level_1, div.seat_level_2, div.seat_level_3, div.seat_level_4, div.seat_selected, div.seat_unavailable {
+	width: 60px;
+	height: 80px;
+	/*background-color:#eeee00;*/
+	
+	cursor:pointer; /*改鼠标样式*/
+	display:block; /*将tr设置为块体元素*/
+    margin:10px 10px 10px 10px;/*设置上、右、下、左外边距*/
+    text-align: center; /*里面的元素水平居中*/
+}
+.seat_level_1 img {
+	width: 42px;
+	height: 40px;
+	background:url(  [[@{/images/seat_level_1.png}]]  ) center;
+}
+.seat_level_2 img {
+	width: 42px;
+	height: 40px;
+	background:url(  [[@{/images/seat_level_2.png}]]  ) center;
+}
+.seat_level_3 img {
+	width: 42px;
+	height: 40px;
+	background:url(  [[@{/images/seat_level_3.png}]]  ) center;
+}
+.seat_level_4 img {
+	width: 42px;
+	height: 40px;
+	background:url(  [[@{/images/seat_level_4.png}]]  ) center;
+}
+.seat_selected img {
+	width: 42px;
+	height: 40px;
+	background:url(  [[@{/images/seat_selected.png}]]  ) center;
+}
+.seat_unavailable img {
+	width: 42px;
+	height: 40px;
+	background:url(  [[@{/images/seat_unavailable.png}]]  ) center;
+}
+
+.seat_price, .money_span, .perc_span, .rmoney_span, .gp_price {
+	color:#ee0000;
+}
+
+
+
+.info_table{
+    width:100%;
+    font-size:14px;
+    color:#333333;/*前景色，即表格里的字的颜色*/
+    table-layout:fixed;
+    empty-cells:show;
+    border-collapse: collapse;/*边框会合并为一个单一的边框*/
+    margin:0 auto;
+    border:1px solid #cad9ea;
+}
+.info_table td:nth-child(even) {
+	background: #ffffff;
+	border:1px solid #999999;/*表格内部的边界线*/
+	padding: 7px;
+} 
+.info_table td:nth-child(odd) {
+	background: #e5e5e5;
+	border:1px solid #999999;/*表格内部的边界线*/
+	padding: 7px;
+}
+
+
+
+.sps_table, .goods_table{
+    width:100%;
+    font-size:14px;
+    color:#333333;/*前景色，即表格里的字的颜色*/
+    table-layout:fixed;
+    empty-cells:show;
+    border-collapse: collapse;/*边框会合并为一个单一的边框*/
+    margin:0 auto;
+    border:1px solid #cad9ea;
+}
+.sps_table td, .goods_table td {
+	border:1px solid #999999;/*表格内部的边界线*/
+	padding: 7px;
+} 
+.sps_table tr, .goods_table tr {
+	background: #ffffff;
+} 
+.sps_table tr:nth-child(1), .goods_table tr:nth-child(1) {
+	background: #e5e5e5;
+}
+
+
+
+
+
+
+
+.quan_span {
+	margin:7px 20px 7px 20px;/*设置上、右、下、左外边距*/
+	width: 244px;
+	height: 110px;
+	display:block; /*设置为块体元素*/
+	cursor:pointer;
+	background:url(  [[@{/images/quan-bg.png}]]  ) center;
+}
+.quan_name {
+	margin-left:60px;
+	color: White;
+}
+.points_cost {
+	margin-left:80px;
+	color: White;
+}
+.quan_span img {
+	margin-left: 210px;
+	margin-top: 5px;
+	display:none;
+}
+
+input[type="button"]{
+	width: 70px;
+	height: 25px;
+	
+	background:#7dc3f3;/*背景色*/
+	border: none;/*去掉边界*/
+	border-radius:15px;/*圆角矩形样式*/
+	transition-duration: 0.4s;/*变化时间*/
+	color: white;/*字体颜色*/
+}
+input[type="button"]:hover {
+	background-color: #99ff33;/*新背景色，Green*/
+    color: black;/*字体颜色*/
+    cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div id="t1">
+<div id="t2">
+<ul class="layui-nav">
+  <li class="layui-nav-item layui-this"><a th:href="@{/user/indexV}">最新演出</a></li>
+  <li class="layui-nav-item" th:if="${session.user}">
+    <a href="javascript:;">我的订单</a>
+    <dl class="layui-nav-child">
+      <dd><a th:href="@{/user/myordersV(order_state=all)}">全部订单</a></dd>
+      <dd><a th:href="@{/user/myordersV(order_state=unpaid)}">未支付</a></dd>
+      <dd><a th:href="@{/user/myordersV(order_state=paid)}">已支付</a></dd>
+      <dd><a th:href="@{/user/myordersV(order_state=finished)}">已完成</a></dd>
+    </dl>
+  </li>
+</ul>
+<ul class="layui-nav layui-layout-right" th:unless="${session.user}">
+  <li class="layui-nav-item"><a th:href="@{/user/loginV}">登录</a></li>
+  <li class="layui-nav-item"><a th:href="@{/user/regV}">注册</a></li>
+</ul>
+<ul class="layui-nav layui-layout-right" th:if="${session.user}">
+   <li class="layui-nav-item">
+    <a th:href="@{/user/mynoticesV(read_state=all)}">系统消息<span class="layui-badge" style="display: none;"></span></a>
+  </li>
+  <li class="layui-nav-item" lay-unselect="" style="margin-right: 20px;">
+    <a href="javascript:;"><img th:src="@{/faces/}+${session.user.face}" class="layui-nav-img"/><font th:text="${session.user.nickname}"></font></a>
+    <dl class="layui-nav-child">
+      <dd><a th:href="@{/user/userinfoV}">修改信息</a></dd>
+      <dd><a th:href="@{/user/securitymngV}">安全管理</a></dd>
+      <dd><a th:href="@{/user/rechargeV}">充值</a></dd>
+      <dd><a th:href="@{/user/logout}">退了</a></dd>
+    </dl>
+  </li>
+</ul>
+</div>
+</div>
+
+<div id="t3">
+<br/>
+<input type="button" id="ret" value="返回"/>
+<br/>
+<br/>
+<img class="cover" th:src="@{/cover/}+${plan.cover}"/>
+<br/>
+
+<fieldset class="layui-elem-field">
+  <legend><span class="title_span" th:text="${plan.name}"></span></legend>
+  <div class="layui-field-box">
+    <p class="introduction_span" th:text="${plan.introduction}"></p>
+  </div>
+</fieldset>
+
+<fieldset class="layui-elem-field">
+  <legend>音乐会基本信息</legend>
+  <div class="layui-field-box">
+    
+    
+<table class="info_table">
+	<tr>
+		<td valign="top">演出时间</td><td valign="top">  <span class="starttime_span"></span>&nbsp;&nbsp;~<br/><span class="endtime_span"></span>  </td>
+		<td valign="top">演出城市</td><td valign="top">  <span class="location_span" th:text="${plan.location}"></span>  </td>
+	</tr>
+	<tr>
+		<td valign="top">演出场馆</td><td valign="top">  <span class="type_span" th:text="${venue.name}"></span>  </td>
+		<td valign="top">场馆地址</td><td valign="top">  <span class="type_span" th:text="${venue.address}"></span>  </td>
+	</tr>
+	<tr>
+		<td valign="top">演出类型</td><td valign="top">  <span class="type_span" th:text="${plan.type}"></span>  </td>
+		<td valign="top"></td><td valign="top"></td>
+	</tr>
+</table>
+    
+    
+  </div>
+</fieldset>
+<fieldset class="layui-elem-field">
+  <legend>订单信息</legend>
+  <div class="layui-field-box">
+    
+    
+<table class="info_table">
+	<tr>
+		<td valign="top">订单号</td><td valign="top">  <span class="oid_span" th:text="${order.orderid}"></span>  </td>
+		<td valign="top">下单时间</td><td valign="top">  <span class="cotime_span"></span>  </td>
+	</tr>
+	<tr>
+		<td valign="top">原价</td><td valign="top">  <span class="money_span"></span>  </td>
+		<td valign="top">折扣</td><td valign="top">  <span class="perc_span"></span>  </td>
+	</tr>
+	<tr>
+		<td valign="top">花费的积分</td><td valign="top">  <span class="type_span" th:text="${order.points_cost}"></span>  </td>
+		<td valign="top">实付</td><td valign="top">  <span class="rmoney_span"></span>  </td>
+	</tr>
+	<tr>
+		<td valign="top">订单状态</td><td valign="top">  <span class="state_span"></span>  </td>
+		<td valign="top">剩余支付时间</td><td valign="top">  <span class="rtime_span"></span>  </td>
+	</tr>
+</table>
+    
+    
+  </div>
+</fieldset>
+<fieldset class="layui-elem-field">
+  <legend>订单包含的商品信息</legend>
+  <div class="layui-field-box">
+<table class="sps_table" style="display: none;">
+	<tr>
+		<td>位置</td>
+		<td>原价</td>
+	</tr>
+</table>
+<table class="goods_table" style="display: none;">
+	<tr>
+		<td>商品名</td>
+		<td>原价</td>
+	</tr>
+</table>
+  </div>
+</fieldset>
+
+		<input type="button" class="btn1" value="支付" style="display: none;"/>
+		<input type="button" class="btn2" value="取消" style="display: none;"/>
+		<input type="button" class="btn3" value="退订" style="display: none;"/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+ </div>
+
+</body>
+</html>

@@ -16,6 +16,13 @@ public interface SeatpriceService {
 	
 	/**
 	 * @author tqy
+	 * @date 2018年5月3日
+	 * 
+	 */
+	public List<Seatprice> getByOrderid(Long orderid);
+	
+	/**
+	 * @author tqy
 	 * @date 2018年4月23日
 	 * 
 	 */

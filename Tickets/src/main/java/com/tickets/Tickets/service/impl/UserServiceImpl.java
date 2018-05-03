@@ -534,7 +534,7 @@ public class UserServiceImpl implements UserService {
 		int f = 6;
 		double perc = 1.0;
 		long diff = d2.getTime() - now.getTime();//相差的毫秒数
-		if(diff<=86400000) {//小于等于1天，订单强制设为完成
+		if(diff<=86400000) {//小于等于1天，订单不能退订
 			//handleOverduePlan();
 			rm.setResult(false);
 			rm.setMessage("距离演出开始不足1天，不可退票！");

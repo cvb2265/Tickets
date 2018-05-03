@@ -19,4 +19,6 @@ public interface OrderService {
 	 */
 	public List<Order> getOrderByUserid(Long pageSize, Long index, Page page, Long userid, String state);
 	
+	public Order getById(Long orderid);
+	
 }

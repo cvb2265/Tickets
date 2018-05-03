@@ -14,6 +14,13 @@ public interface GoodsService {
 	 * 
 	 */
 	public List<Goods> getGoodsByPlanid(Long pageSize, Long index, Page page, Long planid);
+	
+	/**
+	 * @author tqy
+	 * @date 2018年5月3日
+	 * 
+	 */
+	public Goods getByOrderid(Long orderid);
 
 
 	

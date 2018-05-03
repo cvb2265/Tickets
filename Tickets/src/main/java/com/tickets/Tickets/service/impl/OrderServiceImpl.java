@@ -80,6 +80,13 @@ public class OrderServiceImpl implements OrderService {
 		page.setPageCount(pageCount);
 		return list;
 	}
+
+	@Transactional(readOnly=true)
+	@Override
+	public Order getById(Long orderid) {
+		logger.info("getById方法 被调用");
+		return orderMapper.findByOrderid(orderid);
+	}
 	
 
 

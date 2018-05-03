@@ -295,13 +295,13 @@ public class InsertMain {
 					pstmt.setInt(4, x);
 					pstmt.setInt(5, y);
 					if(x<=2) {
-						pstmt.setDouble(6, 835.5);
+						pstmt.setDouble(6, 800);
 					}else if(x<=4) {
-						pstmt.setDouble(6, 555.5);
+						pstmt.setDouble(6, 600);
 					}else if(x<=6) {
-						pstmt.setDouble(6, 375.5);
+						pstmt.setDouble(6, 400);
 					}else {
-						pstmt.setDouble(6, 139.5);
+						pstmt.setDouble(6, 200);
 					}
 					pstmt.executeUpdate();
 				}

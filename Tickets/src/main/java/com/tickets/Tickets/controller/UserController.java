@@ -465,8 +465,6 @@ public class UserController {
 		Page page = new Page();
 		User user = (User) session.getAttribute("user");
 		List<Order> list = orderService.getOrderByUserid(pageSize, index, page, user.getUserid(), order_state);
-		System.out.println(list.size());
-		System.out.println(list.get(0).getOrderid());
 		
 		PageAndList<Order> pageAndList = new PageAndList<Order>();
 		pageAndList.setIndex(page.getIndex());
@@ -581,6 +579,38 @@ public class UserController {
 		session.setAttribute("user", u);
 		mv.addObject("emsg", rs.getMessage());
 		mv.setViewName("user/errorpage");
+		return mv;
+	}
+	
+	
+	
+	@RequestMapping(value="/user/orderdetailV")
+	public ModelAndView orderdetailV(
+			 Long orderid,
+			 HttpSession session,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/orderdetailV接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		Order order = orderService.getById(orderid);
+		List<Seatprice> sps = seatpriceService.getByOrderid(orderid);
+		Long planid;
+		Goods goods = null;
+		if(sps.size()!=0) {//证明买的是seatprice
+			planid = sps.get(0).getPlanid();
+			goods = new Goods();
+		}else {//证明买的是goods
+			goods = goodsService.getByOrderid(orderid);
+			planid = goods.getPlanid();
+		}
+		Plan plan = planService.getById(planid);
+		Venue venue = venueService.getById(plan.getVenueid());
+		mv.addObject("order", order);
+		mv.addObject("plan", plan);
+		mv.addObject("venue", venue);
+		mv.addObject("sps", sps);
+		mv.addObject("goods", goods);
+		
+		mv.setViewName("/user/orderdetail");
 		return mv;
 	}
 	
