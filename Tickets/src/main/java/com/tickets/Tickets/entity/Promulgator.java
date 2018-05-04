@@ -8,34 +8,12 @@ public class Promulgator implements Serializable {
     private String email;
     private String password;
     private String name;
-    private Integer balance;
+    private double money;
     private Integer power; //是否有管理员权限
     private String head;//头像
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
-    }
-
-    public Promulgator() {
-    }
-
-    public Promulgator(Long id, String email, String password, String name, int balance, int power, String head) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.balance = balance;
-        this.power = power;
-        this.head = head;
-    }
-
-    public Promulgator(String email, String password, String name, int balance, int power, String head) {
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.balance = balance;
-        this.power = power;
-        this.head = head;
     }
 
 	public Long getId() {
@@ -70,12 +48,16 @@ public class Promulgator implements Serializable {
 		this.name = name;
 	}
 
-	public int getBalance() {
-		return balance;
+	public double getMoney() {
+		return money;
 	}
 
-	public void setBalance(int balance) {
-		this.balance = balance;
+	public void setMoney(double money) {
+		this.money = money;
+	}
+
+	public void setPower(Integer power) {
+		this.power = power;
 	}
 
 	public int getPower() {

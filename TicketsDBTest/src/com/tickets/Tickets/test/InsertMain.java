@@ -130,7 +130,7 @@ public class InsertMain {
 //					f2(conn,planid,musician[i]+"音乐会"+citys[k]+"站", day_cur+" 19:00:00", day_cur+" 23:00:00", introductions[i],
 //							   planid+".jpg", citys[k], k+1, false, true, types[i/7], "aaa");
 					f2(conn,planid,musician[i]+"音乐会"+citys[k]+"站", day_cur+" 19:00:00", day_cur+" 23:00:00", introductions[i],
-							planid+".jpg", citys[k], k+1, false, true, types[i/7], "aaa");
+							planid+".jpg", citys[k], k+1, false, true, types[i/7], "aaa", 1L);
 					
 
 					//插入本场音乐会相关的seatprice，k+1就是venueid
@@ -236,11 +236,11 @@ public class InsertMain {
 	}
 	public static void f2(Connection connection, int id, String name, String starttime, String endtime,
 			String introduction, String cover, String location, int venueid,
-			boolean overdue, boolean isrecommend, String type, String scheme) {
+			boolean overdue, boolean isrecommend, String type, String scheme, Long promulgatorid) {
 		PreparedStatement pstmt = null;
 		
 		String sql = "INSERT INTO plan(id, name, starttime, endtime, introduction, cover, location, venueid,\r\n" + 
-				"          overdue, isrecommend, type, scheme) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+				"          overdue, isrecommend, type, scheme, promulgatorid) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 
 		try {
@@ -257,6 +257,7 @@ public class InsertMain {
 			pstmt.setBoolean(10, isrecommend);
 			pstmt.setString(11, type);
 			pstmt.setString(12, scheme);
+			pstmt.setLong(13, promulgatorid);
 			pstmt.executeUpdate();
 
 			pstmt.close();

@@ -115,15 +115,16 @@ CREATE TABLE IF NOT EXISTS `promulgator` (
   `email` varchar(20) NOT NULL		UNIQUE,
   `password` varchar(20) NOT NULL,
   `name` varchar(20) NOT NULL,
-  `balance` int(11) NOT NULL DEFAULT '0',
+  `money`	double		NOT NULL,	#当前账号余额
   `power` tinyint(1) NOT NULL DEFAULT '0',
   `head` varchar(20) NOT NULL
 );
-INSERT INTO `promulgator` (`id`, `email`, `password`, `name`, `balance`, `power`, `head`)
-   VALUES (1, "125@qq.com", "125", "南京市城管大队", 333, false, "1.jpg") ;
+INSERT INTO `promulgator` (`id`, `email`, `password`, `name`, `money`, `power`, `head`)
+   VALUES (1, "125@qq.com", "125", "南京市城管大队", 0.0, false, "1.jpg") ;
 
 CREATE TABLE `plan` (
    `id`			bigint			PRIMARY KEY		AUTO_INCREMENT,
+   `promulgatorid`	bigint			NOT NULL,	#谁发布的计划
    `name`		varchar(60)		NOT NULL,
    `starttime`		datetime		NOT NULL,
    `endtime`		datetime		NOT NULL,

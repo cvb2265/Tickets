@@ -12,6 +12,7 @@ public class Plan implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long id;
+	private Long promulgatorid;
 	private String name;
 	private String starttime;
 	private String endtime;
@@ -29,6 +30,12 @@ public class Plan implements Serializable {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public Long getPromulgatorid() {
+		return promulgatorid;
+	}
+	public void setPromulgatorid(Long promulgatorid) {
+		this.promulgatorid = promulgatorid;
 	}
 	public String getName() {
 		return name;
