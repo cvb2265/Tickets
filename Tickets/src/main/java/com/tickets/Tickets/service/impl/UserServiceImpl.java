@@ -5,6 +5,7 @@ import com.tickets.Tickets.entity.Level;
 import com.tickets.Tickets.entity.Notice;
 import com.tickets.Tickets.entity.Order;
 import com.tickets.Tickets.entity.Plan;
+import com.tickets.Tickets.entity.Promulgator;
 import com.tickets.Tickets.entity.Seatprice;
 import com.tickets.Tickets.entity.User;
 import com.tickets.Tickets.mapper.GoodsMapper;
@@ -12,6 +13,7 @@ import com.tickets.Tickets.mapper.LevelMapper;
 import com.tickets.Tickets.mapper.NoticeMapper;
 import com.tickets.Tickets.mapper.OrderMapper;
 import com.tickets.Tickets.mapper.PlanMapper;
+import com.tickets.Tickets.mapper.PromulgatorMapper;
 import com.tickets.Tickets.mapper.SeatpriceMapper;
 import com.tickets.Tickets.mapper.UserMapper;
 import com.tickets.Tickets.service.UserService;
@@ -77,6 +79,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	@Qualifier("noticeMapper")
 	private NoticeMapper noticeMapper;
+	@Autowired
+	@Qualifier("promulgatorMapper")
+	private PromulgatorMapper promulgatorMapper;
 
 	
 	//打印日志
@@ -608,12 +613,12 @@ public class UserServiceImpl implements UserService {
 		userMapper.update(user);
 		
 
-		//经理获得收益
-//		if(f!=6) {
-//			Manager manager = managerMapper.findById(1);
-//			manager.setMoney(manager.getMoney()+o.getRmoney()*(1.0-perc));
-//			managerMapper.updateMoney(manager);
-//		}
+		//发布者获得收益
+		if(f!=6) {
+			Promulgator promulgator = promulgatorMapper.findById(plan.getPromulgatorid());
+			promulgator.setMoney(promulgator.getMoney()+o.getRmoney()*(1.0-perc));
+			promulgatorMapper.update(promulgator);
+		}
 		
 
 		rm.setResult(true);
