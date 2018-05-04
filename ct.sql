@@ -31,6 +31,12 @@ INSERT INTO `user` (`userid`, `email`, `password`, `nickname`, `interest`, `face
 
 
 #chenfei
+CREATE TABLE `admin` (
+   `id`			bigint			PRIMARY KEY		AUTO_INCREMENT,
+   `name`		varchar(80)		NOT NULL,
+   `password`		varchar(80)		NOT NULL,
+   `head`		varchar(80)		NOT NULL
+) ;
 CREATE TABLE `venue` (
    `id`			bigint			PRIMARY KEY		AUTO_INCREMENT,
    `city`		varchar(20)		NOT NULL,
