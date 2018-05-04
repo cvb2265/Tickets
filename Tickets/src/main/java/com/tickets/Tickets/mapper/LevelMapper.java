@@ -8,10 +8,10 @@ import java.util.List;
 //cf
 @Mapper
 public interface LevelMapper {
-    Level getLevelDetails(int id);
+    Level getLevelDetails(Long id);
     Level findByLevel_num(Integer level_num);
     void addLevel(Level level);
-    boolean delLevel(int id);
+    boolean delLevel(Long id);
     void updateLevel(Level level);
 
     Integer count();

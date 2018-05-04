@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tickets.Tickets.mapper.AdministratorMapper">
-    <select id="adminById" parameterType="int" resultType="Administrator">
+    <select id="adminById" parameterType="java.lang.Long" resultType="Administrator">
         select id ,	name,	password,	head
         FROM administrator
         WHERE id =#{adminId}

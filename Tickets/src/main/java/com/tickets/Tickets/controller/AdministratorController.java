@@ -23,7 +23,7 @@ public class AdministratorController {
 
     @RequestMapping(value="/admin/login",method = RequestMethod.POST)
     public String adminLogin(@ModelAttribute("administrator")Administrator administrator, HttpSession httpSession){
-        int adminId = am.adminByName(administrator.getName()).getId();
+        long adminId = am.adminByName(administrator.getName()).getId();
         String truePassword = am.adminByName(administrator.getName()).getPassword();
         if(truePassword.equals(administrator.getPassword())){
             httpSession.setAttribute("adminId",adminId);

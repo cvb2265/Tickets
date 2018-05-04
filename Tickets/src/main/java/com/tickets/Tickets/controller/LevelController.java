@@ -47,7 +47,7 @@ public class LevelController {
     }
 
     @RequestMapping("/level/{current_page}/{level_id}")
-    public String detailLevel(@PathVariable("current_page") int current_page, @PathVariable("level_id") int level_id, Model model) {
+    public String detailLevel(@PathVariable("current_page") int current_page, @PathVariable("level_id") long level_id, Model model) {
         Level level = lm.getLevelDetails(level_id);
         model.addAttribute("level", level);
         model.addAttribute("current_page", current_page);
@@ -55,7 +55,7 @@ public class LevelController {
     }
 
     @RequestMapping("/level/{current_page}/{level_id}/delete")
-    public String deleteLevel(@PathVariable("current_page") int current_page, @PathVariable("level_id") int level_id) {
+    public String deleteLevel(@PathVariable("current_page") int current_page, @PathVariable("level_id") long level_id) {
         lm.delLevel(level_id);
         return "redirect:/level/" + current_page;
     }

@@ -5,6 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface AdministratorMapper {
-    Administrator adminById(int adminId);
+    Administrator adminById(long adminId);
     Administrator adminByName(String adminName );
 }
