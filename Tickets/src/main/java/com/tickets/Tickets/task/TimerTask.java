@@ -80,7 +80,7 @@ public class TimerTask {
 		Date dt = new Date();
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");     
 	    String time = sdf.format(dt);
-		List<Plan> plans = planMapper.findBeforeAndNotOerdue(time);
+		List<Plan> plans = planMapper.findBeforeAndNotOerdueAndPass(time);
 		
 
 		List<Level> vls = levelMapper.findAll();

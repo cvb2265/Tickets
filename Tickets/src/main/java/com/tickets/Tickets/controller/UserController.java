@@ -137,28 +137,28 @@ public class UserController {
 
 		Page page = new Page();
 		List<Plan> list = planService.getPlans(6L, 1L, page, "",
-				"", "", "",  "false", "true", "",  "DESC");
+				"", "", "",  "false", "true", "",  "DESC", "pass");
 		mv.addObject("rcmplans", list);
 		List<Plan> list2 = planService.getPlans(6L, 1L, page, "",
-				"", "", "",  "false", "true", "流行",  "DESC");
+				"", "", "",  "false", "true", "流行",  "DESC", "pass");
 		mv.addObject("lxplans", list2);
 		List<Plan> list3 = planService.getPlans(6L, 1L, page, "",
-				"", "", "",  "false", "true", "古典",  "DESC");
+				"", "", "",  "false", "true", "古典",  "DESC", "pass");
 		mv.addObject("gdplans", list3);
 		List<Plan> list4 = planService.getPlans(6L, 1L, page, "",
-				"", "", "",  "false", "true", "摇滚",  "DESC");
+				"", "", "",  "false", "true", "摇滚",  "DESC", "pass");
 		mv.addObject("ygplans", list4);
 		List<Plan> list5 = planService.getPlans(6L, 1L, page, "",
-				"", "", "",  "false", "true", "名族",  "DESC");
+				"", "", "",  "false", "true", "名族",  "DESC", "pass");
 		mv.addObject("mzplans", list5);
 		List<Plan> list6 = planService.getPlans(6L, 1L, page, "",
-				"", "", "",  "false", "true", "乡村",  "DESC");
+				"", "", "",  "false", "true", "乡村",  "DESC", "pass");
 		mv.addObject("xcplans", list6);
 		List<Plan> list7 = planService.getPlans(6L, 1L, page, "",
-				"", "", "",  "false", "true", "管弦乐",  "DESC");
+				"", "", "",  "false", "true", "管弦乐",  "DESC", "pass");
 		mv.addObject("gxyplans", list7);
 		List<Plan> list8 = planService.getPlans(6L, 1L, page, "",
-				"", "", "",  "false", "true", "其它",  "DESC");
+				"", "", "",  "false", "true", "其它",  "DESC", "pass");
 		mv.addObject("qtplans", list8);
 		
 		
@@ -269,7 +269,7 @@ public class UserController {
 		
 		Page page = new Page();
 		List<Plan> list = planService.getPlans(pageSize, index, page, keyword,
-				day1, day2, location,  overdue, isrecommend, type,  sort_strategy);
+				day1, day2, location,  overdue, isrecommend, type,  sort_strategy, "pass");
 		
 		PageAndList<Plan> pageAndList = new PageAndList<Plan>();
 		pageAndList.setIndex(page.getIndex());

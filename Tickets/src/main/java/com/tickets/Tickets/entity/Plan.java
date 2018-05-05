@@ -24,6 +24,7 @@ public class Plan implements Serializable {
 	private boolean isrecommend;
 	private String type;//演唱会类型
 	private String scheme;//上传的演唱会策划书路径名
+	private String state;//plan状态
 	
 	public Long getId() {
 		return id;
@@ -102,6 +103,12 @@ public class Plan implements Serializable {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;

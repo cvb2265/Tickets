@@ -135,7 +135,8 @@ CREATE TABLE `plan` (
    `overdue`		tinyint(1)		NOT NULL	DEFAULT '0',
    `isrecommend`	tinyint(1)		NOT NULL	DEFAULT '0',
    `type`		varchar(20)		NOT NULL,
-   `scheme`		varchar(20)		NOT NULL
+   `scheme`		varchar(20)		NOT NULL,
+   `state`		VARCHAR(14)		NOT NULL	#plan状态，pass表示审核通过
 ) ;
 
 CREATE TABLE `seatprice` (

@@ -20,7 +20,7 @@ public interface PlanMapper {
 	
 	/**
 	 * 根据 关键字(name和introduction字段)、时间、精确location、
-	 * 精确overdue、精确isrecommend、精确type 动态查询记录总数
+	 * 精确overdue、精确isrecommend、精确type、精确state 动态查询记录总数
 	 * SELECT COUNT(*) FROM plan
 	 * @author tqy
 	 * @date 2018年4月17日
@@ -41,6 +41,9 @@ public interface PlanMapper {
             + "<if test=\"type != null\">"
             + "    AND type = #{type} "
             + "</if>"
+            + "<if test=\"state != null\">"
+            + "    AND state = #{state} "
+            + "</if>"
             + "<if test=\"day1 != null\">"
             + "    AND starttime BETWEEN #{day1} AND #{day2} "
             + "</if>"
@@ -54,7 +57,7 @@ public interface PlanMapper {
 	
 	/**
 	 * 根据 关键字(name和introduction字段)、时间、精确location、
-	 * 精确overdue、精确isrecommend、精确type 搜索  且分页
+	 * 精确overdue、精确isrecommend、精确type、精确state 搜索  且分页
 	 * 
 	 * @author tqy
 	 * @date 2018年4月17日
@@ -74,6 +77,9 @@ public interface PlanMapper {
             +"</if>"
             + "<if test=\"type != null\">"
             + "    AND type = #{type} "
+            + "</if>"
+            + "<if test=\"state != null\">"
+            + "    AND state = #{state} "
             + "</if>"
             + "<if test=\"day1 != null\">"
             + "    AND starttime BETWEEN #{day1} AND #{day2} "
@@ -110,8 +116,8 @@ public interface PlanMapper {
 	 * @date 2018年5月5日
 	 * 
 	 */
-	@Select(value = "SELECT * FROM plan WHERE endtime < #{time} AND overdue=0")
-	public List<Plan> findBeforeAndNotOerdue(@Param("time")String time);
+	@Select(value = "SELECT * FROM plan WHERE endtime < #{time} AND overdue=0 AND state='pass'")
+	public List<Plan> findBeforeAndNotOerdueAndPass(@Param("time")String time);
 	
 	/**
 	 * 设置plan是否过期

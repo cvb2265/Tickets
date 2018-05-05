@@ -127,10 +127,8 @@ public class InsertMain {
 				String day_cur=day;
 				for(int k=0; k<11; k++) {//连续去11个城市演唱
 					conn = dbHelper.getConnection();
-//					f2(conn,planid,musician[i]+"音乐会"+citys[k]+"站", day_cur+" 19:00:00", day_cur+" 23:00:00", introductions[i],
-//							   planid+".jpg", citys[k], k+1, false, true, types[i/7], "aaa");
 					f2(conn,planid,musician[i]+"音乐会"+citys[k]+"站", day_cur+" 19:00:00", day_cur+" 23:00:00", introductions[i],
-							planid+".jpg", citys[k], k+1, false, true, types[i/7], "aaa", 1L);
+							planid+".jpg", citys[k], k+1, false, true, types[i/7], "aaa", 1L, "pass");
 					
 
 					//插入本场音乐会相关的seatprice，k+1就是venueid
@@ -236,11 +234,11 @@ public class InsertMain {
 	}
 	public static void f2(Connection connection, int id, String name, String starttime, String endtime,
 			String introduction, String cover, String location, int venueid,
-			boolean overdue, boolean isrecommend, String type, String scheme, Long promulgatorid) {
+			boolean overdue, boolean isrecommend, String type, String scheme, Long promulgatorid, String state) {
 		PreparedStatement pstmt = null;
 		
 		String sql = "INSERT INTO plan(id, name, starttime, endtime, introduction, cover, location, venueid,\r\n" + 
-				"          overdue, isrecommend, type, scheme, promulgatorid) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				"          overdue, isrecommend, type, scheme, promulgatorid, state) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 
 		try {
@@ -258,6 +256,7 @@ public class InsertMain {
 			pstmt.setString(11, type);
 			pstmt.setString(12, scheme);
 			pstmt.setLong(13, promulgatorid);
+			pstmt.setString(14, state);
 			pstmt.executeUpdate();
 
 			pstmt.close();

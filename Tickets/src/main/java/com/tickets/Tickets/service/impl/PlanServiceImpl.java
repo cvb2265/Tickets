@@ -41,12 +41,13 @@ public class PlanServiceImpl implements PlanService {
 	@Transactional(readOnly=true)
 	@Override
 	public List<Plan> getPlans(Long pageSize, Long index, Page page, String keyword, String day1,
-			String day2, String location, String overdue, String isrecommend, String type, String sort_strategy) {
+			String day2, String location, String overdue, String isrecommend, String type, String sort_strategy, String state) {
 		logger.info("getplans方法 被调用");
 		
 		/** 当前需要分页的总数据条数  */
 		Map<String,Object> params = new HashMap<>();
 		Map<String,Object> params2 = new HashMap<>();
+		if(state!=null&&!"".equals(state)) {params.put("state", state);params2.put("state", state);}
 		if(keyword!=null&&!"".equals(keyword)) {params.put("keyword", keyword);params2.put("keyword", keyword);}
 		if(day1!=null&&!"".equals(day1)) {params.put("day1", day1);params.put("day2", day2);params2.put("day1", day1);params2.put("day2", day2);}
 		if(location!=null&&!"".equals(location)) {params.put("location", location);params2.put("location", location);}
