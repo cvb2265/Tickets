@@ -285,7 +285,6 @@ public class UserServiceImpl implements UserService {
 		order.setMoney(money);
 		order.setPoints_cost(points_cost);
 		Level level = levelMapper.findByLevel_num(u.getLevel());
-		System.out.println(level.getDiscount());
 		double perc=level.getDiscount();
 		if(points_cost==100) {
 			double d = 0.01; perc-=d;
@@ -366,7 +365,6 @@ public class UserServiceImpl implements UserService {
 		order.setMoney(goods.getPrice());
 		order.setPoints_cost(0);
 		Level level = levelMapper.findByLevel_num(u.getLevel());
-		System.out.println(level.getDiscount());
 		double perc=level.getDiscount();
 		order.setPerc(perc);
 		order.setRmoney(goods.getPrice()*perc);
@@ -429,10 +427,12 @@ public class UserServiceImpl implements UserService {
 			}
 			
 			//更新user表，返还积分
-			User user = userMapper.findById(o.getUserid());
-			int p = user.getPoints();
-			user.setPoints( p + o.getPoints_cost() );
-			userMapper.update(user);
+			if(o.getPoints_cost()!=0) {
+				User user = userMapper.findById(o.getUserid());
+				int p = user.getPoints();
+				user.setPoints( p + o.getPoints_cost() );
+				userMapper.update(user);
+			}
 			
 			//发送系统消息
 			Notice notice = new Notice();
@@ -506,10 +506,12 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		//更新user表，返还积分
-		User user = userMapper.findById(o.getUserid());
-		int p = user.getPoints();
-		user.setPoints( p + o.getPoints_cost() );
-		userMapper.update(user);
+		if(o.getPoints_cost()!=0) {
+			User user = userMapper.findById(o.getUserid());
+			int p = user.getPoints();
+			user.setPoints( p + o.getPoints_cost() );
+			userMapper.update(user);
+		}
 		
 		//发送系统消息
 		Notice notice = new Notice();

@@ -78,4 +78,14 @@ public interface GoodsMapper {
 			"		WHERE id = #{id} AND planid = #{planid}")
 	public void update(Goods goods);
 
+
+	/**
+	 * 
+	 * @author tqy
+	 * @date 2018年5月5日
+	 * 
+	 */
+	@Select(value = "SELECT * FROM goods WHERE planid = #{planid}")
+	public List<Goods> findByPlanid(@Param("planid")Long planid);
+
 }

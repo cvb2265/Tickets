@@ -70,4 +70,8 @@ public interface OrderMapper {
 			"		WHERE orderid = #{orderid}")
 	public void update(Order order);
 
+	
+	@Select(value = "SELECT * FROM order_ WHERE time < #{time} AND state = 'unpaid'")
+	public List<Order> findUnpaidOrdersBefore(@Param("time")String time);
+
 }

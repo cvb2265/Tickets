@@ -10,8 +10,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.transaction.PlatformTransactionManager;
 
+@EnableScheduling
 @EnableAutoConfiguration
 @SpringBootApplication
 @ComponentScan
@@ -28,6 +32,14 @@ public class TicketsApplication {
     @Bean
     public PlatformTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dataSource());
+    }    
+    
+    @Bean
+    public TaskScheduler taskScheduler() {
+    	ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+    	//线程池大小
+    	taskScheduler.setPoolSize(2);
+    	return taskScheduler;
     }
 
     

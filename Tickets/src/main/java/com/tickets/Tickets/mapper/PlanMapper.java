@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.tickets.Tickets.entity.Plan;
@@ -100,7 +101,26 @@ public interface PlanMapper {
 	 * 
 	 */
 	@Select(value = "SELECT * FROM plan WHERE id = #{planid}")
-	public Plan findById(@Param("planid")Long planid);	
+	public Plan findById(@Param("planid")Long planid);
+	
+	
+	/**
+	 * 寻找未过期的plan
+	 * @author tqy
+	 * @date 2018年5月5日
+	 * 
+	 */
+	@Select(value = "SELECT * FROM plan WHERE endtime < #{time} AND overdue=0")
+	public List<Plan> findBeforeAndNotOerdue(@Param("time")String time);
+	
+	/**
+	 * 设置plan是否过期
+	 * @author tqy
+	 * @date 2018年5月5日
+	 * 
+	 */
+	@Update(value = "UPDATE plan SET overdue=#{overdue} WHERE id = #{id}")
+	public Integer updateOverdue(Plan plan);
 	
 
 }
