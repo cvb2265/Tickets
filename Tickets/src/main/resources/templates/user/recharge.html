@@ -26,8 +26,18 @@
 		
 		
 	});
-	function func1(data){
-		
+	
+	function validate1(f){
+		var money = $("#money_input").val();
+        if(money==""){
+    		alert("请输入金钱数！");
+        	return false;
+        }
+		if(!/^[0-9]+$/.test(money) || Number(money)==0) {//是否为正整数
+			alert("请输入正整数，暂时只支持正整数！");
+        	return false;
+		}
+        return true;
 	}
 /*]]>*/
 </script>
@@ -142,7 +152,41 @@ background: #eeeeee;
 
 	display: none; /*隐藏*/
 }
+input[type="text"], input[type="password"] {
 
+	background:url(  [[@{/images/input_bg.gif}]]  ) repeat-x top left;	/*thymeleaf写法*/
+	
+	padding:5px 5px;
+	font-size:12px;
+	
+	border:none;
+}
+form button, input[type="button"]{
+	width: 70px;
+	height: 25px;
+	
+	background:#7dc3f3;/*背景色*/
+	border: none;/*去掉边界*/
+	border-radius:15px;/*圆角矩形样式*/
+	transition-duration: 0.4s;/*变化时间*/
+	color: white;/*字体颜色*/
+}
+form button:hover, input[type="button"]:hover {
+	background-color: #99ff33;/*新背景色，Green*/
+    color: black;/*字体颜色*/
+    cursor:pointer;
+}
+
+
+#right_div img {
+	margin-top:20px;
+	margin-left:160px;
+}
+#right_div form {
+	margin-top:20px;
+	margin-left:270px;
+	margin-bottom:80px;
+}
 
 </style>
 </head>
@@ -227,7 +271,12 @@ background: #eeeeee;
 		<td valign="top">
 <div id="right_div">
 
-aa啊啊啊啊啊
+<img th:src="@{/images/zhifubao.jpg}" />
+<br/>
+<form th:action="@{/user/recharge}" method="post" onsubmit="return validate1(this)">
+	<input id="money_input" type="text" name="money"/>
+	<button type="submit">充值</button>
+</form>
 
 
 </div>

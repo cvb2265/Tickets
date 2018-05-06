@@ -103,6 +103,27 @@ public class UserController {
 		mv.setViewName("/user/recharge");
 		return mv;
 	}
+	@RequestMapping(value="/user/recharge", method=RequestMethod.POST)
+	public ModelAndView recharge(
+			Integer money,
+			 ModelAndView mv,
+			 HttpSession session,
+			 HttpServletRequest request){
+		logger.info("/user/recharge接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		User user = (User) session.getAttribute("user");
+		ResultMessage rs = userService.recharge(user.getUserid(), money);
+		if(!rs.isResult()) {
+			mv.addObject("emsg", rs.getMessage());
+			mv.setViewName("user/errorpage");
+			return mv;
+		}
+		//更新user信息
+		User u = userService.getById(user.getUserid());
+		session.setAttribute("user", u);
+		mv.addObject("emsg", "充值成功！");
+		mv.setViewName("user/errorpage");
+		return mv;
+	}
 	@RequestMapping(value="/user/userinfoV")
 	public ModelAndView userinfoV(
 			 ModelAndView mv,

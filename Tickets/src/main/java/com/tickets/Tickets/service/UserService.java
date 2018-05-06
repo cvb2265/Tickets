@@ -36,4 +36,7 @@ public interface UserService {
 	//退订订单
 	public ResultMessage unsubscribeOrder(Long userid, Long orderid);
 	
+	//充值
+	public ResultMessage recharge(Long userid, Integer money);
+	
 }

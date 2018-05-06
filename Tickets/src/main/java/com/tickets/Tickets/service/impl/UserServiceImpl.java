@@ -638,6 +638,19 @@ public class UserServiceImpl implements UserService {
 		return rm;
 	}
 
+	@Override
+	public ResultMessage recharge(Long userid, Integer money) {
+		logger.info("recharge方法 被调用");
+		ResultMessage rm = new ResultMessage();
+		
+		User user = userMapper.findById(userid);
+		user.setMoney(user.getMoney()+money);
+		userMapper.update(user);
+		
+		rm.setResult(true);
+		return rm;
+	}
+
 
 
 }
