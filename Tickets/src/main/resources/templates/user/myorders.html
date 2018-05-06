@@ -267,6 +267,7 @@
 		var btn1s = $(".btn1");
 		var btn2s = $(".btn2");
 		var btn3s = $(".btn3");
+		var btn4s = $(".btn4");
 		var od_as = $(".od_a");
         var i=0;
 		var list = data.list;
@@ -293,6 +294,7 @@
 					btn1s.eq(i).show();
 					btn2s.eq(i).show();
 					btn3s.eq(i).hide();
+					btn4s.eq(i).hide();
 					var url1 = [[ @{/user/payorder} ]]+"?orderid="+this.orderid;
 					btn1s.eq(i).click(function(){ window.location.href=url1; });
 					var url2 = [[ @{/user/cancelorder} ]]+"?orderid="+this.orderid;
@@ -339,6 +341,7 @@
 					btn1s.eq(i).hide();
 					btn2s.eq(i).show();
 					btn3s.eq(i).hide();
+					btn4s.eq(i).hide();
 					var url2 = [[ @{/user/cancelorder} ]]+"?orderid="+this.orderid;
 					btn2s.eq(i).click(function(){ window.location.href=url2; });
 					state_spans.eq(i).html("已超时");
@@ -348,6 +351,7 @@
 				btn1s.eq(i).hide();
 				btn2s.eq(i).hide();
 				btn3s.eq(i).show();
+				btn4s.eq(i).hide();
 				var url3 = [[ @{/user/unsubscribeorder} ]]+"?orderid="+this.orderid;
 				btn3s.eq(i).click(function(){ window.location.href=url3; });
 				state_spans.eq(i).html("已支付");
@@ -356,6 +360,9 @@
 				btn1s.eq(i).hide();
 				btn2s.eq(i).hide();
 				btn3s.eq(i).hide();
+				btn4s.eq(i).show();
+				var url4 = [[ @{/user/evaluateorderV} ]]+"?orderid="+this.orderid;
+				btn4s.eq(i).click(function(){ window.location.href=url4; });
 				state_spans.eq(i).html("已完成");
 			}
 			
@@ -675,6 +682,7 @@ a.od_a:hover, a.od_a:active{/*鼠标放到超链接上的时候；超链接被�
 		<input type="button" class="btn1" value="支付" style="display: none;"/>
 		<input type="button" class="btn2" value="取消" style="display: none;"/>
 		<input type="button" class="btn3" value="退订" style="display: none;"/>
+		<input type="button" class="btn4" value="评论" style="display: none;"/>
 		<br/>
 		<img class="border" th:src="@{/images/border.png}"/>
 	</div>	
@@ -698,6 +706,7 @@ a.od_a:hover, a.od_a:active{/*鼠标放到超链接上的时候；超链接被�
 		<input type="button" class="btn1" value="支付" style="display: none;"/>
 		<input type="button" class="btn2" value="取消" style="display: none;"/>
 		<input type="button" class="btn3" value="退订" style="display: none;"/>
+		<input type="button" class="btn4" value="评论" style="display: none;"/>
 		<br/>
 		<img class="border" th:src="@{/images/border.png}"/>
 	</div>	
@@ -721,6 +730,7 @@ a.od_a:hover, a.od_a:active{/*鼠标放到超链接上的时候；超链接被�
 		<input type="button" class="btn1" value="支付" style="display: none;"/>
 		<input type="button" class="btn2" value="取消" style="display: none;"/>
 		<input type="button" class="btn3" value="退订" style="display: none;"/>
+		<input type="button" class="btn4" value="评论" style="display: none;"/>
 		<br/>
 		<img class="border" th:src="@{/images/border.png}"/>
 	</div>	

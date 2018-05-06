@@ -663,4 +663,16 @@ public class UserController {
 	}
 	
 	
+	@RequestMapping(value="/user/evaluateorderV")
+	public ModelAndView evaluateorderV(
+			 Long orderid,
+			 ModelAndView mv,
+			 HttpServletRequest request){
+		logger.info("/user/evaluateorderV接口 被调用，请求者的地址是"+request.getRemoteAddr());
+		mv.addObject("orderid", orderid);
+		mv.setViewName("user/evaluateorder");
+		return mv;
+	}
+	
+	
 }
