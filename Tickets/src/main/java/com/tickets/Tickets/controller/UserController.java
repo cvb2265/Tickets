@@ -286,8 +286,6 @@ public class UserController {
 			 ModelAndView mv,
 			 HttpServletRequest request){
 		logger.info("/user/planlistV接口 被调用，请求者的地址是"+request.getRemoteAddr());
-		logger.info(keyword);
-		logger.info(type);
 		if(!"".equals(keyword) || keyword!=null) {
 			mv.addObject("keyword", keyword);
 		}
