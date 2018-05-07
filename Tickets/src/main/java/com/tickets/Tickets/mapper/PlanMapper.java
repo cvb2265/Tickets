@@ -142,4 +142,11 @@ public interface PlanMapper {
 	 *
 	 */
 	void updateState(Plan plan);
+	/**
+	 * 设置某一个plan的是否被推荐
+	 * @author cf
+	 * @date 2018年5月7日
+	 *
+	 */
+	void updateRecommend(Plan plan);
 }

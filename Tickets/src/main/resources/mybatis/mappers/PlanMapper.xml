@@ -17,4 +17,9 @@
     set state =#{state}
     where id =#{id}
 </update>
+    <update id="updateRecommend" parameterType="Plan">
+        UPDATE plan
+        set isrecommend =#{isrecommend}
+        where id =#{id}
+    </update>
 </mapper>
