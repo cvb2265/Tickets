@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.tickets.Tickets.entity.*;
+import com.tickets.Tickets.service.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tickets.Tickets.entity.Goods;
-import com.tickets.Tickets.entity.Level;
-import com.tickets.Tickets.entity.Notice;
-import com.tickets.Tickets.entity.Order;
-import com.tickets.Tickets.entity.Plan;
-import com.tickets.Tickets.entity.Seatprice;
-import com.tickets.Tickets.entity.User;
-import com.tickets.Tickets.entity.Venue;
-import com.tickets.Tickets.service.GoodsService;
-import com.tickets.Tickets.service.LevelService;
-import com.tickets.Tickets.service.NoticeService;
-import com.tickets.Tickets.service.OrderService;
-import com.tickets.Tickets.service.PlanService;
-import com.tickets.Tickets.service.SeatpriceService;
-import com.tickets.Tickets.service.UserService;
-import com.tickets.Tickets.service.VenueService;
 import com.tickets.Tickets.util.Page;
 import com.tickets.Tickets.util.PageAndList;
 import com.tickets.Tickets.util.ResultMessage;
@@ -72,6 +58,9 @@ public class UserController {
 	@Autowired
 	@Qualifier("levelService")
 	private LevelService levelService;
+	@Autowired
+	@Qualifier("userInfoService")
+	private UserInfoService userInfoService;
 	
 	//打印日志
 	private static final Log logger = LogFactory.getLog(UserController.class);
@@ -674,5 +663,24 @@ public class UserController {
 		return mv;
 	}
 	
-	
+	//下面是cf编写的有关用户私人信息的接口
+	//2018-05-07
+	@RequestMapping("/user/userPrivateInfoV")
+	public ModelAndView userPrivateInfo(HttpSession session, ModelAndView mv, HttpServletRequest request){
+		//暂时默认有用户就有用户个人信息，其实需要考虑一下，需要和tqy商量一下最初的这些信息从哪获得
+		User user =(User)session.getAttribute("user");
+		UserInfo userInfo = userInfoService.getUserInfoByUserId(user.getUserid());
+		session.setAttribute("userInfo", userInfo);
+		mv.setViewName("user/userprivateinfo");
+		return mv;
+	}
+
+	@RequestMapping("/user/updatePrivateInfoV")
+	public ModelAndView updatePrivateInfo(HttpSession session, ModelAndView mv, HttpServletRequest request,UserInfo userInfo){
+		//也需要考虑一下原来是否存在的问题，以及result的作用
+		boolean result = userInfoService.updateUserInfo(userInfo);
+		session.setAttribute("userinfo", userInfo);
+		mv.setViewName("user/userprivateinfo");
+		return mv;
+	}
 }
