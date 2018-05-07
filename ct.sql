@@ -31,12 +31,25 @@ INSERT INTO `user` (`userid`, `email`, `password`, `nickname`, `interest`, `face
 
 
 #chenfei
-CREATE TABLE `admin` (
+CREATE TABLE`userinfo`(
+`id`	bigint	PRIMARY KEY		AUTO_INCREMENT,	
+`user_id`	bigint		NOT NULL,
+`truename`	varchar(40)	,	
+`sex`	varchar(20)	,	
+`birthdate`	date	,	
+`marital_status`	varchar(20),		
+`education`	varchar(20)		,
+`job`	varchar(20)		,
+`address`	varchar(80)		,
+`idnumber`		varchar(40)	
+) ;
+CREATE TABLE `administrator` (
    `id`			bigint			PRIMARY KEY		AUTO_INCREMENT,
    `name`		varchar(80)		NOT NULL,
    `password`		varchar(80)		NOT NULL,
-   `head`		varchar(80)		NOT NULL
+   `head`		varchar(80)		
 ) ;
+INSERT INTO `administrator` (`id`, `name`, `password`, `head`) VALUES(1,"admin1@qq.com","password","");
 CREATE TABLE `venue` (
    `id`			bigint			PRIMARY KEY		AUTO_INCREMENT,
    `city`		varchar(20)		NOT NULL,
