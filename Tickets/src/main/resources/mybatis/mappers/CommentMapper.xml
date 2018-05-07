@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tickets.Tickets.mapper.CommentMapper">
+
+
+    <select id="getCommentById" parameterType="java.lang.Long" resultType="Comment">
+        SELECT id,	planid,	userid,	parentid,	comment_time,	content,	rate,	comment_type,	deleteflag
+        FROM comment
+        WHERE id = #{id}
+    </select>
+
+<insert id="addComment" parameterType="Comment">
+INSERT INTO comment
+(planid,	userid,	parentid,	comment_time,	content,	rate,	comment_type,	deleteflag)VALUES (#{planid},	#{userid},	#{parentid},	#{comment_time},	#{content},#{rate},	#{comment_type},	#{deleteflag})
+</insert>
+
+<select id="getAllComments" parameterType="PageDto" resultType="Comment">
+SELECT id,	planid,	userid,	parentid,	comment_time,	content,	rate,	comment_type,	deleteflag
+FROM comment
+ORDER BY comment_time DESC
+limit #{offset_row} , #{page_size}
+</select>
+
+    <select id="getNegativeComments" parameterType="PageDto" resultType="Comment">
+SELECT id,	planid,	userid,	parentid,	comment_time,	content,	rate,	comment_type,	deleteflag
+FROM comment
+WHERE rate in(1,2)
+ORDER BY comment_time DESC
+limit #{offset_row} , #{page_size}
+    </select>
+
+    <update id="updateComment" parameterType="Comment">
+UPDATE comment
+SET 	planid=#{planid},	userid=#{userid},	parentid=#{parentid},	comment_time=#{comment_time},	content=#{content},	rate=#{rate},	comment_type=#{comment_type},	deleteflag=#{deleteflag}
+WHERE id = #{id}
+    </update>
+
+   <delete id="deleteComment" parameterType="Comment">
+DELETE FROM comment
+WHERE id=#{id}
+   </delete>
+
+
+</mapper>

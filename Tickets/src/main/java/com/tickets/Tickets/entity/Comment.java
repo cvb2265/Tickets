@@ -11,7 +11,7 @@ public class Comment implements Serializable {
     private String comment_time;// 评论时间,暂时用String表示事后需要改变
     private String content;//评论内容
     private Integer rate;// 星级
-    private Integer type;// 类型（预期为0，评论为1）
+    private Integer comment_type;// 类型（预期为0，评论为1）
     private Integer deleteflag;// 删除标志（删除为1，未删除为0）
 
     public static long getSerialVersionUID() {
@@ -21,7 +21,18 @@ public class Comment implements Serializable {
     public Comment() {
     }
 
-    public Comment(Long id, Long planid, Long userid, Long parentid, String comment_time, String content, Integer rate, Integer type, Integer deleteflag) {
+    public Comment(Long planid, Long userid, Long parentid, String comment_time, String content, Integer rate, Integer comment_type, Integer deleteflag) {
+        this.planid = planid;
+        this.userid = userid;
+        this.parentid = parentid;
+        this.comment_time = comment_time;
+        this.content = content;
+        this.rate = rate;
+        this.comment_type = comment_type;
+        this.deleteflag = deleteflag;
+    }
+
+    public Comment(Long id, Long planid, Long userid, Long parentid, String comment_time, String content, Integer rate, Integer comment_type, Integer deleteflag) {
         this.id = id;
         this.planid = planid;
         this.userid = userid;
@@ -29,18 +40,7 @@ public class Comment implements Serializable {
         this.comment_time = comment_time;
         this.content = content;
         this.rate = rate;
-        this.type = type;
-        this.deleteflag = deleteflag;
-    }
-
-    public Comment(Long planid, Long userid, Long parentid, String comment_time, String content, Integer rate, Integer type, Integer deleteflag) {
-        this.planid = planid;
-        this.userid = userid;
-        this.parentid = parentid;
-        this.comment_time = comment_time;
-        this.content = content;
-        this.rate = rate;
-        this.type = type;
+        this.comment_type = comment_type;
         this.deleteflag = deleteflag;
     }
 
@@ -100,12 +100,12 @@ public class Comment implements Serializable {
         this.rate = rate;
     }
 
-    public Integer getType() {
-        return type;
+    public Integer getComment_type() {
+        return comment_type;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setComment_type(Integer comment_type) {
+        this.comment_type = comment_type;
     }
 
     public Integer getDeleteflag() {
