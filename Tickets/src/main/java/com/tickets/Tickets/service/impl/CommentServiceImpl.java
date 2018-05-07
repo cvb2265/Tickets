@@ -37,7 +37,7 @@ public class CommentServiceImpl implements CommentService {
         ResultMessage rm = new ResultMessage();
         commentMapper.updateComment(comment);
         rm.setResult(true);
-        rm.setMessage("updateComment,评论已经被更新");
+        rm.setMessage("updateComment调用成功,评论已经被更新");
         return rm;
     }
 
@@ -68,7 +68,7 @@ public class CommentServiceImpl implements CommentService {
         ResultMessage rm = new ResultMessage();
         commentMapper.deleteComment(comment);
         rm.setResult(true);
-        rm.setMessage("deleteComment,评论已经被删除");
+        rm.setMessage("deleteComment调用成功,评论已经被删除");
         return rm;
     }
 }
