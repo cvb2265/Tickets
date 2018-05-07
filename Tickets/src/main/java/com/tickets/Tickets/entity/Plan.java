@@ -24,7 +24,7 @@ public class Plan implements Serializable {
 	private boolean isrecommend;
 	private String type;//演唱会类型
 	private String scheme;//上传的演唱会策划书路径名
-	private String state;//plan状态
+	private String state;//plan状态,pending:等待审核，pass：通过审核，fail：未通过审核
 	
 	public Long getId() {
 		return id;

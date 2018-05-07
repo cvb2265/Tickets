@@ -22,6 +22,11 @@ public interface PlanService {
 	 * 
 	 */
 	public Plan getById(Long planid);
-	
-	
+
+	/**
+	 * @author cf
+	 * @date 2018年5月7日
+	 *
+	 */
+	public List<Plan> getAllPendingPlans();
 }

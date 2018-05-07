@@ -127,6 +127,19 @@ public interface PlanMapper {
 	 */
 	@Update(value = "UPDATE plan SET overdue=#{overdue} WHERE id = #{id}")
 	public Integer updateOverdue(Plan plan);
-	
 
+	/**
+	 * 寻找所有未通过审核的plan，（暂时不管是否过期）
+ 	* @author cf
+ 	* @date 2018年5月7日
+ 	*
+ 	*/
+	 List<Plan> findAllPendingPlans();
+	/**
+	 * 设置某一个plan的审核状态
+	 * @author cf
+	 * @date 2018年5月7日
+	 *
+	 */
+	void updateState(Plan plan);
 }
