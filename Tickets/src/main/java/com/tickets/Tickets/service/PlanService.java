@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.tickets.Tickets.entity.Plan;
 import com.tickets.Tickets.util.Page;
+import com.tickets.Tickets.util.ResultMessage;
 
 public interface PlanService {
 	
@@ -28,5 +29,12 @@ public interface PlanService {
 	 * @date 2018年5月7日
 	 *
 	 */
-	public List<Plan> getAllPendingPlans();
+	public List<Plan> getPendingPlans();
+
+	/**
+	 * @author cf
+	 * @date 2018年5月7日
+	 *
+	 */
+	public ResultMessage checkPlan(long planid,Plan plan);
 }

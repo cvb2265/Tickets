@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tickets.Tickets.mapper.NoticeMapper;
+import com.tickets.Tickets.util.ResultMessage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,10 @@ public class PlanServiceImpl implements PlanService {
 	@Autowired
 	@Qualifier("planMapper")
 	private PlanMapper planMapper;
+
+	@Autowired
+	@Qualifier("noticeMapper")
+	private NoticeMapper noticeMapper;
 
 	
 	//打印日志
@@ -125,7 +131,30 @@ public class PlanServiceImpl implements PlanService {
 		logger.info("getById方法 被调用");
 		return planMapper.findById(planid);
 	}
-	
-	
-	
+	/**
+	 * @author cf
+	 * @date 2018年5月7日
+	 *
+	 */
+	@Transactional(readOnly=true)
+	@Override
+	public List<Plan> getPendingPlans() {
+		logger.info("getPendingPlans方法 被调用");
+		return null;
+	}
+
+	@Override
+	public ResultMessage checkPlan(long planid,Plan plan) {
+		logger.info("checkPlan方法 被调用");
+		ResultMessage rm =new ResultMessage();
+		//审核订单
+		planMapper.updateState(plan);
+		rm.setResult(true);
+		rm.setMessage("审核完成，审核结果已经被记录");
+		//将结果发送通知给后台用户
+		//TODO
+		return rm;
+	}
+
+
 }
