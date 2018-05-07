@@ -16,6 +16,14 @@ INSERT INTO comment
 (planid,	userid,	parentid,	comment_time,	content,	rate,	comment_type,	deleteflag)VALUES (#{planid},	#{userid},	#{parentid},	#{comment_time},	#{content},#{rate},	#{comment_type},	#{deleteflag})
 </insert>
 
+<select id="getCommentOfOnePlan" resultType="Comment">
+  SELECT id,	planid,	userid,	parentid,	comment_time,	content,	rate,	comment_type,	deleteflag
+FROM comment
+WHERE planid = #{planid}
+ORDER BY comment_time DESC
+limit #{offset_row} , #{page_size}
+</select>
+
 <select id="getAllComments" parameterType="PageDto" resultType="Comment">
 SELECT id,	planid,	userid,	parentid,	comment_time,	content,	rate,	comment_type,	deleteflag
 FROM comment
@@ -37,10 +45,11 @@ SET 	planid=#{planid},	userid=#{userid},	parentid=#{parentid},	comment_time=#{co
 WHERE id = #{id}
     </update>
 
-   <delete id="deleteComment" parameterType="Comment">
-DELETE FROM comment
+   <update id="deleteComment" parameterType="Comment">
+UPDATE  comment
+SET deleteflag=#{deleteflag}
 WHERE id=#{id}
-   </delete>
+   </update>
 
 
 </mapper>

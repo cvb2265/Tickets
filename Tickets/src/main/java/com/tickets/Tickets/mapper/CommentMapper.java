@@ -18,6 +18,7 @@ public interface CommentMapper {
 
     void addComment(Comment commment);
 
+    List<Comment> getCommentOfOnePlan(@Param("planid")long planid,@Param("offset_row") int offset_row,@Param("page_size")int  page_size);
     List<Comment> getAllComments(PageDto pageDto);
     List<Comment> getNegativeComments(PageDto pageDto);
     void updateComment(Comment comment);
