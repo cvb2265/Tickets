@@ -2,16 +2,19 @@ package com.tickets.Tickets.service;
 
 import com.tickets.Tickets.entity.Comment;
 import com.tickets.Tickets.entity.PageDto;
+import com.tickets.Tickets.util.ResultMessage;
+
+import java.util.List;
 
 
 public interface CommentService {
-        public <list>Comment getCommentOfOnePlan(long Planid, PageDto pageDto);
-        public  void addComment(Comment comment);
+        public List<Comment> getCommentOfOnePlan(long Planid, PageDto pageDto);
+        public ResultMessage addComment(Comment comment);
 
-        public void updateComment(Comment comment);
+        public ResultMessage updateComment(Comment comment);
         public Comment getCommentByid(long id);
 
-        public <list>Comment getNegativeComments(PageDto pageDto);
-        public <list>Comment getAllComments(PageDto pageDto);
-        public void deleteComment(Comment comment);
+        public List<Comment> getNegativeComments(PageDto pageDto);
+        public List<Comment> getAllComments(PageDto pageDto);
+        public ResultMessage deleteComment(Comment comment);
 }
