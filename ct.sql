@@ -50,6 +50,21 @@ CREATE TABLE `administrator` (
    `head`		varchar(80)		
 ) ;
 INSERT INTO `administrator` (`id`, `name`, `password`, `head`) VALUES(1,"admin1@qq.com","password","");
+
+CREATE TABLE `comment` (
+`id`			bigint			PRIMARY KEY		AUTO_INCREMENT,
+`planid`		bigint		NOT NULL,
+`userid`		bigint		NOT NULL,
+`parentid`		bigint		NOT NULL ,  
+`comment_time`		datetime		NOT NULL,
+`content`		varchar(600)		NOT NULL,
+`rate`		int		NOT NULL,
+`comment_type`		int		NOT NULL,
+`deleteflag`		int		NOT NULL
+) ;
+
+
+
 CREATE TABLE `venue` (
    `id`			bigint			PRIMARY KEY		AUTO_INCREMENT,
    `city`		varchar(20)		NOT NULL,
