@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tickets.Tickets.mapper.UserInfoMapper">
+    <select id ="userInfoByUserId" parameterType="java.lang.Long" resultType="UserInfo">
+        SELECT 	id	,user_id,	truename,	sex,	birthdate,	marital_status,	education,	job,	address,	idnumber
+        FROM userinfo
+        WHERE user_id=#{user_id}
+    </select>
+
+    <insert id="addUserInfo" parameterType="UserInfo">
+        INSERT INTO userinfo
+        (user_id,	truename,	sex,	birthdate,	marital_status,	education,	job,	address,	idnumber)VALUES (#{user_id},	#{truename},	#{sex},	#{birthdate},	#{marital_status},	#{education},	#{job},	#{address},	#{idnumber})
+    </insert>
+
+    <delete id="deleteInfoByUserId" parameterType="java.lang.Long">
+        DELETE FROM userinfo
+        WHERE user_id=#{user_id}
+    </delete>
+
+    <update id="updateUserInfo" parameterType="UserInfo">
+        UPDATE userinfo
+        SET user_id=#{user_id},	truename=#{truename},	sex=#{sex},	birthdate=#{birthdate},	marital_status=#{marital_status},	education=#{education},	job=#{job},	address=#{address},	idnumber=#{idnumber}
+        WHERE user_id=#{user_id}
+    </update>
+</mapper>
