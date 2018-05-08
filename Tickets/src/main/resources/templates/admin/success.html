@@ -6,7 +6,7 @@
 </head>
 <body>
 登录成功
-<p th:text="'Hell  o！, ' + ${session.adminId} + '!'">这里的p的文本会被thtext内容替代</p>
-<a th:href="@{/level/1}">相对路径</a>
+<p th:text="'Hell  o！, ' + ${session.administrator.getName()} + '!'">这里的p的文本会被thtext内容替代</p>
+<a th:href="@{/level/1}">level</a>
 </body>
 </html>
