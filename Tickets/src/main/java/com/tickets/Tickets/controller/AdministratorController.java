@@ -51,4 +51,5 @@ public class AdministratorController {
         mv.setViewName("redirect:/admin");
         return mv;
     }
+
 }

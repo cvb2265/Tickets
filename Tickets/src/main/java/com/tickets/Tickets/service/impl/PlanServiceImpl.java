@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tickets.Tickets.entity.PageDto;
 import com.tickets.Tickets.mapper.NoticeMapper;
 import com.tickets.Tickets.util.ResultMessage;
 import org.apache.commons.logging.Log;
@@ -131,17 +132,14 @@ public class PlanServiceImpl implements PlanService {
 		logger.info("getById方法 被调用");
 		return planMapper.findById(planid);
 	}
+
+
+
 	/**
 	 * @author cf
 	 * @date 2018年5月7日
 	 *
 	 */
-	@Transactional(readOnly=true)
-	@Override
-	public List<Plan> getPendingPlans() {
-		logger.info("getPendingPlans方法 被调用");
-		return null;
-	}
 
 	@Override
 	public ResultMessage checkPlan(long planid,Plan plan) {
@@ -155,6 +153,24 @@ public class PlanServiceImpl implements PlanService {
 		//TODO
 		return rm;
 	}
-
-
+	@Transactional(readOnly=true)
+	@Override
+	public Integer countAll() {
+		return planMapper.countAll();
+	}
+	@Transactional(readOnly=true)
+	@Override
+	public Integer countState(String state) {
+		return planMapper.countState(state);
+	}
+	@Transactional(readOnly=true)
+	@Override
+	public List<Plan> getPlansByState(PageDto pageDto, String state) {
+		return planMapper.findPlansByState(pageDto,state);
+	}
+	@Transactional(readOnly=true)
+	@Override
+	public List<Plan> getAllPlans(PageDto pageDto) {
+		return planMapper.getAllPlans(pageDto);
+	}
 }

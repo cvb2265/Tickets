@@ -2,6 +2,7 @@ package com.tickets.Tickets.service;
 
 import java.util.List;
 
+import com.tickets.Tickets.entity.PageDto;
 import com.tickets.Tickets.entity.Plan;
 import com.tickets.Tickets.util.Page;
 import com.tickets.Tickets.util.ResultMessage;
@@ -29,7 +30,14 @@ public interface PlanService {
 	 * @date 2018年5月7日
 	 *
 	 */
-	public List<Plan> getPendingPlans();
+	public List<Plan> getPlansByState(PageDto pageDto,String state);
+
+	/**
+	 * @author cf
+	 * @date 2018年5月9日
+	 *
+	 */
+	public List<Plan> getAllPlans(PageDto pageDto);
 
 	/**
 	 * @author cf
@@ -37,4 +45,16 @@ public interface PlanService {
 	 *
 	 */
 	public ResultMessage checkPlan(long planid,Plan plan);
+	/**
+	 * @author cf
+	 * @date 2018年5月9日
+	 *
+	 */
+	public Integer countAll();
+	/**
+	 * @author cf
+	 * @date 2018年5月9日
+	 *
+	 */
+	public Integer countState(String state);
 }

@@ -3,13 +3,20 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tickets.Tickets.mapper.PlanMapper">
-<select id="findAllPendingPlans" parameterType="PageDto" resultType="Plan">
+<select id="findPlansByState"  resultType="Plan">
     SELECT id,	promulgatorid,	name,	starttime,	endtime,	introduction,	cover,	location,	venueid,	overdue,	isrecommend,	type,	scheme,	state
     FROM plan
-    WHERE state ='pending'
+    WHERE state =#{state}
     ORDER BY starttime DESC
     limit #{offset_row} , #{page_size}
 </select>
+
+    <select id="getAllPlans" parameterType="PageDto" resultType="Plan">
+        SELECT id,	promulgatorid,	name,	starttime,	endtime,	introduction,	cover,	location,	venueid,	overdue,	isrecommend,	type,	scheme,	state
+        FROM plan
+        ORDER BY starttime DESC
+        limit #{offset_row} , #{page_size}
+    </select>
 
 
 <update id="updateState" parameterType="Plan">
@@ -22,4 +29,15 @@
         set isrecommend =#{isrecommend}
         where id =#{id}
     </update>
+
+    <select id="countAll" resultType="Integer">
+        SELECT COUNT (id)
+        FROM plan
+    </select>
+
+    <select id="countState" parameterType="String" resultType="Integer">
+        SELECT COUNT (id)
+        FROM plan
+        WHERE state =#{state}
+    </select>
 </mapper>
