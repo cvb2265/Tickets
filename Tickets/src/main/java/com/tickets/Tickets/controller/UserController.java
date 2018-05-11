@@ -666,20 +666,30 @@ public class UserController {
 	//下面是cf编写的有关用户私人信息的接口
 	//2018-05-07
 	@RequestMapping("/user/userPrivateInfoV")
-	public ModelAndView userPrivateInfo(HttpSession session, ModelAndView mv, HttpServletRequest request){
+	public ModelAndView userPrivateInfo(HttpSession session, ModelAndView mv, HttpServletRequest request, Model model){
 		//暂时默认有用户就有用户个人信息，其实需要考虑一下，需要和tqy商量一下最初的这些信息从哪获得
 		User user =(User)session.getAttribute("user");
 		UserInfo userInfo = userInfoService.getUserInfoByUserId(user.getUserid());
-		session.setAttribute("userInfo", userInfo);
+		System.out.println(userInfo.getId());
+		System.out.println(userInfo.getEducation());
+		model.addAttribute("userInfo", userInfo);
+		//session.setAttribute("userInfo", userInfo);
 		mv.setViewName("user/userprivateinfo");
 		return mv;
 	}
 
 	@RequestMapping("/user/updatePrivateInfoV")
-	public ModelAndView updatePrivateInfo(HttpSession session, ModelAndView mv, HttpServletRequest request,UserInfo userInfo){
+	public ModelAndView updatePrivateInfo(HttpSession session, ModelAndView mv, HttpServletRequest request,UserInfo userInfo,Model model){
 		//也需要考虑一下原来是否存在的问题，以及result的作用
+		System.out.println("controller数据展示_____");
+		System.out.println(userInfo.getId());
+		System.out.println(userInfo.getUser_id());
+		System.out.println(userInfo.getBirthdate());
+		System.out.println(userInfo.getEducation());
+		System.out.println(userInfo.getJob());
 		boolean result = userInfoService.updateUserInfo(userInfo);
-		session.setAttribute("userinfo", userInfo);
+		model.addAttribute("userInfo", userInfo);
+		//session.setAttribute("userInfo", userInfo);
 		mv.setViewName("user/userprivateinfo");
 		return mv;
 	}

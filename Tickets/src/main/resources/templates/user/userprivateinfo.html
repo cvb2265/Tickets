@@ -227,23 +227,36 @@
 
             <td valign="top">
                 <div id="right_div">
+                    <form th:action="@{/user/updatePrivateInfoV}" method="POST">
+                        <fieldset>
+                            <legend>个人信息</legend>
 
-                    用户信息
-                    <br/>
-                    我的邮箱<span th:text="${session.user.email}"></span>
-                    <br/>
-                    我的昵称<span th:text="${session.user.nickname}"></span>
-                    <br/>
-                    我的等级<span th:text="${session.user.level}"></span>
-                    <br/>
-                    我的经验<span th:text="${session.user.exp}"></span>
-                    <br/>
-                    我的积分<span th:text="${session.user.points}"></span>
-                    <br/>
-                    我的余额<span th:text="${session.user.money}"></span>
-                    <br/>
+                            <input type="hidden" name="id" th:value="${userInfo.id}" />
+                            <input type="hidden" name="user_id" th:value="${userInfo.user_id}" />
+                            <label for="truename">truename:</label>
+                            <input type="text" name="truename" id="truename" th:attr="value=${userInfo.truename}" /><br /><br />
+                            <label for="sex">sex:</label>
+                            <input type="text" name="sex" id="sex" th:attr="value=${userInfo.sex}" /><br /><br />
+                            <label for="marital_status">marital_status:</label>
+                            <input type="text" name="marital_status" id="marital_status" th:attr="value=${userInfo.marital_status}" /><br /><br />
+                            <label for="education">education:</label>
+                            <input type="text" name="education" id="education" th:attr="value=${userInfo.education}" /><br /><br />
+                            <label for="job">job:</label>
+                            <input type="text" name="job" id="job" th:attr="value=${userInfo.job}" /><br /><br />
+                            <label for="address">address:</label>
+                            <input type="text" name="address" id="address" th:attr="value=${userInfo.address}" /><br /><br />
+                            <label for="idnumber">idnumber:</label>
+                            <input type="text" name="idnumber" id="idnumber" th:attr="value=${userInfo.idnumber}" /><br /><br />
 
 
+
+                            <!--<label for="birthdate">birthdate:</label>-->
+                            <!--<input type="text" name="birthdate" id="birthdate"  th:attr="value=${#dates.format(userInfo.birthdate, 'yyyy-MM-dd')}" /><br /><br />-->
+
+
+                            <input type="submit" value="确认修改" />
+                        </fieldset>
+                    </form>
                 </div>
             </td>
 

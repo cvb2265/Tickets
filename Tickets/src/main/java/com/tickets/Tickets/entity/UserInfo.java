@@ -13,7 +13,7 @@ public class UserInfo implements Serializable {
     private String education; //教育情况
     private String job;//职业
     private String address;// 住址
-    private Integer idnumber;// 身份证号
+    private String idnumber;// 身份证号
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -22,7 +22,7 @@ public class UserInfo implements Serializable {
     public UserInfo() {
     }
 
-    public UserInfo(Long id, Long user_id, String truename, String sex, String birthdate, String marital_status, String education, String job, String address, int idnumber) {
+    public UserInfo(Long id, Long user_id, String truename, String sex, String birthdate, String marital_status, String education, String job, String address, String idnumber) {
         this.id = id;
         this.user_id = user_id;
         this.truename = truename;
@@ -35,7 +35,7 @@ public class UserInfo implements Serializable {
         this.idnumber = idnumber;
     }
 
-    public UserInfo(Long user_id, String truename, String sex, String birthdate, String marital_status, String education, String job, String address, int idnumber) {
+    public UserInfo(Long user_id, String truename, String sex, String birthdate, String marital_status, String education, String job, String address, String idnumber) {
         this.user_id = user_id;
         this.truename = truename;
         this.sex = sex;
@@ -119,11 +119,11 @@ public class UserInfo implements Serializable {
         this.address = address;
     }
 
-    public int getIdnumber() {
+    public String getIdnumber() {
         return idnumber;
     }
 
-    public void setIdnumber(int idnumber) {
+    public void setIdnumber(String idnumber) {
         this.idnumber = idnumber;
     }
 }
