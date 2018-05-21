@@ -13,7 +13,7 @@ public class Comment implements Serializable {
     private Integer rate;// 星级
     private Integer comment_type;// 类型（预期为0，评论为1）
     private Integer deleteflag;// 删除标志（删除为1，未删除为0）
-
+    private Integer passflag;//是否已经被管理员审核（是为1，未被审核为0）
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -21,18 +21,7 @@ public class Comment implements Serializable {
     public Comment() {
     }
 
-    public Comment(Long planid, Long userid, Long parentid, String comment_time, String content, Integer rate, Integer comment_type, Integer deleteflag) {
-        this.planid = planid;
-        this.userid = userid;
-        this.parentid = parentid;
-        this.comment_time = comment_time;
-        this.content = content;
-        this.rate = rate;
-        this.comment_type = comment_type;
-        this.deleteflag = deleteflag;
-    }
-
-    public Comment(Long id, Long planid, Long userid, Long parentid, String comment_time, String content, Integer rate, Integer comment_type, Integer deleteflag) {
+    public Comment(Long id, Long planid, Long userid, Long parentid, String comment_time, String content, Integer rate, Integer comment_type, Integer deleteflag, Integer passflag) {
         this.id = id;
         this.planid = planid;
         this.userid = userid;
@@ -42,6 +31,19 @@ public class Comment implements Serializable {
         this.rate = rate;
         this.comment_type = comment_type;
         this.deleteflag = deleteflag;
+        this.passflag = passflag;
+    }
+
+    public Comment(Long planid, Long userid, Long parentid, String comment_time, String content, Integer rate, Integer comment_type, Integer deleteflag, Integer passflag) {
+        this.planid = planid;
+        this.userid = userid;
+        this.parentid = parentid;
+        this.comment_time = comment_time;
+        this.content = content;
+        this.rate = rate;
+        this.comment_type = comment_type;
+        this.deleteflag = deleteflag;
+        this.passflag = passflag;
     }
 
     public Long getId() {
@@ -114,6 +116,14 @@ public class Comment implements Serializable {
 
     public void setDeleteflag(Integer deleteflag) {
         this.deleteflag = deleteflag;
+    }
+
+    public Integer getPassflag() {
+        return passflag;
+    }
+
+    public void setPassflag(Integer passflag) {
+        this.passflag = passflag;
     }
 }
 

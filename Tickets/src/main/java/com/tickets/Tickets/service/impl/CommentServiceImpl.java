@@ -71,4 +71,9 @@ public class CommentServiceImpl implements CommentService {
         rm.setMessage("deleteComment调用成功,评论已经被删除");
         return rm;
     }
+
+    @Override
+    public int countAllOfOnePlan(long planid) {
+        return 0;
+    }
 }

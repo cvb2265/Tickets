@@ -17,4 +17,5 @@ public interface CommentService {
         public List<Comment> getNegativeComments(PageDto pageDto);
         public List<Comment> getAllComments(PageDto pageDto);
         public ResultMessage deleteComment(Comment comment);
+        public int countAllOfOnePlan(long planid);
 }

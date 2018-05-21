@@ -94,7 +94,7 @@ public class PlanController {
                                     HttpServletRequest request,
                                     @PathVariable("planid")long planid,
                                     Plan plan,
-                                   Model model){
+                                    Model model){
         ResultMessage rm =planService.checkPlan(planid,plan);
         model.addAttribute("rm",rm);
         mv.setViewName("/plan/reviewresult");
