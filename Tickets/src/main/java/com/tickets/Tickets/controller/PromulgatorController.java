@@ -34,20 +34,20 @@ public class PromulgatorController {
 //      //  Promulgator p = pm.pro();
 //    }
 
-    @RequestMapping(value = "/pro/login", method = RequestMethod.POST)
-    public String proLogin(@ModelAttribute(value = "promulgator") Promulgator promulgator,HttpSession httpSession) {
-        System.out.println(promulgator.getName());
-        System.out.println(promulgator.getPassword());
-        String truePassword =pm.proByName(promulgator.getName()).getPassword();
-        if(truePassword.equals(promulgator.getPassword())){
-            System.out.println("密码正确");
-            httpSession.setAttribute("proId",pm.proByName(promulgator.getName()).getId());
-            return "/promulgator/success";
-        }else{
-            System.out.println("密码错误");
-            return "/promulgator/false";
-        }
-    }
+//    @RequestMapping(value = "/pro/login", method = RequestMethod.POST)
+//    public String proLogin(@ModelAttribute(value = "promulgator") Promulgator promulgator,HttpSession httpSession) {
+//        System.out.println(promulgator.getName());
+//        System.out.println(promulgator.getPassword());
+//        String truePassword =pm.proByName(promulgator.getName()).getPassword();
+//        if(truePassword.equals(promulgator.getPassword())){
+//            System.out.println("密码正确");
+//            httpSession.setAttribute("proId",pm.proByName(promulgator.getName()).getId());
+//            return "/promulgator/success";
+//        }else{
+//            System.out.println("密码错误");
+//            return "/promulgator/false";
+//        }
+//    }
 
 
 //    @RequestMapping("/pro/login")
