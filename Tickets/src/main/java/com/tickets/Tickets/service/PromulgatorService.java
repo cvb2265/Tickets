@@ -1,11 +1,9 @@
 package com.tickets.Tickets.service;
 
-import com.tickets.Tickets.entity.Goods;
-import com.tickets.Tickets.entity.Plan;
-import com.tickets.Tickets.entity.Promulgator;
-import com.tickets.Tickets.entity.Venue;
+import com.tickets.Tickets.entity.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface PromulgatorService {
     public boolean login(String email,String password );
@@ -34,4 +32,9 @@ public interface PromulgatorService {
     public void updatePro(Promulgator promulgator);
 
     public void delPro(long promulgatorId);
+
+    public int count();
+
+    public List<Promulgator> ListPros(PageDto pageDto);
+
 }

@@ -4,8 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import com.tickets.Tickets.entity.Promulgator;
+import com.tickets.Tickets.entity.*;
 import com.tickets.Tickets.service.PromulgatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,9 +15,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tickets.Tickets.entity.Goods;
-import com.tickets.Tickets.entity.Plan;
-import com.tickets.Tickets.entity.Venue;
 import com.tickets.Tickets.mapper.PromulgatorMapper;
 import com.tickets.Tickets.util.CheckLegal;
 
@@ -127,6 +125,16 @@ public class PromulatorServiceImpl implements PromulgatorService {
 	@Override
 	public void delPro(long promulgatorId) {
 
+	}
+
+	@Override
+	public int count() {
+		return 0;
+	}
+
+	@Override
+	public List<Promulgator> ListPros(PageDto pageDto) {
+		return null;
 	}
 
 

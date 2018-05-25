@@ -1,14 +1,18 @@
 package com.tickets.Tickets.controller;
 
+import com.tickets.Tickets.entity.PageDto;
 import com.tickets.Tickets.entity.Promulgator;
 import com.tickets.Tickets.mapper.PromulgatorMapper;
 import com.tickets.Tickets.service.PromulgatorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
 
 //cf
 @Controller
@@ -17,6 +21,9 @@ public class PromulgatorController {
    // PromulgatorMapper pm;
     @Autowired
     PromulgatorService ps;
+
+    @Value("${page_size}")
+    private int page_size;
 
     @RequestMapping("/pro")
     public String proIndex() {
@@ -54,6 +61,18 @@ public class PromulgatorController {
     public String deletePro(@PathVariable("current_page") int current_page, @PathVariable("promulgator_id") long promulgatorId,HttpSession httpSession) {
         ps.delPro(promulgatorId);
         return "redirect:/promulgator/" + current_page;
+    }
+
+    @RequestMapping("/promulgator/{current_page}")
+    public String proList(@PathVariable("current_page") int current_page, Map<String, Object> map, HttpSession httpSession) {
+        PageDto pageDto = new PageDto((int) ps.count(), current_page, page_size);
+        List<Promulgator> promulgators =ps.ListPros(pageDto);
+        if (promulgators.size() == 0) {
+            return "redirect:/promulgator/" + --current_page;
+        }
+        map.put("promulgators", promulgators);
+        map.put("pageDto", pageDto);
+        return "/promulgator/list";
     }
 
 
