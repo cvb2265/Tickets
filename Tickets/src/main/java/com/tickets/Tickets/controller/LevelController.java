@@ -62,6 +62,7 @@ public class LevelController {
 
     @RequestMapping(path= {"/level/update/{current_page}"} , method = {RequestMethod.POST})
     public String edit (@PathVariable("current_page") int current_page , Level level) {
+       // System.out.println(level.getDiscount()+"++++++++++++++++++++++++++++++++++++++++++++++++++");
         lm.updateLevel(level);
         return "redirect:/level/" + current_page ;
     }
