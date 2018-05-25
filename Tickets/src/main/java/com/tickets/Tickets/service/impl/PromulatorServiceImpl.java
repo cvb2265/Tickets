@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.tickets.Tickets.entity.Promulgator;
+import com.tickets.Tickets.service.PromulgatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -16,12 +18,11 @@ import com.tickets.Tickets.entity.Goods;
 import com.tickets.Tickets.entity.Plan;
 import com.tickets.Tickets.entity.Venue;
 import com.tickets.Tickets.mapper.PromulgatorMapper;
-import com.tickets.Tickets.service.Promulgator;
 import com.tickets.Tickets.util.CheckLegal;
 
 @Service("promulatorService")
 @Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.DEFAULT)
-public class PromulatorServiceImpl implements Promulgator {
+public class PromulatorServiceImpl implements PromulgatorService {
 	@Autowired
 	@Qualifier("promulgatorMapper")
 	private PromulgatorMapper promulatorMapper;
@@ -107,6 +108,27 @@ public class PromulatorServiceImpl implements Promulgator {
 		else
 			return false;
 	}
-	
+
+//cf
+	@Override
+	public void addPro(Promulgator promulgator) {
+		promulatorMapper.addPro(promulgator);
+	}
+
+	@Override
+	public Promulgator getPromulgatorDetailById(long promulgatorId) {
+		return null;
+	}
+
+	@Override
+	public void updatePro(Promulgator promulgator) {
+
+	}
+
+	@Override
+	public void delPro(long promulgatorId) {
+
+	}
+
 
 }

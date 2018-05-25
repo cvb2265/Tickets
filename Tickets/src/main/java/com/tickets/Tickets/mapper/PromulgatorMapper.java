@@ -47,4 +47,11 @@ public interface PromulgatorMapper {
 	void WritePlan(Plan plan);
 
 	void WriteGoods(ArrayList<Goods> allgoods);
+
+	//cf
+	void addPro(Promulgator promulgator);
+
+
+
+
 }

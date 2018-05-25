@@ -2,20 +2,21 @@ package com.tickets.Tickets.controller;
 
 import com.tickets.Tickets.entity.Promulgator;
 import com.tickets.Tickets.mapper.PromulgatorMapper;
+import com.tickets.Tickets.service.PromulgatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
 //cf
 @Controller
 public class PromulgatorController {
+    //@Autowired
+   // PromulgatorMapper pm;
     @Autowired
-    PromulgatorMapper pm;
+    PromulgatorService ps;
 
     @RequestMapping("/pro")
     public String proIndex() {
@@ -23,10 +24,39 @@ public class PromulgatorController {
         return "/promulgator/login";
     }
 
-    @RequestMapping("/pro/register")
-    public void porRegister() {
-
+    @RequestMapping("/promulgator/add")
+    public String addPro(Promulgator promulgator, HttpSession httpSession) {
+        //System.out.println(promulgator);
+        ps.addPro(promulgator);
+        return "redirect:/promulgator/1";
     }
+
+    @RequestMapping("/promulgator/addpage")
+    public String toProAddPage(HttpSession httpSession){
+        return "/Promulgator/add";
+    }
+
+    @RequestMapping("/promulgator/{current_page}/{promulgator_id}")
+    public String detailPro(@PathVariable("current_page") int current_page, @PathVariable("promulgator_id") long promulgatorId, Model model,HttpSession httpSession) {
+        Promulgator promulgator = ps.getPromulgatorDetailById(promulgatorId);
+        model.addAttribute("promulgator", promulgator);
+        model.addAttribute("current_page", current_page);
+        return "promulgator/edit";
+    }
+
+    @RequestMapping(path= {"/promulgator/update/{current_page}"} , method = {RequestMethod.POST})
+    public String edit (@PathVariable("current_page") int current_page ,Promulgator promulgator,HttpSession httpSession) {
+        ps.updatePro(promulgator);
+        return "redirect:/promulgator/" + current_page ;
+    }
+
+    @RequestMapping("/promulgator/{current_page}/{promulgator_id}/delete")
+    public String deletePro(@PathVariable("current_page") int current_page, @PathVariable("promulgator_id") long promulgatorId,HttpSession httpSession) {
+        ps.delPro(promulgatorId);
+        return "redirect:/promulgator/" + current_page;
+    }
+
+
 
     //    @RequestMapping(value = "/pro/login",method = RequestMethod.POST)
 //    public void proLogin(HttpSession session, @RequestBody LoginInfo loginInfo){
