@@ -108,7 +108,6 @@ public class PromulatorServiceImpl implements PromulgatorService {
 		else
 			return false;
 	}
-
 //cf
 	@Override
 	public void addPro(Promulgator promulgator) {
