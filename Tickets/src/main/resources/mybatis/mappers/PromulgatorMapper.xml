@@ -19,4 +19,22 @@ WHERE id =#{proId}
         INSERT INTO promulgator
         (email,	password,	name,	money, power ,	head)VALUES (#{email},	#{password},	#{name},	#{money}, #{power} ,#{head}	)
     </insert>
+
+    <delete id="deletePro" parameterType="java.lang.Long">
+        DELETE from promulgator
+        where id =#{promulgatorId}
+    </delete>
+
+    <select id="count" resultType="Integer" >
+        SELECT count(id)
+        FROM promulgator
+    </select>
+
+    <select id="ListPros" parameterType="PageDto" resultType="Promulgator">
+        SELECT	id ,	email,	password,	name,	money, power ,	head
+        from  promulgator
+        ORDER BY id
+        limit #{offset_row} , #{page_size}
+    </select>
+
 </mapper>

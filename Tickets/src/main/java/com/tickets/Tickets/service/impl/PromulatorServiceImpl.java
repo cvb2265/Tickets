@@ -112,29 +112,32 @@ public class PromulatorServiceImpl implements PromulgatorService {
 		promulatorMapper.addPro(promulgator);
 	}
 
+	@Transactional(readOnly=true)
 	@Override
 	public Promulgator getPromulgatorDetailById(long promulgatorId) {
-		return null;
+		return promulatorMapper.findById(promulgatorId);
 	}
 
 	@Override
 	public void updatePro(Promulgator promulgator) {
-
+		promulatorMapper.update(promulgator);
 	}
 
 	@Override
 	public void delPro(long promulgatorId) {
-
+		promulatorMapper.deletePro(promulgatorId);
 	}
 
+	@Transactional(readOnly=true)
 	@Override
 	public int count() {
-		return 0;
+		return promulatorMapper.count();
 	}
 
+	@Transactional(readOnly=true)
 	@Override
 	public List<Promulgator> ListPros(PageDto pageDto) {
-		return null;
+		return promulatorMapper.ListPros(pageDto);
 	}
 
 
