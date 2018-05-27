@@ -132,14 +132,15 @@ public class PlanController {
         return mv;
     }
 
-    @RequestMapping("/reviewPlan/{planid}")
+    @RequestMapping("/reviewPlan")
     public ModelAndView reviewPlan(ModelAndView mv,
                                     HttpSession session,
                                     HttpServletRequest request,
-                                    @PathVariable("planid")long planid,
                                     Plan plan,
                                     Model model){
-        ResultMessage rm =planService.checkPlan(planid,plan);
+        System.out.println(plan);
+        System.out.println(plan.getPromulgatorid());
+        ResultMessage rm =planService.checkPlan(plan);
         model.addAttribute("rm",rm);
         mv.setViewName("/plan/reviewresult");
         return mv;

@@ -223,7 +223,7 @@
 
             <td valign="top">
                 <div id="right_div">
-                    <form th:action="@{/promulgator/update/{current_page}(current_page=${current_page})}" method="post">
+                    <form th:action="@{/reviewPlan}" method="post">
                         <input type="hidden" name="id" th:value="${planVo.id}" />
                         <input type="hidden" name="promulgatorid" th:value="${planVo.promulgatorid}" />
                         <input type="hidden" name="cover" th:value="${planVo.cover}" />

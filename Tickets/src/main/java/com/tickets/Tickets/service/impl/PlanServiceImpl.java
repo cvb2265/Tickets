@@ -147,7 +147,7 @@ public class PlanServiceImpl implements PlanService {
 	 */
 
 	@Override
-	public ResultMessage checkPlan(long planid,Plan plan) {
+	public ResultMessage checkPlan(Plan plan) {
 		logger.info("checkPlan方法 被调用");
 		ResultMessage rm =new ResultMessage();
 		//审核订单

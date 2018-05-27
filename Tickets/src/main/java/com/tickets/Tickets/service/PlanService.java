@@ -51,7 +51,7 @@ public interface PlanService {
 	 * @date 2018年5月7日
 	 *
 	 */
-	public ResultMessage checkPlan(long planid,Plan plan);
+	public ResultMessage checkPlan(Plan plan);
 	/**
 	 * @author cf
 	 * @date 2018年5月9日
