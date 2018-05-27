@@ -4,6 +4,7 @@ import com.tickets.Tickets.entity.PageDto;
 import com.tickets.Tickets.entity.Plan;
 import com.tickets.Tickets.service.PlanService;
 import com.tickets.Tickets.util.ResultMessage;
+import com.tickets.Tickets.vo.PlanVo;
 import org.apache.ibatis.mapping.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,47 +29,90 @@ public class PlanController {
 
     @Value("${page_size}")
     private int page_size;
-
-    @RequestMapping("/planlist/{state}/{current_page}")
+//@RequestMapping("/plan/test")
+//public void plantest(){
+//    PageDto pageDto = new PageDto((int) planService.countAll(), 1, page_size);
+//    System.out.println(planService.getPlansByState(pageDto,"pending").get(0));
+//    System.out.println(planService.getPlansByState(pageDto,"pending").get(0).getName());
+//    System.out.println(planService.getPlansByState(pageDto,"pending").get(0).getVenuename());
+//    System.out.println(planService.getPlansByState(pageDto,"pending").get(0).getPromulgatorname());
+//}
+    @RequestMapping("/planlist/all/{current_page}")
     public ModelAndView getPlanList(ModelAndView mv,
                                     HttpSession session,
                                     HttpServletRequest request,
                                     Map<String,Object> map,
-                                    @PathVariable("state") String state,
-                                    @PathVariable("current_page") int current_page){
+                                    @PathVariable("current_page") int current_page) {
         //依据state获取plan列表
         //依据plan的size以及当前页码确定跳转
         //TODO,plansize=0且currentpage=1未考虑
-        if(state=="all"){
+        String state = "all";
+        if (state == "all") {
             PageDto pageDto = new PageDto((int) planService.countAll(), current_page, page_size);
-            List<Plan> plans= planService.getAllPlans(pageDto);
-            if (plans.size() == 0) {
-                mv.setViewName("redirect:/planlist/"+state+"/" + --current_page);
+//            System.out.println(pageDto.getPage_size()+"?????????????????????????????");
+//            System.out.println(pageDto.getOffset_row()+"!!!!!!!!!!!!!!!!!!!!!!!!");
+            List<PlanVo> planVos = planService.getAllPlans(pageDto);
+            if (planVos.size() == 0) {
+                mv.setViewName("redirect:/planlist/" + state + "/" + --current_page);
             }
-            map.put("plans",plans);
-            map.put("pageDto",pageDto);
-            mv.setViewName("/plan/list");
-
-        }if((state=="pending")||(state=="pass")||(state=="fail")){
-            PageDto pageDto = new PageDto((int) planService.countState(state), current_page, page_size);
-            List<Plan> plans =planService.getPlansByState(pageDto,state);
-            if (plans.size() == 0) {
-                mv.setViewName("redirect:/planlist/"+state+"/" + --current_page);
-            }
-            map.put("plans",plans);
-            map.put("pageDto",pageDto);
+            map.put("planVos", planVos);
+            map.put("pageDto", pageDto);
             mv.setViewName("/plan/list");
         }
-//        else{//若state未设置，先当成all来处理
-//            PageDto pageDto = new PageDto((int) planService.countAll(), current_page, page_size);
-//            List<Plan> plans= planService.getAllPlans(pageDto);
-//            if (plans.size() == 0) {
-//                mv.setViewName("redirect:/planlist/"+state+"/" + --current_page);
-//            }
-//            map.put("plans",plans);
-//            map.put("pageDto",pageDto);
-//            mv.setViewName("/plan/list");
-//        }
+        return mv;
+    }
+
+    @RequestMapping("/planlist/pending/{current_page}")
+    public ModelAndView getPendingPlanList(ModelAndView mv,
+                                    HttpSession session,
+                                    HttpServletRequest request,
+                                    Map<String,Object> map,
+                                    @PathVariable("current_page") int current_page) {
+        String state="pending";
+            PageDto pageDto = new PageDto((int) planService.countState(state), current_page, page_size);
+            List<PlanVo> planVos =planService.getPlansByState(pageDto,state);
+            if (planVos.size() == 0) {
+                mv.setViewName("redirect:/planlist/"+state+"/" + --current_page);
+            }
+            map.put("planVos",planVos);
+            map.put("pageDto",pageDto);
+            mv.setViewName("/plan/pendinglist");
+        return mv;
+    }
+
+    @RequestMapping("/planlist/pass/{current_page}")
+    public ModelAndView getPassPlanList(ModelAndView mv,
+                                           HttpSession session,
+                                           HttpServletRequest request,
+                                           Map<String,Object> map,
+                                           @PathVariable("current_page") int current_page) {
+        String state="pass";
+        PageDto pageDto = new PageDto((int) planService.countState(state), current_page, page_size);
+        List<PlanVo> planVos =planService.getPlansByState(pageDto,state);
+        if (planVos.size() == 0) {
+            mv.setViewName("redirect:/planlist/"+state+"/" + --current_page);
+        }
+        map.put("planVos",planVos);
+        map.put("pageDto",pageDto);
+        mv.setViewName("/plan/passlist");
+        return mv;
+    }
+
+    @RequestMapping("/planlist/fail/{current_page}")
+    public ModelAndView getFailPlanList(ModelAndView mv,
+                                        HttpSession session,
+                                        HttpServletRequest request,
+                                        Map<String,Object> map,
+                                        @PathVariable("current_page") int current_page) {
+        String state="fail";
+        PageDto pageDto = new PageDto((int) planService.countState(state), current_page, page_size);
+        List<PlanVo> planVos =planService.getPlansByState(pageDto,state);
+        if (planVos.size() == 0) {
+            mv.setViewName("redirect:/planlist/"+state+"/" + --current_page);
+        }
+        map.put("planVos",planVos);
+        map.put("pageDto",pageDto);
+        mv.setViewName("/plan/faillist");
         return mv;
     }
 
@@ -80,8 +124,8 @@ public class PlanController {
                                      @PathVariable("current_page") int current_page,
                                      @PathVariable("planid")long planid,
                                       Model model){
-        Plan plan =planService.getById(planid);
-        model.addAttribute("plan", plan);
+        PlanVo planVo =planService.getPlanVoById(planid);
+        model.addAttribute("planVo", planVo);
         model.addAttribute("state",state);
         model.addAttribute("current_page", current_page);
         mv.setViewName("/plan/review");

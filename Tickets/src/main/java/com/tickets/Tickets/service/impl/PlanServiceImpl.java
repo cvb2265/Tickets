@@ -7,6 +7,7 @@ import java.util.Map;
 import com.tickets.Tickets.entity.PageDto;
 import com.tickets.Tickets.mapper.NoticeMapper;
 import com.tickets.Tickets.util.ResultMessage;
+import com.tickets.Tickets.vo.PlanVo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,6 +134,10 @@ public class PlanServiceImpl implements PlanService {
 		return planMapper.findById(planid);
 	}
 
+	@Override
+	public PlanVo getPlanVoById(Long planid) {
+		return planMapper.PlanVoById(planid);
+	}
 
 
 	/**
@@ -165,12 +170,12 @@ public class PlanServiceImpl implements PlanService {
 	}
 	@Transactional(readOnly=true)
 	@Override
-	public List<Plan> getPlansByState(PageDto pageDto, String state) {
+	public List<PlanVo> getPlansByState(PageDto pageDto, String state) {
 		return planMapper.findPlansByState(pageDto,state);
 	}
 	@Transactional(readOnly=true)
 	@Override
-	public List<Plan> getAllPlans(PageDto pageDto) {
+	public List<PlanVo> getAllPlans(PageDto pageDto) {
 		return planMapper.getAllPlans(pageDto);
 	}
 }

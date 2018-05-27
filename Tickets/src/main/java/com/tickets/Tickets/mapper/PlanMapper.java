@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.tickets.Tickets.entity.PageDto;
+import com.tickets.Tickets.vo.PlanVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -135,14 +136,14 @@ public interface PlanMapper {
  	* @date 2018年5月7日
  	*
  	*/
-	 List<Plan> findPlansByState(@Param("pageDto") PageDto pageDto,@Param("state") String state);
+	 List<PlanVo> findPlansByState(@Param("pageDto") PageDto pageDto, @Param("state") String state);
 	/**
 	 * 寻找所有plan,按时间降序
 	 * @author cf
 	 * @date 2018年5月7日
 	 *
 	 */
-	List<Plan> getAllPlans(PageDto pageDto);
+	List<PlanVo> getAllPlans(PageDto pageDto);
 	/**
 	 * 设置某一个plan的审核状态
 	 * @author cf
@@ -160,4 +161,5 @@ public interface PlanMapper {
 
 	Integer countAll();
 	Integer countState(String state);
+	PlanVo PlanVoById(Long planid);
 }

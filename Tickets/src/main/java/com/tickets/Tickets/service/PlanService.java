@@ -6,6 +6,7 @@ import com.tickets.Tickets.entity.PageDto;
 import com.tickets.Tickets.entity.Plan;
 import com.tickets.Tickets.util.Page;
 import com.tickets.Tickets.util.ResultMessage;
+import com.tickets.Tickets.vo.PlanVo;
 
 public interface PlanService {
 	
@@ -27,17 +28,23 @@ public interface PlanService {
 
 	/**
 	 * @author cf
+	 * @date 2018年5月27日
+	 *
+	 */
+	public PlanVo getPlanVoById(Long planid);
+	/**
+	 * @author cf
 	 * @date 2018年5月7日
 	 *
 	 */
-	public List<Plan> getPlansByState(PageDto pageDto,String state);
+	public List<PlanVo> getPlansByState(PageDto pageDto, String state);
 
 	/**
 	 * @author cf
 	 * @date 2018年5月9日
 	 *
 	 */
-	public List<Plan> getAllPlans(PageDto pageDto);
+	public List<PlanVo> getAllPlans(PageDto pageDto);
 
 	/**
 	 * @author cf
