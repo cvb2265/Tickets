@@ -93,12 +93,12 @@ public class CommentController {
 
     @RequestMapping("comment/view/{comment_id}")
     public ModelAndView commentView(
-        ModelAndView mv,
-        HttpSession session,
-        HttpServletRequest request,
-        @PathVariable("comment_id") long comment_id,
-        Model model){
-        CommentVo commentVo =commentService.getCommentByid(comment_id);
+            ModelAndView mv,
+            HttpSession session,
+            HttpServletRequest request,
+            @PathVariable("comment_id") long comment_id,
+            Model model) {
+        CommentVo commentVo = commentService.getCommentByid(comment_id);
         model.addAttribute("commentVo", commentVo);
         mv.setViewName("/comment/view");
         return mv;
@@ -107,17 +107,16 @@ public class CommentController {
 
     @RequestMapping("/reviewComment")
     public ModelAndView reviewComment(ModelAndView mv,
-                                   HttpSession session,
-                                   HttpServletRequest request,
-                                   Comment comment,
-                                   Model model){
+                                      HttpSession session,
+                                      HttpServletRequest request,
+                                      Comment comment,
+                                      Model model) {
         System.out.println(comment.getContent());
-        ResultMessage rm =commentService.updateComment(comment);
-        model.addAttribute("rm",rm);
+        ResultMessage rm = commentService.updateComment(comment);
+        model.addAttribute("rm", rm);
         mv.setViewName("/comment/reviewresult");
         return mv;
     }
 
 
-
-    }
+}

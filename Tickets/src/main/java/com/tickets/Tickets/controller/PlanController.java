@@ -29,7 +29,8 @@ public class PlanController {
 
     @Value("${page_size}")
     private int page_size;
-//@RequestMapping("/plan/test")
+
+    //@RequestMapping("/plan/test")
 //public void plantest(){
 //    PageDto pageDto = new PageDto((int) planService.countAll(), 1, page_size);
 //    System.out.println(planService.getPlansByState(pageDto,"pending").get(0));
@@ -41,7 +42,7 @@ public class PlanController {
     public ModelAndView getPlanList(ModelAndView mv,
                                     HttpSession session,
                                     HttpServletRequest request,
-                                    Map<String,Object> map,
+                                    Map<String, Object> map,
                                     @PathVariable("current_page") int current_page) {
         //依据state获取plan列表
         //依据plan的size以及当前页码确定跳转
@@ -64,36 +65,36 @@ public class PlanController {
 
     @RequestMapping("/planlist/pending/{current_page}")
     public ModelAndView getPendingPlanList(ModelAndView mv,
-                                    HttpSession session,
-                                    HttpServletRequest request,
-                                    Map<String,Object> map,
-                                    @PathVariable("current_page") int current_page) {
-        String state="pending";
-            PageDto pageDto = new PageDto((int) planService.countState(state), current_page, page_size);
-            List<PlanVo> planVos =planService.getPlansByState(pageDto,state);
-            if (planVos.size() == 0) {
-                mv.setViewName("redirect:/planlist/"+state+"/" + --current_page);
-            }
-            map.put("planVos",planVos);
-            map.put("pageDto",pageDto);
-            mv.setViewName("/plan/pendinglist");
+                                           HttpSession session,
+                                           HttpServletRequest request,
+                                           Map<String, Object> map,
+                                           @PathVariable("current_page") int current_page) {
+        String state = "pending";
+        PageDto pageDto = new PageDto((int) planService.countState(state), current_page, page_size);
+        List<PlanVo> planVos = planService.getPlansByState(pageDto, state);
+        if (planVos.size() == 0) {
+            mv.setViewName("redirect:/planlist/" + state + "/" + --current_page);
+        }
+        map.put("planVos", planVos);
+        map.put("pageDto", pageDto);
+        mv.setViewName("/plan/pendinglist");
         return mv;
     }
 
     @RequestMapping("/planlist/pass/{current_page}")
     public ModelAndView getPassPlanList(ModelAndView mv,
-                                           HttpSession session,
-                                           HttpServletRequest request,
-                                           Map<String,Object> map,
-                                           @PathVariable("current_page") int current_page) {
-        String state="pass";
+                                        HttpSession session,
+                                        HttpServletRequest request,
+                                        Map<String, Object> map,
+                                        @PathVariable("current_page") int current_page) {
+        String state = "pass";
         PageDto pageDto = new PageDto((int) planService.countState(state), current_page, page_size);
-        List<PlanVo> planVos =planService.getPlansByState(pageDto,state);
+        List<PlanVo> planVos = planService.getPlansByState(pageDto, state);
         if (planVos.size() == 0) {
-            mv.setViewName("redirect:/planlist/"+state+"/" + --current_page);
+            mv.setViewName("redirect:/planlist/" + state + "/" + --current_page);
         }
-        map.put("planVos",planVos);
-        map.put("pageDto",pageDto);
+        map.put("planVos", planVos);
+        map.put("pageDto", pageDto);
         mv.setViewName("/plan/passlist");
         return mv;
     }
@@ -102,16 +103,16 @@ public class PlanController {
     public ModelAndView getFailPlanList(ModelAndView mv,
                                         HttpSession session,
                                         HttpServletRequest request,
-                                        Map<String,Object> map,
+                                        Map<String, Object> map,
                                         @PathVariable("current_page") int current_page) {
-        String state="fail";
+        String state = "fail";
         PageDto pageDto = new PageDto((int) planService.countState(state), current_page, page_size);
-        List<PlanVo> planVos =planService.getPlansByState(pageDto,state);
+        List<PlanVo> planVos = planService.getPlansByState(pageDto, state);
         if (planVos.size() == 0) {
-            mv.setViewName("redirect:/planlist/"+state+"/" + --current_page);
+            mv.setViewName("redirect:/planlist/" + state + "/" + --current_page);
         }
-        map.put("planVos",planVos);
-        map.put("pageDto",pageDto);
+        map.put("planVos", planVos);
+        map.put("pageDto", pageDto);
         mv.setViewName("/plan/faillist");
         return mv;
     }
@@ -122,11 +123,11 @@ public class PlanController {
                                      HttpServletRequest request,
                                      @PathVariable("state") String state,
                                      @PathVariable("current_page") int current_page,
-                                     @PathVariable("planid")long planid,
-                                      Model model){
-        PlanVo planVo =planService.getPlanVoById(planid);
+                                     @PathVariable("planid") long planid,
+                                     Model model) {
+        PlanVo planVo = planService.getPlanVoById(planid);
         model.addAttribute("planVo", planVo);
-        model.addAttribute("state",state);
+        model.addAttribute("state", state);
         model.addAttribute("current_page", current_page);
         mv.setViewName("/plan/review");
         return mv;
@@ -134,16 +135,16 @@ public class PlanController {
 
     @RequestMapping("/reviewPlan")
     public ModelAndView reviewPlan(ModelAndView mv,
-                                    HttpSession session,
-                                    HttpServletRequest request,
-                                    Plan plan,
-                                    Model model){
+                                   HttpSession session,
+                                   HttpServletRequest request,
+                                   Plan plan,
+                                   Model model) {
         System.out.println(plan);
         System.out.println(plan.getPromulgatorid());
-        ResultMessage rm =planService.checkPlan(plan);
-        model.addAttribute("rm",rm);
+        ResultMessage rm = planService.checkPlan(plan);
+        model.addAttribute("rm", rm);
         mv.setViewName("/plan/reviewresult");
         return mv;
-}
+    }
 
 }

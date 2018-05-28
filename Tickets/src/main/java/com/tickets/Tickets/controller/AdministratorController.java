@@ -16,17 +16,18 @@ import javax.servlet.http.HttpSession;
 //cf
 @Controller
 public class AdministratorController {
-//    @Autowired
+    //    @Autowired
 //    AdministratorMapper am;
     @Autowired
     AdministratorService administratorService;
+
     @RequestMapping("/admin")
-    public String adminIndex(){
+    public String adminIndex() {
         return "/admin/login";
     }
 
-    @RequestMapping(value="/admin/login",method = RequestMethod.POST)
-    public String adminLogin(@ModelAttribute("administrator")Administrator administrator, HttpSession httpSession,Model model){
+    @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
+    public String adminLogin(@ModelAttribute("administrator") Administrator administrator, HttpSession httpSession, Model model) {
 //        long adminId = am.adminByName(administrator.getName()).getId();
 //        String truePassword = am.adminByName(administrator.getName()).getPassword();
 //        if(truePassword.equals(administrator.getPassword())){
@@ -36,17 +37,17 @@ public class AdministratorController {
 //        }else {
 //            return "/admin/fail";
 //        }
-        if(administratorService.find(administrator.getName(),administrator.getPassword())!= null){
-            httpSession.setAttribute("administrator",administrator);
+        if (administratorService.find(administrator.getName(), administrator.getPassword()) != null) {
+            httpSession.setAttribute("administrator", administrator);
             return "/admin/success";
-        }else{
+        } else {
             model.addAttribute("msg", "登录名或密码错误，请重新输入!");//等价于 mv.addObject("msg", "登录名或密码错误，请重新输入!");
             return "/admin/login";
         }
     }
 
-    @RequestMapping(value="/admin/logout")
-    public ModelAndView adminLogout(ModelAndView mv,HttpSession httpSession){
+    @RequestMapping(value = "/admin/logout")
+    public ModelAndView adminLogout(ModelAndView mv, HttpSession httpSession) {
         httpSession.removeAttribute("administrator");
         mv.setViewName("redirect:/admin");
         return mv;

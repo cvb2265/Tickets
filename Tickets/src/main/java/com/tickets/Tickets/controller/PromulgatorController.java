@@ -18,7 +18,7 @@ import java.util.Map;
 @Controller
 public class PromulgatorController {
     //@Autowired
-   // PromulgatorMapper pm;
+    // PromulgatorMapper pm;
     @Autowired
     PromulgatorService ps;
 
@@ -39,26 +39,26 @@ public class PromulgatorController {
     }
 
     @RequestMapping("/promulgator/addpage")
-    public String toProAddPage(HttpSession httpSession){
+    public String toProAddPage(HttpSession httpSession) {
         return "/Promulgator/add";
     }
 
     @RequestMapping("/promulgator/{current_page}/{promulgator_id}")
-    public String detailPro(@PathVariable("current_page") int current_page, @PathVariable("promulgator_id") long promulgatorId, Model model,HttpSession httpSession) {
+    public String detailPro(@PathVariable("current_page") int current_page, @PathVariable("promulgator_id") long promulgatorId, Model model, HttpSession httpSession) {
         Promulgator promulgator = ps.getPromulgatorDetailById(promulgatorId);
         model.addAttribute("promulgator", promulgator);
         model.addAttribute("current_page", current_page);
         return "promulgator/edit";
     }
 
-    @RequestMapping(path= {"/promulgator/update/{current_page}"} , method = {RequestMethod.POST})
-    public String edit (@PathVariable("current_page") int current_page ,Promulgator promulgator,HttpSession httpSession) {
+    @RequestMapping(path = {"/promulgator/update/{current_page}"}, method = {RequestMethod.POST})
+    public String edit(@PathVariable("current_page") int current_page, Promulgator promulgator, HttpSession httpSession) {
         ps.updatePro(promulgator);
-        return "redirect:/promulgator/" + current_page ;
+        return "redirect:/promulgator/" + current_page;
     }
 
     @RequestMapping("/promulgator/{current_page}/{promulgator_id}/delete")
-    public String deletePro(@PathVariable("current_page") int current_page, @PathVariable("promulgator_id") long promulgatorId,HttpSession httpSession) {
+    public String deletePro(@PathVariable("current_page") int current_page, @PathVariable("promulgator_id") long promulgatorId, HttpSession httpSession) {
         ps.delPro(promulgatorId);
         return "redirect:/promulgator/" + current_page;
     }
@@ -66,7 +66,7 @@ public class PromulgatorController {
     @RequestMapping("/promulgator/{current_page}")
     public String proList(@PathVariable("current_page") int current_page, Map<String, Object> map, HttpSession httpSession) {
         PageDto pageDto = new PageDto((int) ps.count(), current_page, page_size);
-        List<Promulgator> promulgators =ps.ListPros(pageDto);
+        List<Promulgator> promulgators = ps.ListPros(pageDto);
         if (promulgators.size() == 0) {
             return "redirect:/promulgator/" + --current_page;
         }
@@ -74,7 +74,6 @@ public class PromulgatorController {
         map.put("pageDto", pageDto);
         return "/promulgator/list";
     }
-
 
 
     //    @RequestMapping(value = "/pro/login",method = RequestMethod.POST)

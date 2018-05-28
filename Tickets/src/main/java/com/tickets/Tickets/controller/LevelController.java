@@ -47,7 +47,7 @@ public class LevelController {
     }
 
     @RequestMapping("/level/{current_page}/{level_id}")
-    public String detailLevel(@PathVariable("current_page") int current_page, @PathVariable("level_id") long level_id, Model model,HttpSession httpSession) {
+    public String detailLevel(@PathVariable("current_page") int current_page, @PathVariable("level_id") long level_id, Model model, HttpSession httpSession) {
         Level level = lm.getLevelDetails(level_id);
         model.addAttribute("level", level);
         model.addAttribute("current_page", current_page);
@@ -55,20 +55,20 @@ public class LevelController {
     }
 
     @RequestMapping("/level/{current_page}/{level_id}/delete")
-    public String deleteLevel(@PathVariable("current_page") int current_page, @PathVariable("level_id") long level_id,HttpSession httpSession) {
+    public String deleteLevel(@PathVariable("current_page") int current_page, @PathVariable("level_id") long level_id, HttpSession httpSession) {
         lm.delLevel(level_id);
         return "redirect:/level/" + current_page;
     }
 
-    @RequestMapping(path= {"/level/update/{current_page}"} , method = {RequestMethod.POST})
-    public String edit (@PathVariable("current_page") int current_page , Level level,HttpSession httpSession) {
-       // System.out.println(level.getDiscount()+"++++++++++++++++++++++++++++++++++++++++++++++++++");
+    @RequestMapping(path = {"/level/update/{current_page}"}, method = {RequestMethod.POST})
+    public String edit(@PathVariable("current_page") int current_page, Level level, HttpSession httpSession) {
+        // System.out.println(level.getDiscount()+"++++++++++++++++++++++++++++++++++++++++++++++++++");
         lm.updateLevel(level);
-        return "redirect:/level/" + current_page ;
+        return "redirect:/level/" + current_page;
     }
 
     @RequestMapping("/level/addpage")
-    public String toAddPage(HttpSession httpSession){
+    public String toAddPage(HttpSession httpSession) {
         return "/level/add";
     }
 }
