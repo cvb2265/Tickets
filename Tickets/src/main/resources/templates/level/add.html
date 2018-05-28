@@ -196,9 +196,9 @@
                         <li class="layui-nav-item layui-nav-itemed">
                             <a href="javascript:;">评论审核</a>
                             <dl class="layui-nav-child">
-                                <dd id="notice_dd"><a th:href="@{/user/mynoticesV(read_state=all)}">全部评论</a></dd>
-                                <dd><a th:href="@{/user/mynoticesV(read_state=false)}">未审核负面评论</a></dd>
-                                <dd><a th:href="@{/user/mynoticesV(read_state=true)}">未审核评论</a></dd>
+                                <dd id="notice_dd"><a  id ="allcomment" th:href="@{/commentlist/all/1}">全部评论</a></dd>
+                                <dd><a  id ="negativeunpasscomment" th:href="@{/commentlist/negative/unpass/1}">未审核负面评论</a></dd>
+                                <dd><a  id ="unpasscomment" th:href="@{/commentlist/all/unpass/1}">未审核评论</a></dd>
                             </dl>
                         </li>
                         <li class="layui-nav-item layui-nav-itemed">

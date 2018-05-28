@@ -5,6 +5,7 @@ import com.tickets.Tickets.entity.PageDto;
 import com.tickets.Tickets.mapper.CommentMapper;
 import com.tickets.Tickets.service.CommentService;
 import com.tickets.Tickets.util.ResultMessage;
+import com.tickets.Tickets.vo.CommentVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,23 +44,23 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional(readOnly = true)
     @Override
-    public Comment getCommentByid(long id) {
-        Comment comment =commentMapper.getCommentById(id);
-        return comment;
+    public CommentVo getCommentByid(long id) {
+        CommentVo commentvo =commentMapper.getCommentById(id);
+        return commentvo;
     }
+
+//    @Transactional(readOnly = true)
+//    @Override
+//    public List<CommentVo> getNegativeComments(PageDto pageDto) {
+//        List<CommentVo> commentVoList =commentMapper.getNegativeComments(pageDto);
+//        return commentVoList;
+//    }
 
     @Transactional(readOnly = true)
     @Override
-    public List<Comment> getNegativeComments(PageDto pageDto) {
-        List<Comment> commentList =commentMapper.getNegativeComments(pageDto);
-        return commentList;
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<Comment> getAllComments(PageDto pageDto) {
-        List<Comment> commentList =commentMapper.getAllComments(pageDto);
-        return commentList;
+    public List<CommentVo> getAllComments(PageDto pageDto) {
+        List<CommentVo> commentVoList =commentMapper.getAllComments(pageDto);
+        return commentVoList;
     }
 
 
@@ -73,7 +74,32 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public int countAllOfOnePlan(long planid) {
-        return 0;
+    public Integer countAllOfOnePlan(long planid) {
+        return commentMapper.countAllOfOnePlan(planid);
+    }
+
+    @Override
+    public Integer countAll() {
+        return  commentMapper.countAll();
+    }
+
+    @Override
+    public Integer countNegativeUnpass() {
+        return commentMapper.countNegativeUnpass();
+    }
+
+    @Override
+    public List<CommentVo> getNegativeUnpassComments(PageDto pageDto) {
+        return commentMapper.getNegativeUnpassComments(pageDto);
+    }
+
+    @Override
+    public Integer countUnpass() {
+        return commentMapper.countUnpass();
+    }
+
+    @Override
+    public List<CommentVo> getUnpassComments(PageDto pageDto) {
+        return commentMapper.getUnpassComments(pageDto);
     }
 }

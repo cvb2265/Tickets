@@ -26,7 +26,7 @@
             }
 
 
-            $("#prolist").css({"background-color":"#009688", "color":"#ffffff"});
+            $("#allcomment").css({"background-color":"#009688", "color":"#ffffff"});
         });
         function func1(data){
 
@@ -187,10 +187,10 @@
                         <li class="layui-nav-item layui-nav-itemed">
                             <a href="javascript:;">演出计划</a>
                             <dl class="layui-nav-child">
-                                <dd id="order_dd"><a th:href="@{/planlist/all/1}">全部计划</a></dd>
-                                <dd><a th:href="@{/planlist/pending/1}">待审核</a></dd>
-                                <dd><a th:href="@{/planlist/pass/1}">审核通过</a></dd>
-                                <dd><a th:href="@{/planlist/fail/1}">审核失败</a></dd>
+                                <dd id="order_dd"><a id ="allplan" th:href="@{/planlist/all/1}">全部计划</a></dd>
+                                <dd><a id ="pendingplan" th:href="@{/planlist/pending/1}">待审核</a></dd>
+                                <dd><a id ="passplan"  th:href="@{/planlist/pass/1}">审核通过</a></dd>
+                                <dd><a id ="failplan"  th:href="@{/planlist/fail/1}">审核失败</a></dd>
                             </dl>
                         </li>
                         <li class="layui-nav-item layui-nav-itemed">
@@ -227,25 +227,23 @@
                         <thead>
                         <tr>
                             <th>No.</th>
-                            <th>pro_id</th>
-                            <th>pro_email</th>
-                            <th>pro_password</th>
-                            <th>pro_name</th>
-                            <th>pro_money</th>
-                            <th>pro_head</th>
-
-                            <th>OPERATION</th>
+                            <th>演出名称</th>
+                            <th>评论者</th>
+                            <th>评论内容</th>
+                            <!--<th>结束时间</th>-->
+                            <th>评论时间</th>
+                            <th>星级</th>
+                            <th>操作</th>
                         </tr>
                         </thead>
-                        <tbody th:each="promulgator , stat: ${promulgators}">
+                        <tbody th:each="commentVo , stat: ${commentVos}">
                         <tr>
                             <td th:text="${stat.count}"></td>
-                            <td th:text="${promulgator.id}"></td>
-                            <td th:text="${promulgator.email}"></td>
-                            <td th:text="${promulgator.password}"></td>
-                            <td th:text="${promulgator.name}"></td>
-                            <td th:text="${promulgator.money}"></td>
-                            <td th:text="${promulgator.head}"></td>
+                            <td th:text="${commentVo.planname}"></td>
+                            <td th:text="${commentVo.username}"></td>
+                            <td th:text="${commentVo.content}"></td>
+                            <td th:text="${commentVo.comment_time}"></td>
+                            <td th:text="${commentVo.rate}"></td>
 
                             <td>
                                 <!--
@@ -268,8 +266,8 @@
                                     http://localhost/test/emp/1/3/0
                                     http://localhost/test/emp/1/3
                                  -->
-                                <a th:href="|@{/promulgator}/${pageDto.current_page}/${promulgator.id}/delete|">DEL</a>
-                                <a th:href="|@{/promulgator}/${pageDto.current_page}/${promulgator.id}|">EDIT</a>
+
+                                <a th:href="|@{/comment/view}/${commentVo.id}|">审核</a>
                             </td>
                         </tr>
                         </tbody>
@@ -278,14 +276,14 @@
                             <td colspan="8">
                                 <span th:text="${pageDto.current_page}"></span>/<span th:text="${pageDto.total_pages}"></span> ，
                                 <span th:text="${pageDto.total_rows}"></span>条记录
-                                <a th:href="@{/promulgator/1}">首页</a>
+                                <a th:href="@{/commentlist/all/1}">首页</a>
                                 <span th:if="${pageDto.hasPrev}">
-					 	<a th:href="@{/promulgator/{current_page}(current_page=${pageDto.current_page-1})}">上一页</a>
+					 	<a th:href="@{/commentlist/all/{current_page}(current_page=${pageDto.current_page-1})}">上一页</a>
 					 </span>
                                 <span th:if="${pageDto.hasNext}">
-					 	<a th:href="@{/promulgator/{current_page}(current_page=${pageDto.current_page+1})}">下一页</a>
+					 	<a th:href="@{/commentlist/all/{current_page}(current_page=${pageDto.current_page+1})}">下一页</a>
 					 </span>
-                                <a th:href="@{/promulgator/{current_page}(current_page=${pageDto.total_pages})}">尾页</a>
+                                <a th:href="@{/commentlist/all/{current_page}(current_page=${pageDto.total_pages})}">尾页</a>
                             </td>
                         </tr>
                         </tfoot>

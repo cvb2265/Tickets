@@ -5,51 +5,84 @@
 <mapper namespace="com.tickets.Tickets.mapper.CommentMapper">
 
 
-    <select id="getCommentById" parameterType="java.lang.Long" resultType="Comment">
-        SELECT id,	planid,	userid,	parentid,	comment_time,	content,	rate,	comment_type,	deleteflag
-        FROM comment
-        WHERE id = #{id}
+    <select id="getCommentById" parameterType="java.lang.Long" resultType="com.tickets.Tickets.vo.CommentVo">
+        SELECT c.id,	c.planid,	c.userid,	c.parentid,	c.comment_time,	c.content,	c.rate,	c.comment_type,	c.deleteflag, c.passflag, u.nickname as username  ,p.name as planname
+FROM comment c ,user u,plan p
+WHERE c.id = #{id} AND c.planid =p.id AND c.userid=u.userid
     </select>
 
-<insert id="addComment" parameterType="Comment">
+    <insert id="addComment" parameterType="Comment">
 INSERT INTO comment
-(planid,	userid,	parentid,	comment_time,	content,	rate,	comment_type,	deleteflag)VALUES (#{planid},	#{userid},	#{parentid},	#{comment_time},	#{content},#{rate},	#{comment_type},	#{deleteflag})
+(planid,	userid,	parentid,	comment_time,	content,	rate,	comment_type,	deleteflag , passflag)VALUES (#{planid},	#{userid},	#{parentid},	#{comment_time},	#{content},#{rate},	#{comment_type},	#{deleteflag} , #{passflag})
 </insert>
 
-<select id="getCommentOfOnePlan" resultType="Comment">
-  SELECT id,	planid,	userid,	parentid,	comment_time,	content,	rate,	comment_type,	deleteflag
+    <select id="getCommentOfOnePlan" resultType="Comment">
+  SELECT id,	planid,	userid,	parentid,	comment_time,	content,	rate,	comment_type,	deleteflag , passflag
 FROM comment
 WHERE planid = #{planid}
 ORDER BY comment_time DESC
 limit #{offset_row} , #{page_size}
 </select>
 
-<select id="getAllComments" parameterType="PageDto" resultType="Comment">
-SELECT id,	planid,	userid,	parentid,	comment_time,	content,	rate,	comment_type,	deleteflag
-FROM comment
+    <select id="getAllComments" parameterType="PageDto" resultType="com.tickets.Tickets.vo.CommentVo">
+SELECT c.id,	c.planid,	c.userid,	c.parentid,	c.comment_time,	c.content,	c.rate,	c.comment_type,	c.deleteflag, c.passflag, u.nickname as username  ,p.name as planname
+FROM comment c ,user u,plan p
+WHERE c.planid =p.id AND c.userid=u.userid
 ORDER BY comment_time DESC
 limit #{offset_row} , #{page_size}
 </select>
 
-    <select id="getNegativeComments" parameterType="PageDto" resultType="Comment">
-SELECT id,	planid,	userid,	parentid,	comment_time,	content,	rate,	comment_type,	deleteflag
-FROM comment
-WHERE rate in(1,2)
-ORDER BY comment_time DESC
-limit #{offset_row} , #{page_size}
+    <select id="getNegativeUnpassComments" parameterType="PageDto" resultType="com.tickets.Tickets.vo.CommentVo">
+        SELECT c.id,	c.planid,	c.userid,	c.parentid,	c.comment_time,	c.content,	c.rate,	c.comment_type,	c.deleteflag, c.passflag, u.nickname as username  ,p.name as planname
+        FROM comment c ,user u,plan p
+        WHERE c.planid =p.id AND c.userid=u.userid AND c.passflag = 0 AND c.rate in(1,2)
+        ORDER BY comment_time DESC
+        limit #{offset_row} , #{page_size}
     </select>
+
+    <select id="getUnpassComments" parameterType="PageDto" resultType="com.tickets.Tickets.vo.CommentVo">
+        SELECT c.id,	c.planid,	c.userid,	c.parentid,	c.comment_time,	c.content,	c.rate,	c.comment_type,	c.deleteflag, c.passflag, u.nickname as username  ,p.name as planname
+        FROM comment c ,user u,plan p
+        WHERE c.planid =p.id AND c.userid=u.userid AND c.passflag = 0
+        ORDER BY comment_time DESC
+        limit #{offset_row} , #{page_size}
+    </select>
+
+    <!--<select id="getNegativeComments" parameterType="PageDto" resultType="Comment">-->
+    <!--SELECT id,	planid,	userid,	parentid,	comment_time,	content,	rate,	comment_type,	deleteflag-->
+    <!--FROM comment-->
+    <!--WHERE rate in(1,2)-->
+    <!--ORDER BY comment_time DESC-->
+    <!--limit #{offset_row} , #{page_size}-->
+    <!--</select>-->
 
     <update id="updateComment" parameterType="Comment">
 UPDATE comment
-SET 	planid=#{planid},	userid=#{userid},	parentid=#{parentid},	comment_time=#{comment_time},	content=#{content},	rate=#{rate},	comment_type=#{comment_type},	deleteflag=#{deleteflag}
+SET 	planid=#{planid},	userid=#{userid},	parentid=#{parentid},	comment_time=#{comment_time},	content=#{content},	rate=#{rate},	comment_type=#{comment_type},	deleteflag=#{deleteflag},passflag=#{passflag}
 WHERE id = #{id}
     </update>
 
-   <update id="deleteComment" parameterType="Comment">
+    <update id="deleteComment" parameterType="Comment">
 UPDATE  comment
 SET deleteflag=#{deleteflag}
 WHERE id=#{id}
    </update>
 
+    <select id="countAll" resultType="Integer">
+        SELECT count(id)
+        FROM comment
+    </select>
+
+    <select id="countNegativeUnpass" resultType="Integer">
+        SELECT count(id)
+        FROM comment
+        WHERE passflag = 0 AND rate in(1,2)
+    </select>
+
+    <select id="countUnpass" resultType="Integer">
+        SELECT count(id)
+        FROM comment
+        WHERE passflag = 0
+    </select>
 
 </mapper>
