@@ -37,4 +37,5 @@ public interface PromulgatorService {
 
     public List<Promulgator> ListPros(PageDto pageDto);
 
+    public Promulgator find(String email, String password);
 }

@@ -55,4 +55,6 @@ public interface PromulgatorMapper {
     int count();
 
     List<Promulgator> ListPros(PageDto pageDto);
+
+    Promulgator findPro(@Param("email") String email, @Param("password") String password);
 }

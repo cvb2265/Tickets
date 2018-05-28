@@ -1,5 +1,6 @@
 package com.tickets.Tickets.controller;
 
+import com.tickets.Tickets.entity.Administrator;
 import com.tickets.Tickets.entity.PageDto;
 import com.tickets.Tickets.entity.Promulgator;
 import com.tickets.Tickets.mapper.PromulgatorMapper;
@@ -30,7 +31,16 @@ public class PromulgatorController {
         //  System.out.println(pm.pro(1));
         return "/promulgator/login";
     }
-
+    @RequestMapping(value = "/pro/login", method = RequestMethod.POST)
+    public String adminLogin(@ModelAttribute("promulgator") Promulgator promulgator, HttpSession httpSession, Model model) {
+        if (ps.find(promulgator.getEmail(), promulgator.getPassword()) != null) {
+            httpSession.setAttribute("promulgator", promulgator);
+            return "/promulgator/success";
+        } else {
+            model.addAttribute("msg", "登录名或密码错误，请重新输入!");//等价于 mv.addObject("msg", "登录名或密码错误，请重新输入!");
+            return "/promulgator/login";
+        }
+    }
     @RequestMapping("/promulgator/add")
     public String addPro(Promulgator promulgator, HttpSession httpSession) {
         //System.out.println(promulgator);

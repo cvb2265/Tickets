@@ -140,5 +140,11 @@ public class PromulatorServiceImpl implements PromulgatorService {
 		return promulatorMapper.ListPros(pageDto);
 	}
 
+	@Override
+	public Promulgator find(String email, String password) {
+		Promulgator pro = promulatorMapper.findPro(email,password);
+		return pro;
+	}
+
 
 }
