@@ -4,7 +4,7 @@
 
     <meta charset="UTF-8"/>
     <title>TicketsAdmin</title>
-    <script src="https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts.min.js"></script>
+    <script src="https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts-en.js"></script>
     <script th:src="@{/js/jquery.js}" type="text/javascript"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
@@ -241,8 +241,13 @@
 
 
             <td valign="top">
-                <div id="right_div">
-
+                <div id="right_div" style="width: 600px;height:400px;">
+                </div>
+                <div id="right_div2" style="width: 600px;height:400px;">
+                </div>
+                <div id="right_div3" style="width: 600px;height:400px;">
+                </div>
+                <div id="right_div4" style="width: 600px;height:500px;">
                 </div>
             </td>
 
@@ -271,5 +276,85 @@
 <input id="read_state" type="hidden" name="read_state" th:value="${read_state}" />
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    var myChart1 = echarts.init(document.getElementById('right_div'));
+    myChart1.setOption({
+        title : {
+            text: '用户性别情况饼图',
+            x:'center'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['男','女']
+        },
+        series : [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                data:[
+                    {value:30, name:'男'},
+                    {value:24, name:'女'},
+
+                ],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    });
+    var myChart2 = echarts.init(document.getElementById('right_div2'));
+    myChart2.setOption({
+            title : {
+                text: '用户年龄分布图',
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['18以下','18-30','30-45','45-60','60以上']
+            },
+            series : [
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value:2, name:'18以下'},
+                        {value:24, name:'18-30'},
+                        {value:14, name:'30-45'},
+                        {value:8, name:'45-60'},
+                        {value:6, name:'60以上'},
+
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+    });
+
+
+</script>
 </body>
 </html>

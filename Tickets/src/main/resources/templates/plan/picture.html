@@ -243,8 +243,7 @@
 
 
             <td valign="top">
-                <div id="right_div">
-                    <p>审核结果已经保存！</p>
+                <div id="right_div" style="width: 600px;height:400px;">
                 </div>
             </td>
 
@@ -273,5 +272,93 @@
 <input id="read_state" type="hidden" name="read_state" th:value="${read_state}" />
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    var myChart1 = echarts.init(document.getElementById('right_div'));
+    myChart1.setOption({
+
+            title : {
+                text: '近六个月演出数量图',
+                x: 'middle'
+            },
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['演出总数','过审演出','未过审演出'],
+                y :'bottom'
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    dataView : {show: true, readOnly: false},
+                    magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    data : ['1月','2月','3月','4月','5月','6月',]
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'演出总数',
+                    type:'bar',
+                    data:[28, 14, 26, 19, 31, 34],
+                    markPoint : {
+                        data : [
+                            {type : 'max', name: '最大值'},
+                            {type : 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine : {
+                        data : [
+                            {type : 'average', name: '平均值'}
+                        ]
+                    }
+                },
+                {
+                    name:'过审演出',
+                    type:'bar',
+                    data:[25, 13, 22, 17, 28, 30],
+                    markPoint : {
+                        data : [
+                            {type : 'max', name: '最大值'},
+                            {type : 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine : {
+                        data : [
+                            {type : 'average', name : '平均值'}
+                        ]
+                    }
+                },
+                {
+                    name:'未过审演出',
+                    type:'bar',
+                    data:[3, 1, 4, 2, 3, 4],
+                    markPoint : {
+                        data : [
+                            {type : 'max', name: '最大值'},
+                            {type : 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine : {
+                        data : [
+                            {type : 'average', name : '平均值'}
+                        ]
+                    }
+                }
+            ]
+    });
+</script>
 </body>
 </html>
