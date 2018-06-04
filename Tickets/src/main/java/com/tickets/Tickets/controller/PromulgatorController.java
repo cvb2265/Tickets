@@ -85,6 +85,10 @@ public class PromulgatorController {
         return "/promulgator/list";
     }
 
+    @RequestMapping("/promulgatorpicture")
+    public String toPromulgatorPicturePage(HttpSession httpSession){
+        return "/promulgator/picture";
+    }
 
     //    @RequestMapping(value = "/pro/login",method = RequestMethod.POST)
 //    public void proLogin(HttpSession session, @RequestBody LoginInfo loginInfo){

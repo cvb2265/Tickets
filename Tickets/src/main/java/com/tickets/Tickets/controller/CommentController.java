@@ -118,5 +118,8 @@ public class CommentController {
         return mv;
     }
 
-
+    @RequestMapping("/commentpicture")
+    public String toCommentPicturePage(HttpSession httpSession){
+        return "/comment/picture";
+    }
 }

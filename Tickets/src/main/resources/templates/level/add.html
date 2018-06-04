@@ -164,16 +164,56 @@
 <div id="t1">
     <div id="t2">
         <ul class="layui-nav">
-            <li class="layui-nav-item layui-this"><a th:href="@{/admin/logout}">退出登录</a></li>
+            <!--<li class="layui-nav-item layui-this"><a th:href="@{/admin/logout}">退出登录</a></li>-->
+            <li class="layui-nav-item" >
+                <a href="javascript:;">演出计划</a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/planlist/all/1}">全部计划</a></dd>
+                    <dd><a th:href="@{/planlist/pending/1}">待审核</a></dd>
+                    <dd><a th:href="@{/planlist/pass/1}">审核通过</a></dd>
+                    <dd><a th:href="@{/planlist/fail/1}">审核失败</a></dd>
+                    <dd><a th:href="@{/planpicture}">图表分析</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item" >
+                <a href="javascript:;">评论审核</a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/commentlist/all/1}">全部评论</a></dd>
+                    <dd><a th:href="@{/commentlist/negative/unpass/1}">未审核负面</a></dd>
+                    <dd><a th:href="@{/commentlist/all/unpass/1}">未审核</a></dd>
+                    <dd><a th:href="@{/commentpicture}">图表分析</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item" >
+                <a href="javascript:;">账号中心</a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/promulgator/1}">账号列表</a></dd>
+                    <dd><a th:href="@{/promulgator/addpage}">新增账号</a></dd>
+                    <dd><a th:href="@{/promulgatorpicture}">图表分析</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item" >
+                <a href="javascript:;">等级管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/level/1}">等级列表</a></dd>
+                    <dd><a th:href="@{/level/addpage}">新增等级</a></dd>
+                    <dd><a th:href="@{/levelpicture}">图表分析</a></dd>
+                </dl>
+            </li>
         </ul>
         <ul class="layui-nav layui-layout-right" th:if="${session.administrator}">
-            <li class="layui-nav-item" lay-unselect="" style="margin-right: 20px;">
-                <a href="javascript:;"><font th:text="${session.administrator.getName()}"></font></a>
+            <!--<li class="layui-nav-item" lay-unselect="" style="margin-right: 20px;">-->
+            <!--<a href="javascript:;"><font th:text="${session.administrator.getName()}"></font></a>-->
+            <!--</li>-->
+            <li class="layui-nav-item" lay-unselect="" style="margin-right: 20px;" >
+                <a href="javascript:;"><img th:src="@{/faces/1.jpg}" class="layui-nav-img"/><font th:text="${session.administrator.getName()}"></font></a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/admin/logout}">退出登录</a></dd>
+                </dl>
             </li>
         </ul>
     </div>
 </div>
-
 <div id="t3">
     <br/>
     <br/>
@@ -184,35 +224,36 @@
                 <div id="left_div">
 
                     <ul class="layui-nav layui-nav-tree layui-inline"  lay-filter="demo" style="margin-right: 10px;">
-                        <li class="layui-nav-item layui-nav-itemed">
-                            <a href="javascript:;">演出计划</a>
-                            <dl class="layui-nav-child">
-                                <dd id="order_dd"><a th:href="@{/planlist/all/1}">全部计划</a></dd>
-                                <dd><a th:href="@{/planlist/pending/1}">待审核</a></dd>
-                                <dd><a th:href="@{/planlist/pass/1}">审核通过</a></dd>
-                                <dd><a th:href="@{/planlist/fail/1}">审核失败</a></dd>
-                            </dl>
-                        </li>
-                        <li class="layui-nav-item layui-nav-itemed">
-                            <a href="javascript:;">评论审核</a>
-                            <dl class="layui-nav-child">
-                                <dd id="notice_dd"><a  id ="allcomment" th:href="@{/commentlist/all/1}">全部评论</a></dd>
-                                <dd><a  id ="negativeunpasscomment" th:href="@{/commentlist/negative/unpass/1}">未审核负面评论</a></dd>
-                                <dd><a  id ="unpasscomment" th:href="@{/commentlist/all/unpass/1}">未审核评论</a></dd>
-                            </dl>
-                        </li>
-                        <li class="layui-nav-item layui-nav-itemed">
-                            <a href="javascript:;">账号中心</a>
-                            <dl class="layui-nav-child">
-                                <dd><a id="prolist" th:href="@{/promulgator/1}">账号列表</a></dd>
-                                <dd><a id="addpro" th:href="@{/promulgator/addpage}">新增账号</a></dd>
-                            </dl>
-                        </li>
+                        <!--<li class="layui-nav-item layui-nav-itemed">-->
+                            <!--<a href="javascript:;">演出计划</a>-->
+                            <!--<dl class="layui-nav-child">-->
+                                <!--<dd id="order_dd"><a th:href="@{/planlist/all/1}">全部计划</a></dd>-->
+                                <!--<dd><a th:href="@{/planlist/pending/1}">待审核</a></dd>-->
+                                <!--<dd><a th:href="@{/planlist/pass/1}">审核通过</a></dd>-->
+                                <!--<dd><a th:href="@{/planlist/fail/1}">审核失败</a></dd>-->
+                            <!--</dl>-->
+                        <!--</li>-->
+                        <!--<li class="layui-nav-item layui-nav-itemed">-->
+                            <!--<a href="javascript:;">评论审核</a>-->
+                            <!--<dl class="layui-nav-child">-->
+                                <!--<dd id="notice_dd"><a  id ="allcomment" th:href="@{/commentlist/all/1}">全部评论</a></dd>-->
+                                <!--<dd><a  id ="negativeunpasscomment" th:href="@{/commentlist/negative/unpass/1}">未审核负面评论</a></dd>-->
+                                <!--<dd><a  id ="unpasscomment" th:href="@{/commentlist/all/unpass/1}">未审核评论</a></dd>-->
+                            <!--</dl>-->
+                        <!--</li>-->
+                        <!--<li class="layui-nav-item layui-nav-itemed">-->
+                            <!--<a href="javascript:;">账号中心</a>-->
+                            <!--<dl class="layui-nav-child">-->
+                                <!--<dd><a id="prolist" th:href="@{/promulgator/1}">账号列表</a></dd>-->
+                                <!--<dd><a id="addpro" th:href="@{/promulgator/addpage}">新增账号</a></dd>-->
+                            <!--</dl>-->
+                        <!--</li>-->
                         <li class="layui-nav-item layui-nav-itemed">
                             <a href="javascript:;">等级管理</a>
                             <dl class="layui-nav-child">
                                 <dd><a id="levellist" th:href="@{/level/1}">等级列表</a></dd>
                                 <dd><a id="addlevel" th:href="@{/level/addpage}">新增等级</a></dd>
+                                <dd><a id="levelpicture" th:href="@{/levelpicture}">图表分析</a></dd>
                             </dl>
                         </li>
                     </ul>

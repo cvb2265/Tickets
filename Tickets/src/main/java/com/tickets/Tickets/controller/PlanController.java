@@ -147,4 +147,8 @@ public class PlanController {
         return mv;
     }
 
+    @RequestMapping("/planpicture")
+    public String toPlanPicturePage(HttpSession httpSession){
+        return "/plan/picture";
+    }
 }
