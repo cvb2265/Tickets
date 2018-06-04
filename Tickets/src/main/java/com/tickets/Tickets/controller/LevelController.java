@@ -71,4 +71,9 @@ public class LevelController {
     public String toAddPage(HttpSession httpSession) {
         return "/level/add";
     }
+
+    @RequestMapping("/levelpicture")
+    public String toPicturePage(HttpSession httpSession){
+        return "/level/picture";
+    }
 }

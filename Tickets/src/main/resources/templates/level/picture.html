@@ -4,6 +4,7 @@
 
     <meta charset="UTF-8"/>
     <title>TicketsAdmin</title>
+    <script src="https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts.min.js"></script>
     <script th:src="@{/js/jquery.js}" type="text/javascript"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
@@ -199,7 +200,7 @@
         </ul>
         <ul class="layui-nav layui-layout-right" th:if="${session.administrator}">
             <!--<li class="layui-nav-item" lay-unselect="" style="margin-right: 20px;">-->
-                <!--<a href="javascript:;"><font th:text="${session.administrator.getName()}"></font></a>-->
+            <!--<a href="javascript:;"><font th:text="${session.administrator.getName()}"></font></a>-->
             <!--</li>-->
             <li class="layui-nav-item" lay-unselect="" style="margin-right: 20px;" >
                 <a href="javascript:;"><img th:src="@{/faces/1.jpg}" class="layui-nav-img"/><font th:text="${session.administrator.getName()}"></font></a>
@@ -259,70 +260,13 @@
 
 
             <td valign="top">
-                <div id="right_div">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Level_ID</th>
-                            <th>Level_num</th>
-                            <th>Level_maxexp</th>
-                            <th>Level_discount</th>
-
-                            <th>OPERATION</th>
-                        </tr>
-                        </thead>
-                        <tbody th:each="level , stat: ${levels}">
-                        <tr>
-                            <td th:text="${stat.count}"></td>
-                            <td th:text="${level.id}"></td>
-                            <td th:text="${level.level_num}"></td>
-                            <td th:text="${level.maxexp}"></td>
-                            <td th:text="${level.discount}"></td>
-
-                            <td>
-                                <!--
-                                    如果需要使用请求地址直接绑定参数
-                                        一个 可以直接使用：@{/emp/list/{current_page}(current_page=${pageDto.total_pages})}
-                                        多个参数 ：|@{/emp/del}/${pageDto.current_page}/${emp.emp_id}|
-                                 -->
-                                <!--
-                                <span th:if="${stat.count==1}">
-                                    <a th:href="|@{/emp/del}/${pageDto.current_page-1}/${emp.emp_id}|">DEL</a>
-                                </span>
-                                <span th:if="${stat.count != 1}">
-                                    <a th:href="|@{/emp/del}/${pageDto.current_page}/${emp.emp_id}|">DEL</a>
-                                </span>
-                                 -->
-                                <!--
-                                    超链接 默认发送都是get请求  除非使用事件触发ajax请求
-                                    如何在ajax请求过程中 发送符合restful api 风格的请求
-
-                                    http://localhost/test/emp/1/3/0
-                                    http://localhost/test/emp/1/3
-                                 -->
-                                <a th:href="|@{/level}/${pageDto.current_page}/${level.id}/delete|">DEL</a>
-                                <a th:href="|@{/level}/${pageDto.current_page}/${level.id}|">EDIT</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <td colspan="8">
-                                <span th:text="${pageDto.current_page}"></span>/<span th:text="${pageDto.total_pages}"></span> ，
-                                <span th:text="${pageDto.total_rows}"></span>条记录
-                                <a th:href="@{/level/1}">首页</a>
-                                <span th:if="${pageDto.hasPrev}">
-					 	<a th:href="@{/level/{current_page}(current_page=${pageDto.current_page-1})}">上一页</a>
-					 </span>
-                                <span th:if="${pageDto.hasNext}">
-					 	<a th:href="@{/level/{current_page}(current_page=${pageDto.current_page+1})}">下一页</a>
-					 </span>
-                                <a th:href="@{/level/{current_page}(current_page=${pageDto.total_pages})}">尾页</a>
-                            </td>
-                        </tr>
-                        </tfoot>
-                    </table>
+                <div id="right_div" style="width: 600px;height:400px;">
+                </div>
+                <div id="right_div2" style="width: 600px;height:400px;">
+                </div>
+                <div id="right_div3" style="width: 600px;height:400px;">
+                </div>
+                <div id="right_div4" style="width: 600px;height:500px;">
                 </div>
             </td>
 
@@ -351,5 +295,240 @@
 <input id="read_state" type="hidden" name="read_state" th:value="${read_state}" />
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    var myChart1 = echarts.init(document.getElementById('right_div'));
+    // 显示标题，图例和空的坐标轴
+    // $.get('data.json').done(function (data) {
+        myChart1.setOption({
+            title : {
+                text: '用户数量等级分布图',
+                x:'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data:['1级','2级','3级','4级','5级']
+            },
+            series: [
+                {
+                    name:'访问来源',
+                    type:'pie',
+                    radius: ['35%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '40',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data:[
+                        {value:8, name:'1级'},
+                        {value:6, name:'2级'},
+                        {value:6, name:'3级'},
+                        {value:4, name:'4级'},
+                        {value:2, name:'5级'}
+                    ]
+                }
+            ]
+        });
+    var myChart2 = echarts.init(document.getElementById('right_div2'));
+    // 显示标题，图例和空的坐标轴
+    // $.get('data.json').done(function (data) {
+    myChart2.setOption({
+        title : {
+            text: '订单数量等级分布图',
+            x:'center'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['1级用户下单','2级用户下单','3级用户下单','4级用户下单','5级用户下单']
+        },
+        series : [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                data:[
+                    {value:400, name:'1级用户下单', selected:true},
+                    {value:100, name:'2级用户下单'},
+                    {value:140, name:'3级用户下单'},
+                    {value:160, name:'4级用户下单'},
+                    {value:120, name:'5级用户下单'}
+                ],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    });
+    // });
+    var myChart3 = echarts.init(document.getElementById('right_div3'));
+    // 显示标题，图例和空的坐标轴
+    myChart3.setOption({
+            title : {
+                text: '不同等级人均购票量',
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['人均购票量'],
+                x: 'left',
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    dataView : {show: true, readOnly: false},
+                    magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    data : ['1级','2级','3级','4级','5级']
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'人均购票量',
+                    type:'bar',
+                    data:[50, 17.3, 23.3, 40, 60],
+                    markPoint : {
+                        data : [
+                            {type : 'max', name: '最大值'},
+                            {type : 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine : {
+                        data : [
+                            {type : 'average', name: '平均值'}
+                        ]
+                    }
+                },
+
+            ]
+    });
+
+    var myChart4 = echarts.init(document.getElementById('right_div4'));
+    // 显示标题，图例和空的坐标轴
+    myChart4.setOption({
+        title : {
+            text: '近六个月不同等级售票情况',
+        },
+        tooltip : {
+            trigger: 'axis',
+        },
+        legend: {
+            data:['1级用户','2级用户','3级用户'],
+            y :'bottom',
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                data : ['1月','2月','3月','4月','5月','6月',]
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'1级用户',
+                type:'bar',
+                data:[100, 20, 80, 40, 70, 90],
+                markPoint : {
+                    data : [
+                        {type : 'max', name: '最大值'},
+                        {type : 'min', name: '最小值'}
+                    ]
+                },
+                markLine : {
+                    data : [
+                        {type : 'average', name: '平均值'}
+                    ]
+                }
+            },
+            {
+                name:'2级用户',
+                type:'bar',
+                data:[30, 10, 20, 10, 12, 18],
+                markPoint : {
+                    data : [
+                        {type : 'max', name: '最大值'},
+                        {type : 'min', name: '最小值'}
+                    ]
+                },
+                markLine : {
+                    data : [
+                        {type : 'average', name : '平均值'}
+                    ]
+                }
+            },
+            {
+                name:'3级用户',
+                type:'bar',
+                data:[30, 12, 18, 15, 25, 40],
+                markPoint : {
+                    data : [
+                        {type : 'max', name: '最大值'},
+                        {type : 'min', name: '最小值'}
+                    ]
+                },
+                markLine : {
+                    data : [
+                        {type : 'average', name : '平均值'}
+                    ]
+                }
+            }
+        ]
+    });
+</script>
 </body>
 </html>

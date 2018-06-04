@@ -7,7 +7,7 @@
     <select id="findPro" resultType="Promulgator">
         SELECT *
         FROM promulgator
-        WHERE email = #{email} AND password =#{passwor d}
+        WHERE email = #{email} AND password =#{password}
     </select>
 
     <select id="proById" parameterType="int" resultType="Promulgator">
