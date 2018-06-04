@@ -226,34 +226,12 @@
 
                     <ul class="layui-nav layui-nav-tree layui-inline"  lay-filter="demo" style="margin-right: 10px;">
                         <li class="layui-nav-item layui-nav-itemed">
-                            <a href="javascript:;">演出计划</a>
-                            <dl class="layui-nav-child">
-                                <dd id="order_dd"><a id ="allplan" th:href="@{/planlist/all/1}">全部计划</a></dd>
-                                <dd><a id ="pendingplan" th:href="@{/planlist/pending/1}">待审核</a></dd>
-                                <dd><a id ="passplan"  th:href="@{/planlist/pass/1}">审核通过</a></dd>
-                                <dd><a id ="failplan"  th:href="@{/planlist/fail/1}">审核失败</a></dd>
-                            </dl>
-                        </li>
-                        <li class="layui-nav-item layui-nav-itemed">
                             <a href="javascript:;">评论审核</a>
                             <dl class="layui-nav-child">
                                 <dd id="notice_dd"><a  id ="allcomment" th:href="@{/commentlist/all/1}">全部评论</a></dd>
                                 <dd><a  id ="negativeunpasscomment" th:href="@{/commentlist/negative/unpass/1}">未审核负面评论</a></dd>
                                 <dd><a  id ="unpasscomment" th:href="@{/commentlist/all/unpass/1}">未审核评论</a></dd>
-                            </dl>
-                        </li>
-                        <li class="layui-nav-item layui-nav-itemed">
-                            <a href="javascript:;">账号中心</a>
-                            <dl class="layui-nav-child">
-                                <dd><a id="prolist" th:href="@{/promulgator/1}">账号列表</a></dd>
-                                <dd><a id="addpro" th:href="@{/promulgator/addpage}">新增账号</a></dd>
-                            </dl>
-                        </li>
-                        <li class="layui-nav-item layui-nav-itemed">
-                            <a href="javascript:;">等级管理</a>
-                            <dl class="layui-nav-child">
-                                <dd><a id="levellist" th:href="@{/level/1}">等级列表</a></dd>
-                                <dd><a id="addlevel" th:href="@{/level/addpage}">新增等级</a></dd>
+                                <dd><a  id ="commentpicture" th:href="@{/commentpicture}">图表分析</a></dd>
                             </dl>
                         </li>
                     </ul>
