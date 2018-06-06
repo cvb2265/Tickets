@@ -169,27 +169,27 @@
             <li class="layui-nav-item" >
                 <a href="javascript:;">演出计划</a>
                 <dl class="layui-nav-child">
-                    <dd><a th:href="@{/planlist/all/1}">全部计划</a></dd>
-                    <dd><a th:href="@{/planlist/pending/1}">待审核</a></dd>
-                    <dd><a th:href="@{/planlist/pass/1}">审核通过</a></dd>
-                    <dd><a th:href="@{/planlist/fail/1}">审核失败</a></dd>
-                    <dd><a th:href="@{/planpicture}">图表分析</a></dd>
+                    <dd><a th:href="@{/plannewreviewlist}">演出审核</a></dd>
+                    <dd><a th:href="@{/plannewrecommendlist}">演出推荐</a></dd>
+                    <dd><a th:href="@{/plannewanalysislist}">单场分析</a></dd>
+                    <dd><a th:href="@{/plannewpicturelist}">趋势分析</a></dd>
+                    <!--<dd><a th:href="@{/planpicture}">图表分析</a></dd>-->
                 </dl>
             </li>
             <li class="layui-nav-item" >
                 <a href="javascript:;">评论审核</a>
                 <dl class="layui-nav-child">
-                    <dd><a th:href="@{/commentlist/all/1}">全部评论</a></dd>
-                    <dd><a th:href="@{/commentlist/negative/unpass/1}">未审核负面</a></dd>
-                    <dd><a th:href="@{/commentlist/all/unpass/1}">未审核</a></dd>
+                    <dd><a th:href="@{/commentplanlist}">演出列表</a></dd>
+                    <dd><a th:href="@{/commentlistofoneplan}">评论列表</a></dd>
                     <dd><a th:href="@{/commentpicture}">图表分析</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item" >
                 <a href="javascript:;">账号中心</a>
                 <dl class="layui-nav-child">
-                    <dd><a th:href="@{/promulgator/1}">账号列表</a></dd>
-                    <dd><a th:href="@{/promulgator/addpage}">新增账号</a></dd>
+                    <!--<dd><a th:href="@{/promulgator/1}">账号列表</a></dd>-->
+                    <!--<dd><a th:href="@{/promulgator/addpage}">新增账号</a></dd>-->
+                    <dd><a th:href="@{/promulgatorchangelist}">账号解封</a></dd>
                     <dd><a th:href="@{/promulgatorpicture}">图表分析</a></dd>
                 </dl>
             </li>
@@ -203,9 +203,6 @@
             </li>
         </ul>
         <ul class="layui-nav layui-layout-right" th:if="${session.administrator}">
-            <!--<li class="layui-nav-item" lay-unselect="" style="margin-right: 20px;">-->
-            <!--<a href="javascript:;"><font th:text="${session.administrator.getName()}"></font></a>-->
-            <!--</li>-->
             <li class="layui-nav-item" lay-unselect="" style="margin-right: 20px;" >
                 <a href="javascript:;"><img th:src="@{/faces/1.jpg}" class="layui-nav-img"/><font th:text="${session.administrator.getName()}"></font></a>
                 <dl class="layui-nav-child">
@@ -215,7 +212,6 @@
         </ul>
     </div>
 </div>
-
 <div id="t3">
     <br/>
     <br/>

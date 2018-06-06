@@ -26,7 +26,7 @@
             }
 
 
-            $("#plannewanalysis").css({"background-color":"#009688", "color":"#ffffff"});
+            $("#changelist").css({"background-color":"#009688", "color":"#ffffff"});
         });
         function func1(data){
 
@@ -211,6 +211,7 @@
         </ul>
     </div>
 </div>
+
 <div id="t3">
     <br/>
     <br/>
@@ -222,17 +223,10 @@
 
                     <ul class="layui-nav layui-nav-tree layui-inline"  lay-filter="demo" style="margin-right: 10px;">
                         <li class="layui-nav-item layui-nav-itemed">
-                            <a href="javascript:;">演出计划</a>
+                            <a href="javascript:;">账号中心</a>
                             <dl class="layui-nav-child">
-                                <dd><a id ="plannewreview" th:href="@{/plannewreviewlist}">演出审核</a></dd>
-                                <dd><a id ="plannewrecommend" th:href="@{/plannewrecommendlist}">演出推荐</a></dd>
-                                <dd><a id ="plannewanalysis" th:href="@{/plannewanalysislist}">单场分析</a></dd>
-                                <dd><a id ="plannewpicture" th:href="@{/plannewpicturelist}">趋势分析</a></dd>
-                                <!--<dd id="order_dd"><a id ="allplan" th:href="@{/planlist/all/1}">全部计划</a></dd>-->
-                                <!--<dd><a id ="pendingplan" th:href="@{/planlist/pending/1}">待审核</a></dd>-->
-                                <!--<dd><a id ="passplan"  th:href="@{/planlist/pass/1}">审核通过</a></dd>-->
-                                <!--<dd><a id ="failplan"  th:href="@{/planlist/fail/1}">审核失败</a></dd>-->
-                                <!--<dd><a id ="planpicture" th:href="@{/planpicture}">图表分析</a></dd>-->
+                                <dd><a id ="changelist" th:href="@{/promulgatorchangelist}">账号解封</a></dd>
+                                <dd><a id ="propicture" th:href="@{/promulgatorpicture}">图表分析</a></dd>
                             </dl>
                         </li>
 
@@ -244,34 +238,43 @@
 
             <td valign="top">
                 <div id="right_div">
-                    <form>
-                        <div class="form-group">
-                            <label for="planname">演出名称</label>
-                            <input type="text" class="form-control" id="planname" placeholder="萧敬腾北京演唱会" readonly="readonly" />
-                        </div>
-                        <div class="form-group">
-                            <label for="plancity">演出城市</label>
-                            <input type="text" class="form-control" id="plancity" placeholder="北京" readonly="readonly" />
-                        </div>
-                        <div class="form-group">
-                            <label for="planvenue">演出场馆</label>
-                            <input type="text" class="form-control" id="planvenue" placeholder="南京奥体中心" readonly="readonly" />
-                        </div>
-                        <div class="form-group">
-                            <label for="begintime">开始时间</label>
-                            <input type="text" class="form-control" id="begintime" placeholder="2018-6-20 18：00" readonly="readonly" />
-                        </div>
-                        <div class="form-group">
-                            <label for="endtime">结束时间</label>
-                            <input type="text" class="form-control" id="endtime" placeholder="2018-6-20 21：00" readonly="readonly" />
-                        </div>
-                        <div class="form-group">
-                            <label for="price">票价</label>
-                            <input type="text" class="form-control" id="price" placeholder="¥180" readonly="readonly" />
-                        </div>
-                        <button type="submit" class="btn btn-default">分享给发起者</button>
-                        <a class="btn btn-default" th:href="@{/plannewanalysislist}" role="button">返回列表</a>
-                    </form>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>演出名称</th>
+                            <th>演出地点</th>
+                            <th>评分</th>
+                            <th>评论数量</th>
+                            <th>差评数量</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody >
+                        <tr>
+                            <td >1</td>
+                            <td >萧敬腾北京演唱会</td>
+                            <td >北京</td>
+                            <td >3.6</td>
+                            <td >50</td>
+                            <td>5</td>
+                            <td>
+                                <a th:href="@{/commentlistofoneplan}">查看评论</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="8">
+                                <span ></span>1/1<span ></span> ，
+                                <span >8</span>条记录
+                                <a th:href="@{/commentplanlist}">首页</a>
+                                <a th:href="@{/commentplanlist}">尾页</a>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+
                 </div>
             </td>
 

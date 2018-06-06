@@ -124,4 +124,8 @@ public class PromulgatorController {
 //        System.out.println(httpSession.getAttribute("promulgator"));
 //        return "/pro";
 //    }
+    @RequestMapping("/promulgatorchangelist")
+    public String toChangeList(HttpSession httpSession){
+        return "/promulgator/changelist";
+    }
 }
