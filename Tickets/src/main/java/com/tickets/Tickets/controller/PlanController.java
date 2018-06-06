@@ -151,4 +151,36 @@ public class PlanController {
     public String toPlanPicturePage(HttpSession httpSession){
         return "/plan/picture";
     }
+
+    @RequestMapping("/plannewreviewlist")
+    public String toPlanReviewListPage(HttpSession httpSession){
+        return "/plan/newreviewlist";
+    }
+    @RequestMapping("/plannewreview")
+    public String toPlanReviewPage(HttpSession httpSession){
+        return "/plan/newreview";
+    }
+    @RequestMapping("/plannewrecommendlist")
+    public String toPlanRecommandListPage(HttpSession httpSession){
+        return "/plan/newrecommendList";
+    }
+
+    @RequestMapping("/plannewrecommend")
+    public String toPlanRecommandPage(HttpSession httpSession){
+        return "/plan/newrecommend";
+    }
+
+    @RequestMapping("/plannewanalysislist")
+    public String toPlanAnalysisiListPage (HttpSession httpSession){
+        return  "/plan/newanalysislist";
+    }
+
+    @RequestMapping("/plannewanalysis")
+    public String toPlanAnalysisiPage (HttpSession httpSession){
+        return  "/plan/newanalysis";
+    }
+    @RequestMapping("/plannewpicturelist")
+    public String toNewPlanPictureListPage(){
+        return "/plan/newpicturelist";
+    }
 }
