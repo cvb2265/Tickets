@@ -122,4 +122,14 @@ public class CommentController {
     public String toCommentPicturePage(HttpSession httpSession){
         return "/comment/picture";
     }
+
+    @RequestMapping("/commentplanlist")
+    public String toCommentPlanListPage(HttpSession httpSession){
+        return "/comment/newplanlist";
+    }
+
+    @RequestMapping("/commentlistofoneplan")
+    public String toCommentListofOnePlanPage(HttpSession httpSession){
+        return "/comment/listofoneplan";
+    }
 }
