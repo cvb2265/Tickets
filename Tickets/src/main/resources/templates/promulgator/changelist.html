@@ -242,24 +242,22 @@
                         <thead>
                         <tr>
                             <th>No.</th>
-                            <th>演出名称</th>
-                            <th>演出地点</th>
-                            <th>评分</th>
-                            <th>评论数量</th>
-                            <th>差评数量</th>
+                            <th>账号类型</th>
+                            <th>账号昵称</th>
+                            <th>账号等级</th>
+                            <th>封禁时间</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody >
                         <tr>
                             <td >1</td>
-                            <td >萧敬腾北京演唱会</td>
-                            <td >北京</td>
-                            <td >3.6</td>
-                            <td >50</td>
-                            <td>5</td>
+                            <td >普通用户</td>
+                            <td >像风一样</td>
+                            <td >1</td>
+                            <td >2018年6月15日</td>
                             <td>
-                                <a th:href="@{/commentlistofoneplan}">查看评论</a>
+                                <a th:href="@{/commentlistofoneplan}">解除封禁</a>
                             </td>
                         </tr>
                         </tbody>
@@ -268,8 +266,8 @@
                             <td colspan="8">
                                 <span ></span>1/1<span ></span> ，
                                 <span >8</span>条记录
-                                <a th:href="@{/commentplanlist}">首页</a>
-                                <a th:href="@{/commentplanlist}">尾页</a>
+                                <a th:href="@{/promulgatorchangelist}">首页</a>
+                                <a th:href="@{/promulgatorchangelist}">尾页</a>
                             </td>
                         </tr>
                         </tfoot>
