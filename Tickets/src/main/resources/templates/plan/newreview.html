@@ -267,7 +267,23 @@
                         </div>
                         <div class="form-group">
                             <label for="price">票价</label>
-                            <input type="text" class="form-control" id="price" placeholder="¥220" readonly="readonly" />
+                            <input type="text" class="form-control" id="price" placeholder="¥520" readonly="readonly" />
+                        </div>
+                        <div class="form-group">
+                            <label for="person">发布者</label>
+                            <input type="text" class="form-control" id="person" placeholder="环球演艺公司" readonly="readonly" />
+                        </div>
+                        <div class="form-group">
+                        <label >封面图片</label>
+                        <img th:src="@{/faces/3.jpg}" class="img-responsive" alt="Responsive image"/>
+                        </div>
+                        <div class="form-group">
+                        <label >审核结果</label>
+                        <select class="form-control">
+                            <option>通过</option>
+                            <option>不通过</option>
+                            <option>不通过并且封禁发布者</option>
+                        </select>
                         </div>
                         <button type="submit" class="btn btn-default">保存结果</button>
                         <a class="btn btn-default" th:href="@{/plannewreviewlist}" role="button">返回列表</a>
