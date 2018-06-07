@@ -150,7 +150,21 @@
         #right_div{
             border: 0;
         }
-
+        #right_div > table > thead > tr > th:nth-child(1){
+            width:40px;
+        }
+        #right_div > table > thead > tr > th:nth-child(2){
+            width:50px;
+        }
+        #right_div > table > thead > tr > th:nth-child(3){
+            width:80px;
+        }
+        #right_div > table > thead > tr > th:nth-child(4){
+            width:80px;
+        }
+        #right_div > table > thead > tr > th:nth-child(6){
+            width:80px;
+        }
 
     </style>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -241,12 +255,12 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>No.</th>
-                            <th>评分</th>
-                            <th>评论时间</th>
-                            <th>用户昵称</th>
-                            <th>评论主体</th>
-                            <th>操作</th>
+                            <th id="nokey">No.</th>
+                            <th id="markkey">评分</th>
+                            <th id="timekey">评论时间</th>
+                            <th id="namekey">用户昵称</th>
+                            <th id="personkey">评论主体</th>
+                            <th id="operationkey">操作</th>
                         </tr>
                         </thead>
                         <tbody >
