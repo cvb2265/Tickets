@@ -5,6 +5,7 @@
     <meta charset="UTF-8"/>
     <title>TicketsAdmin</title>
     <script th:src="@{/js/jquery.js}" type="text/javascript"></script>
+    <script src="https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts-en.js"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/      //加上这些，否则如果js有大于号、小于号等会报SAX解析错误
         $(function () {
@@ -255,21 +256,41 @@
                         </div>
                         <div class="form-group">
                             <label for="planvenue">演出场馆</label>
-                            <input type="text" class="form-control" id="planvenue" placeholder="南京奥体中心" readonly="readonly" />
+                            <input type="text" class="form-control" id="planvenue" placeholder="鸟巢体育馆" readonly="readonly" />
                         </div>
-                        <div class="form-group">
-                            <label for="begintime">开始时间</label>
-                            <input type="text" class="form-control" id="begintime" placeholder="2018-6-20 18：00" readonly="readonly" />
-                        </div>
+
                         <div class="form-group">
                             <label for="endtime">结束时间</label>
-                            <input type="text" class="form-control" id="endtime" placeholder="2018-6-20 21：00" readonly="readonly" />
+                            <input type="text" class="form-control" id="endtime" placeholder="2018-06-02 21：00" readonly="readonly" />
                         </div>
                         <div class="form-group">
-                            <label for="price">票价</label>
-                            <input type="text" class="form-control" id="price" placeholder="¥180" readonly="readonly" />
+                            <label for="price">盈利额</label>
+                            <input type="text" class="form-control" id="price" placeholder="¥18000" readonly="readonly" />
                         </div>
-                        <button type="submit" class="btn btn-default">分享给发起者</button>
+                        <div id ="picturechart" style="width: 500px;height:300px;">
+                        </div>
+                        <!--<button type="submit" class="btn btn-default">分享给发起者</button>-->
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                            分享给发布者
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">操作结果提示</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        已经通过邮件分享给发布者
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">好的</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <a class="btn btn-default" th:href="@{/plannewanalysislist}" role="button">返回列表</a>
                     </form>
                 </div>
@@ -298,7 +319,45 @@
 <br/>
 <br/>
 <input id="read_state" type="hidden" name="read_state" th:value="${read_state}" />
-<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.0.3/js/bootstrap.js"></script>
+
+<script type="text/javascript">
+    var myChart1 = echarts.init(document.getElementById('picturechart'));
+    myChart1.setOption({
+        title : {
+            text: '售票情况饼图',
+            x:'center'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['已经售出','未能售出']
+        },
+        series : [
+            {
+                name: '票',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                data:[
+                    {value:2700, name:'已经售出'},
+                    {value:300, name:'未能售出'},
+
+                ],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    });
+</script>
 </body>
 </html>

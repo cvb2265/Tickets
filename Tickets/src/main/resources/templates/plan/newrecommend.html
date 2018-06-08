@@ -259,18 +259,39 @@
                             <input type="text" class="form-control" id="planvenue" placeholder="南京奥体中心" readonly="readonly" />
                         </div>
                         <div class="form-group">
-                            <label for="begintime">开始时间</label>
-                            <input type="text" class="form-control" id="begintime" placeholder="2018-6-20 18：00" readonly="readonly" />
+                            <label for="begintime">剩余售票时间 <b style="color:red" >距离开始已经不足3天！</b></label>
+                            <input type="text" class="form-control" id="begintime" placeholder="2天11小时" readonly="readonly" />
                         </div>
                         <div class="form-group">
-                            <label for="endtime">结束时间</label>
-                            <input type="text" class="form-control" id="endtime" placeholder="2018-6-20 21：00" readonly="readonly" />
+                            <label for="ticket">余票比 <b style="color:red" >余票不足百分之10！</b></label>
+                            <input type="text" class="form-control" id="ticket" placeholder="6％" readonly="readonly" />
                         </div>
                         <div class="form-group">
                             <label for="price">票价</label>
-                            <input type="text" class="form-control" id="price" placeholder="¥180" readonly="readonly" />
+                            <input type="text" class="form-control" id="price" placeholder="¥580" readonly="readonly" />
                         </div>
-                        <button type="submit" class="btn btn-default">推荐</button>
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                            立即推荐！
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">操作结果提示</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        已经向用户推荐该演出
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">好的</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<button type="submit" class="btn btn-default">推荐</button>-->
                         <a class="btn btn-default" th:href="@{/plannewrecommendlist}" role="button">返回列表</a>
                     </form>
                 </div>
@@ -299,7 +320,6 @@
 <br/>
 <br/>
 <input id="read_state" type="hidden" name="read_state" th:value="${read_state}" />
-<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.0.3/js/bootstrap.js"></script>
 </body>
 </html>
