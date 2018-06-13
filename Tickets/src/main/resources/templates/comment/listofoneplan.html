@@ -271,8 +271,8 @@
                             <td >雾与晨</td>
                             <td >啊啊啊啊！终于圆了自己现场听陈奕迅演唱会的梦想。视听效果与现场气氛简直完美!^_^</td>
                             <td>
-                                <a th:href="@{/commentlistofoneplan}">封禁评论</a>
-                                <a th:href="@{/commentlistofoneplan}">封禁用户</a>
+                                <a class="deleteComment" >封禁评论</a>
+                                <a class="deleteUser" >封禁用户</a>
                             </td>
                         </tr>
                         <tr>
@@ -282,8 +282,8 @@
                             <td >像风一样</td>
                             <td style="color: red">垃圾！</td>
                             <td>
-                                <a th:href="@{/commentlistofoneplan}">封禁评论</a>
-                                <a th:href="@{/commentlistofoneplan}">封禁用户</a>
+                                <a class="deleteComment" style="color:red">已被封禁</a>
+                                <a class="deleteUser" >封禁用户</a>
                             </td>
                         </tr>
                         <tr>
@@ -293,8 +293,8 @@
                             <td >微霜袅袅</td>
                             <td >歌手嗓子有些哑了，可惜</td>
                             <td>
-                                <a th:href="@{/commentlistofoneplan}">封禁评论</a>
-                                <a th:href="@{/commentlistofoneplan}">封禁用户</a>
+                                <a class="deleteComment" >封禁评论</a>
+                                <a class="deleteUser" >封禁用户</a>
                             </td>
                         </tr>
                         <tr>
@@ -304,8 +304,8 @@
                             <td >威少</td>
                             <td style="color: red">狗屎一样！</td>
                             <td>
-                                <a th:href="@{/commentlistofoneplan}">封禁评论</a>
-                                <a th:href="@{/commentlistofoneplan}">封禁用户</a>
+                                <a class="deleteComment" >封禁评论</a>
+                                <a class="deleteUser" >封禁用户</a>
                             </td>
                         </tr>
 
@@ -316,8 +316,8 @@
                             <td >陈少</td>
                             <td >没话说，就是好听！</td>
                             <td>
-                                <a th:href="@{/commentlistofoneplan}">封禁评论</a>
-                                <a th:href="@{/commentlistofoneplan}">封禁用户</a>
+                                <a class="deleteComment" >封禁评论</a>
+                                <a class="deleteUser" >封禁用户</a>
                             </td>
                         </tr>
 
@@ -328,8 +328,8 @@
                             <td >邵斌斌</td>
                             <td >不满意，演出效果一般，门口保安态度还不好</td>
                             <td>
-                                <a th:href="@{/commentlistofoneplan}">封禁评论</a>
-                                <a th:href="@{/commentlistofoneplan}">封禁用户</a>
+                                <a class="deleteComment" >封禁评论</a>
+                                <a class="deleteUser" >封禁用户</a>
                             </td>
                         </tr>
                         <tr>
@@ -339,8 +339,8 @@
                             <td >锦瑟无端</td>
                             <td >ε=(´ο｀*)))唉，我心目中歌神老了呀</td>
                             <td>
-                                <a th:href="@{/commentlistofoneplan}">封禁评论</a>
-                                <a th:href="@{/commentlistofoneplan}">封禁用户</a>
+                                <a class="deleteComment" >封禁评论</a>
+                                <a class="deleteUser" >封禁用户</a>
                             </td>
                         </tr>
                         </tbody>
@@ -384,5 +384,25 @@
 <input id="read_state" type="hidden" name="read_state" th:value="${read_state}" />
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+    $(document).on("click", ".deleteComment", function() {
+        if($(this).html()==="封禁评论") {
+            $(this).html("已被封禁");
+            $(this).css({color: "red"});
+        } else {
+            $(this).html("封禁评论");
+            $(this).attr("style","");
+        }
+    });
+    $(document).on("click", ".deleteUser", function() {
+        if($(this).html()==="封禁用户") {
+            $(this).html("解封用户");
+            $(this).css({color: "red"});
+        } else {
+            $(this).html("封禁用户");
+            $(this).attr("style","");
+        }
+    });
+</script>
 </body>
-</html>
+</html>'
