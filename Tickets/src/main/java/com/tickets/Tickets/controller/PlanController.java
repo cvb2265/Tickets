@@ -142,6 +142,13 @@ public class PlanController {
         System.out.println(plan);
         System.out.println(plan.getPromulgatorid());
         ResultMessage rm = planService.checkPlan(plan);
+//        if(plan.getState()=="pass"){
+//            String message="您的演出"+plan.getName()+"审核通过了！";
+//            Pnoticeservice.noticePro(plan.getPromulgatorid(),message);
+//        }if(plan.getState()=="fail"){
+//            String message="您的演出"+plan.getName()+"审核未通过！";
+//            Pnoticeservice.noticePro(plan.getPromulgatorid(), Message);
+//        }
         model.addAttribute("rm", rm);
         mv.setViewName("/plan/reviewresult");
         return mv;
